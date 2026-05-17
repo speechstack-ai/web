@@ -3,20 +3,70 @@ import Link from "next/link";
 
 import { CopyBlock } from "~/app/_components/site/CopyBlock";
 import { Icon } from "~/app/_components/site/Icon";
-import { getRecipeById } from "~/utils/getRecipes";
 
 export const metadata: Metadata = {
   title: "Submit a recipe · SpeechStack",
   description:
-    "Add your production voice AI recipe to SpeechStack — fork the repo, drop a JSON entry, open a pull request.",
+    "Add your production voice AI recipe to SpeechStack — fork the recipes repo, copy the template, open a pull request.",
 };
 
-const REPO_URL = "https://github.com/speechstack/speechstack";
+const REPO_URL = "https://github.com/speechstack-ai/recipes";
+const TEMPLATE_URL = `${REPO_URL}/blob/main/recipes/_template.json`;
+const SCHEMA_URL = `${REPO_URL}/blob/main/schema/recipe.schema.json`;
+const CONTRIBUTING_URL = `${REPO_URL}/blob/main/CONTRIBUTING.md`;
+const NEW_PR_URL = `${REPO_URL}/compare`;
+
+const TEMPLATE_JSON = `{
+  "id": "framework-industry-descriptor",
+  "slug": "framework-industry-descriptor",
+  "title": "Replace with a clear, descriptive title",
+  "description": "Replace with a one-paragraph description: what does the agent do, who's it for, what problem does it solve.",
+  "framework": "Vapi",
+  "use_case": "scheduling",
+  "industry": "healthcare",
+  "languages": ["en-US"],
+  "pipeline": {
+    "stt": "Deepgram Nova-3",
+    "llm": "Claude Sonnet 4.5",
+    "tts": "Cartesia Sonic-3",
+    "telephony": "Twilio SIP"
+  },
+  "metrics": {
+    "latency_p50_ms": 600,
+    "latency_p95_ms": 900,
+    "latency_display": "~500-700ms",
+    "cost_per_minute_usd_min": 0.09,
+    "cost_per_minute_usd_max": 0.14,
+    "cost_display": "$0.09 - $0.14"
+  },
+  "raw_prompt": null,
+  "prompt_file": "prompts/framework-industry-descriptor.md",
+  "config": {
+    "voice_id": null,
+    "temperature": 0.1,
+    "barge_in": true,
+    "interruption_threshold_ms": 200,
+    "tools": []
+  },
+  "github_source_url": "https://github.com/your-org/your-repo",
+  "demo_url": null,
+  "tags": [],
+  "contributor": {
+    "github": "your-github-username",
+    "twitter": null,
+    "name": null,
+    "website": null
+  },
+  "source": "direct_pr",
+  "verified": false,
+  "featured": false,
+  "created_at": "2026-05-16T00:00:00Z",
+  "updated_at": "2026-05-16T00:00:00Z",
+  "license": "MIT",
+  "notes": null
+}`;
 
 export default function SubmitPage() {
-  const example = getRecipeById("support-realtime");
-  const schemaJson = example ? JSON.stringify(example, null, 2) : "{}";
-
   return (
     <article
       style={{
@@ -61,7 +111,21 @@ export default function SubmitPage() {
             maxWidth: 600,
           }}
         >
-          SpeechStack is a flat-file directory. Every recipe is a JSON entry in{" "}
+          Recipes live in the open-source{" "}
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "var(--accent-fg)",
+              textDecoration: "none",
+              fontFamily: "var(--font-mono)",
+              fontSize: 14,
+            }}
+          >
+            speechstack-ai/recipes
+          </a>{" "}
+          repo — one JSON file per recipe under{" "}
           <code
             style={{
               fontFamily: "var(--font-mono)",
@@ -73,57 +137,45 @@ export default function SubmitPage() {
               color: "var(--fg-1)",
             }}
           >
-            public/data/recipes.json
-          </code>{" "}
-          on GitHub. To list yours, open a pull request. Reviews are usually merged within
-          48 hours.
+            recipes/
+          </code>
+          , validated against{" "}
+          <a
+            href={SCHEMA_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "var(--accent-fg)",
+              textDecoration: "none",
+              fontFamily: "var(--font-mono)",
+              fontSize: 13,
+            }}
+          >
+            schema/recipe.schema.json
+          </a>
+          . If you&apos;ve shipped a voice agent, contributing should take under 10 minutes.
+          PRs are usually reviewed within 48 hours.
         </p>
       </header>
 
       <section style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <Step
-          n={1}
-          title="Fork the repo"
-          body="Click below to fork. You only need to edit one file."
-        >
+        <Step n={1} title="Fork the repo" body="One click. You only edit one file (two, if your prompt is long).">
           <a
             href={REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              padding: "8px 14px",
-              background: "var(--accent)",
-              color: "#fff",
-              border: "none",
-              borderRadius: 4,
-              fontSize: 13,
-              fontWeight: 500,
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              textDecoration: "none",
-              alignSelf: "flex-start",
-            }}
+            style={primaryCta}
           >
             <Icon name="github" size={13} />
-            Open the repo on GitHub
+            Open speechstack-ai/recipes
             <Icon name="external" size={12} />
           </a>
         </Step>
 
         <Step
           n={2}
-          title={`Add an entry to public/data/recipes.json`}
-          body="Append a new object to the JSON array. Keep the field order below — it's the canonical schema. Every field is required except the ones marked optional in src/types/recipe.ts."
-        >
-          <CopyBlock label="recipes.json entry (example)" code={schemaJson} maxHeight={420} />
-        </Step>
-
-        <Step
-          n={3}
-          title="Open a pull request"
-          body="A maintainer reads every PR. We'll ask for tweaks if the schema or copy is off, then merge. Your recipe appears on the directory on the next deploy — usually within minutes of merge."
+          title="Copy the template"
+          body={`Copy recipes/_template.json to recipes/your-recipe-slug.json. The slug pattern is {framework}-{industry-or-use-case}-{descriptor} — e.g. "vapi-dental-scheduler", "retell-saas-onboarding", "livekit-multilingual-support".`}
         >
           <div
             style={{
@@ -132,45 +184,55 @@ export default function SubmitPage() {
               flexWrap: "wrap",
             }}
           >
-            <a
-              href={`${REPO_URL}/compare`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: "8px 14px",
-                background: "transparent",
-                border: "1px solid var(--border-default)",
-                color: "var(--fg-1)",
-                borderRadius: 4,
-                fontSize: 13,
-                fontWeight: 500,
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                textDecoration: "none",
-              }}
-            >
+            <a href={TEMPLATE_URL} target="_blank" rel="noopener noreferrer" style={ghostCta}>
+              <Icon name="external" size={12} />
+              View _template.json on GitHub
+            </a>
+          </div>
+        </Step>
+
+        <Step
+          n={3}
+          title="Fill in every required field"
+          body="Reference the schema for the full spec. For prompts longer than ~200 words, drop the body into recipes/prompts/your-recipe-slug.md and reference it via prompt_file."
+        >
+          <CopyBlock label="recipes/_template.json" code={TEMPLATE_JSON} maxHeight={420} />
+        </Step>
+
+        <Step
+          n={4}
+          title="Validate locally"
+          body="Optional but recommended. CI runs the same checks on every PR."
+        >
+          <CopyBlock label="bash" code={`npm install\nnpm run validate`} maxHeight={120} />
+        </Step>
+
+        <Step
+          n={5}
+          title="Open a pull request"
+          body="CI runs validation automatically. We aim to review within 48 hours. Once merged, your recipe appears here on the next deploy."
+        >
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
+            <a href={NEW_PR_URL} target="_blank" rel="noopener noreferrer" style={primaryCta}>
               <Icon name="external" size={13} />
               Start a pull request
             </a>
-            <Link
-              href="/"
-              style={{
-                padding: "8px 14px",
-                background: "transparent",
-                border: "1px solid var(--border-default)",
-                color: "var(--fg-2)",
-                borderRadius: 4,
-                fontSize: 13,
-                fontWeight: 500,
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                textDecoration: "none",
-              }}
+            <a
+              href={CONTRIBUTING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={ghostCta}
             >
+              <Icon name="external" size={12} />
+              Read CONTRIBUTING.md
+            </a>
+            <Link href="/" style={mutedCta}>
               Back to the directory
             </Link>
           </div>
@@ -185,7 +247,7 @@ export default function SubmitPage() {
           padding: 16,
           display: "flex",
           flexDirection: "column",
-          gap: 6,
+          gap: 10,
         }}
       >
         <span
@@ -197,7 +259,7 @@ export default function SubmitPage() {
             fontWeight: 600,
           }}
         >
-          Review guidelines
+          What we look for
         </span>
         <ul
           style={{
@@ -212,25 +274,77 @@ export default function SubmitPage() {
           }}
         >
           <li>
-            The <code style={{ fontFamily: "var(--font-mono)" }}>github_source_url</code>{" "}
-            must point at a public, runnable example — not a private repo.
+            A <strong style={{ color: "var(--fg-1)", fontWeight: 600 }}>real, working voice agent</strong>
+            . We can tell when something&apos;s been built versus theorized.
           </li>
           <li>
-            <code style={{ fontFamily: "var(--font-mono)" }}>raw_prompt</code> is the actual
-            production prompt. Redact API keys; keep the system instructions intact.
+            A <strong style={{ color: "var(--fg-1)", fontWeight: 600 }}>public source</strong>: GitHub
+            repo, demo video, blog post with code, or live demo URL.
           </li>
           <li>
-            Latency and cost figures should reflect a real production run, not the vendor&apos;s
-            best-case marketing number.
+            The <strong style={{ color: "var(--fg-1)", fontWeight: 600 }}>full stack</strong> named —
+            telephony, STT, LLM, TTS, framework.
           </li>
           <li>
-            We don&apos;t merge marketing-shaped recipes. Be specific. Be terse.
+            <strong style={{ color: "var(--fg-1)", fontWeight: 600 }}>Real economics</strong>: cost per
+            minute and latency from a production run, not a vendor&apos;s best-case marketing number.
+          </li>
+          <li>
+            Vendor names matching the canonical list in{" "}
+            <code style={{ fontFamily: "var(--font-mono)", fontSize: 13 }}>data/vendors.json</code> —
+            if your stack uses one not on the list, propose its addition in the same PR.
           </li>
         </ul>
       </aside>
     </article>
   );
 }
+
+const primaryCta: React.CSSProperties = {
+  padding: "8px 14px",
+  background: "var(--accent)",
+  color: "#fff",
+  border: "none",
+  borderRadius: 4,
+  fontSize: 13,
+  fontWeight: 500,
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 6,
+  textDecoration: "none",
+  alignSelf: "flex-start",
+};
+
+const ghostCta: React.CSSProperties = {
+  padding: "8px 14px",
+  background: "transparent",
+  border: "1px solid var(--border-default)",
+  color: "var(--fg-1)",
+  borderRadius: 4,
+  fontSize: 13,
+  fontWeight: 500,
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 6,
+  textDecoration: "none",
+};
+
+const mutedCta: React.CSSProperties = {
+  padding: "8px 14px",
+  background: "transparent",
+  border: "1px solid var(--border-default)",
+  color: "var(--fg-2)",
+  borderRadius: 4,
+  fontSize: 13,
+  fontWeight: 500,
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 6,
+  textDecoration: "none",
+};
 
 function Step({
   n,

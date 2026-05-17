@@ -75,7 +75,9 @@ export function Nav({ theme, onTheme }: NavProps) {
           <Icon name={theme === "light" ? "moon" : "sun"} size={16} />
         </button>
         <a
-          href="https://github.com"
+          href="https://github.com/speechstack-ai"
+          target="_blank"
+          rel="noopener noreferrer"
           title="GitHub"
           aria-label="GitHub"
           style={{

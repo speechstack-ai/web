@@ -27,8 +27,10 @@ SpeechStack is built for AI coding agents and Voice AI engineers. The data layer
 
 ## Data
 
-- Recipes are served from the static file `public/data/recipes.json` in the repo.
-- The strict TypeScript schema lives in `src/types/recipe.ts`. Required fields: `id`, `title`, `description`, `framework`, `pipeline {stt, llm, tts, telephony?}`, `metrics {latency, cost_per_minute}`, `raw_prompt`, `config {voice_id, temperature, barge_in, tools[]}`, `github_source_url`.
+- Recipes are maintained in the open-source repo [speechstack-ai/recipes](https://github.com/speechstack-ai/recipes) — one JSON file per recipe under `recipes/<slug>.json`. Long-form prompts live as Markdown at `recipes/prompts/<slug>.md` and are referenced via the `prompt_file` field.
+- Every recipe validates against [`schema/recipe.schema.json`](https://github.com/speechstack-ai/recipes/blob/main/schema/recipe.schema.json). Start a new recipe by copying [`recipes/_template.json`](https://github.com/speechstack-ai/recipes/blob/main/recipes/_template.json).
+- The vendor allow-list is at [`data/vendors.json`](https://github.com/speechstack-ai/recipes/blob/main/data/vendors.json).
+- Contribution guide: [CONTRIBUTING.md](https://github.com/speechstack-ai/recipes/blob/main/CONTRIBUTING.md).
 - Frameworks: Vapi, Retell, LiveKit, Pipecat, Bland.
 - STT engines tracked: Deepgram, AssemblyAI, Whisper.
 - TTS engines tracked: Cartesia, ElevenLabs, PlayHT.

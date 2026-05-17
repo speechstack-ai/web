@@ -61,7 +61,7 @@ export function Footer() {
             <span style={{ color: "var(--fg-4)" }}>·</span>
             <FooterLink href="/submit">Submit</FooterLink>
             <span style={{ color: "var(--fg-4)" }}>·</span>
-            <FooterLink href="https://github.com" external>
+            <FooterLink href="https://github.com/speechstack-ai" external>
               GitHub
             </FooterLink>
           </div>
