@@ -1,6 +1,6 @@
 import { env } from "~/env";
 
-export const SITE_URL = env.NEXT_PUBLIC_SITE_URL ?? "https://speechstack.dev";
+export const SITE_URL = env.NEXT_PUBLIC_SITE_URL ?? "https://speechstack.com";
 
 export const SITE_NAME = "SpeechStack";
 
