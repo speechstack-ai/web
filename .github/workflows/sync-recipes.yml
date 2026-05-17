@@ -1,0 +1,66 @@
+name: Sync recipes
+
+# Pulls recipes from speechstack-ai/recipes into public/data/recipes.json
+# and commits the diff back to main. Vercel auto-deploys on push.
+#
+# Triggers:
+#   - repository_dispatch (recipes-updated): fired by speechstack-ai/recipes
+#     when its main branch advances. Primary fast path.
+#   - workflow_dispatch: manual run from the Actions UI; optional `ref` input
+#     lets you sync from a branch or tag.
+#   - schedule: daily fallback in case the webhook was missed.
+
+on:
+  repository_dispatch:
+    types: [recipes-updated]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Recipes repo ref (branch, tag, or SHA)"
+        required: false
+        default: "main"
+  schedule:
+    # 06:17 UTC daily; offset minute to avoid the top-of-hour cron herd.
+    - cron: "17 6 * * *"
+
+concurrency:
+  group: sync-recipes
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout web
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Sync recipes
+        id: sync
+        env:
+          RECIPES_REF: ${{ github.event.inputs.ref || github.event.client_payload.ref || 'main' }}
+        run: node scripts/sync-recipes.mjs
+
+      - name: Commit & push if changed
+        env:
+          SYNCED_SHA: ${{ steps.sync.outputs.sha }}
+          SYNCED_COUNT: ${{ steps.sync.outputs.count }}
+        run: |
+          if [[ -n "$(git status --porcelain public/data/recipes.json)" ]]; then
+            git config user.name "speechstack-bot"
+            git config user.email "bot@speechstack.com"
+            git add public/data/recipes.json
+            git commit -m "chore: sync ${SYNCED_COUNT} recipes from speechstack-ai/recipes@${SYNCED_SHA}"
+            git push
+            echo "::notice::Pushed sync commit (${SYNCED_COUNT} recipes @ ${SYNCED_SHA})."
+          else
+            echo "::notice::No recipe changes — nothing to commit."
+          fi

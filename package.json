@@ -13,6 +13,7 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "start": "next start",
+    "sync-recipes": "node scripts/sync-recipes.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
