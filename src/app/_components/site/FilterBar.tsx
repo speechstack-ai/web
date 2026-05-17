@@ -40,7 +40,7 @@ export function FilterBar({
   hasFilters,
 }: FilterBarProps) {
   const frameworkCount = (f: Framework) =>
-    recipes.filter((r) => r.framework === f).length;
+    recipes.filter((r) => r.framework.toLowerCase().startsWith(f.toLowerCase())).length;
   const sttCount = (s: STTEngine) =>
     recipes.filter((r) => r.pipeline.stt.toLowerCase().includes(s.toLowerCase())).length;
   const ttsCount = (t: TTSEngine) =>

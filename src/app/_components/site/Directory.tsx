@@ -7,7 +7,7 @@ import { Hero } from "./Hero";
 import { FilterBar } from "./FilterBar";
 import { RecipeGrid } from "./RecipeGrid";
 import {
-  parseLatencyMs,
+  getLatencyMs,
   type Framework,
   type Recipe,
   type STTEngine,
@@ -28,7 +28,12 @@ export function Directory({ recipes }: DirectoryProps) {
 
   const filtered = useMemo(() => {
     return recipes.filter((r) => {
-      if (activeFramework !== "all" && r.framework !== activeFramework) return false;
+      if (
+        activeFramework !== "all" &&
+        !r.framework.toLowerCase().startsWith(activeFramework.toLowerCase())
+      ) {
+        return false;
+      }
       if (
         activeStt.length &&
         !activeStt.some((s) => r.pipeline.stt.toLowerCase().includes(s.toLowerCase()))
@@ -41,17 +46,20 @@ export function Directory({ recipes }: DirectoryProps) {
       ) {
         return false;
       }
-      if (parseLatencyMs(r.metrics.latency) > maxLatency) return false;
+      if (getLatencyMs(r) > maxLatency) return false;
       if (query) {
         const q = query.toLowerCase();
         const hay = [
           r.title,
           r.description,
           r.framework,
+          r.use_case,
+          r.industry,
           r.pipeline.stt,
           r.pipeline.llm,
           r.pipeline.tts,
           r.pipeline.telephony ?? "",
+          ...(r.tags ?? []),
         ]
           .join(" ")
           .toLowerCase();

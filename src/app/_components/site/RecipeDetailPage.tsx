@@ -3,18 +3,20 @@ import { Fragment } from "react";
 import { CopyBlock } from "./CopyBlock";
 import { Icon } from "./Icon";
 import { VendorLogo, pickLogo } from "./VendorLogo";
-import type { Recipe, RecipeBadge } from "~/types/recipe";
+import {
+  displayBadge,
+  formatCost,
+  formatLatency,
+  promptFileUrl,
+  type DisplayBadge,
+  type Recipe,
+} from "~/types/recipe";
 
-const BADGE_STYLES: Record<RecipeBadge, { bg: string; border: string; color: string }> = {
+const BADGE_STYLES: Record<DisplayBadge, { bg: string; border: string; color: string }> = {
   verified: {
     bg: "rgba(63,185,80,0.12)",
     border: "rgba(63,185,80,0.3)",
     color: "var(--success)",
-  },
-  beta: {
-    bg: "rgba(210,153,34,0.12)",
-    border: "rgba(210,153,34,0.3)",
-    color: "var(--warning)",
   },
   new: {
     bg: "rgba(0,146,184,0.12)",
@@ -23,19 +25,25 @@ const BADGE_STYLES: Record<RecipeBadge, { bg: string; border: string; color: str
   },
 };
 
+function formatUpdatedAt(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
 export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
-  const badge = recipe.badge ? BADGE_STYLES[recipe.badge] : null;
-  const hasMeta =
-    typeof recipe.updated === "string" ||
-    typeof recipe.forks === "number" ||
-    typeof recipe.stars === "number";
+  const badgeKind = displayBadge(recipe);
+  const badge = badgeKind ? BADGE_STYLES[badgeKind] : null;
+
   const steps: { label: string; value: string }[] = [];
   if (recipe.pipeline.telephony) steps.push({ label: "telephony", value: recipe.pipeline.telephony });
   steps.push({ label: "stt", value: recipe.pipeline.stt });
   steps.push({ label: "llm", value: recipe.pipeline.llm });
   steps.push({ label: "tts", value: recipe.pipeline.tts });
 
-  const configJson = JSON.stringify(recipe.config, null, 2);
+  const configJson = JSON.stringify(recipe.config ?? {}, null, 2);
+  const tools = recipe.config?.tools ?? [];
+  const promptLink = promptFileUrl(recipe);
 
   return (
     <article
@@ -123,22 +131,19 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
                   borderRadius: 9999,
                 }}
               />
-              {recipe.badge}
+              {badgeKind}
             </span>
           )}
-          {hasMeta && (
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                color: "var(--fg-3)",
-              }}
-            >
-              {recipe.updated && <>updated {recipe.updated} ago</>}
-              {typeof recipe.forks === "number" && <> · {recipe.forks} forks</>}
-              {typeof recipe.stars === "number" && <> · ★ {recipe.stars}</>}
-            </span>
-          )}
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              color: "var(--fg-3)",
+            }}
+          >
+            updated {formatUpdatedAt(recipe.updated_at)} · {recipe.industry} ·{" "}
+            {recipe.use_case}
+          </span>
         </div>
         <h1
           style={{
@@ -164,46 +169,76 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
           {recipe.description}
         </p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 4 }}>
-          <button
-            type="button"
-            style={{
-              padding: "8px 14px",
-              background: "var(--accent)",
-              color: "#fff",
-              border: "none",
-              borderRadius: 4,
-              fontSize: 13,
-              fontWeight: 500,
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <Icon name="play" size={13} />
-            Try the demo
-          </button>
-          <button
-            type="button"
-            style={{
-              padding: "8px 14px",
-              background: "transparent",
-              border: "1px solid var(--border-default)",
-              color: "var(--fg-1)",
-              borderRadius: 4,
-              fontSize: 13,
-              fontWeight: 500,
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <Icon name="copy" size={13} />
-            Fork recipe
-          </button>
+          {recipe.demo_url ? (
+            <a
+              href={recipe.demo_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                padding: "8px 14px",
+                background: "var(--accent)",
+                color: "#fff",
+                border: "none",
+                borderRadius: 4,
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                textDecoration: "none",
+              }}
+            >
+              <Icon name="play" size={13} />
+              Try the demo
+            </a>
+          ) : (
+            <span
+              title="No live demo available"
+              style={{
+                padding: "8px 14px",
+                background: "transparent",
+                border: "1px solid var(--border-default)",
+                color: "var(--fg-3)",
+                borderRadius: 4,
+                fontSize: 13,
+                fontWeight: 500,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                cursor: "not-allowed",
+              }}
+            >
+              <Icon name="play" size={13} />
+              No demo yet
+            </span>
+          )}
+          {recipe.github_source_url && (
+            <a
+              href={recipe.github_source_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                padding: "8px 14px",
+                background: "transparent",
+                border: "1px solid var(--border-default)",
+                color: "var(--fg-1)",
+                borderRadius: 4,
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                textDecoration: "none",
+              }}
+            >
+              <Icon name="external" size={13} />
+              View on GitHub
+            </a>
+          )}
           <a
-            href={recipe.github_source_url}
+            href={`https://github.com/speechstack-ai/recipes/blob/main/recipes/${recipe.slug}.json`}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -222,7 +257,7 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             }}
           >
             <Icon name="external" size={13} />
-            View on GitHub
+            Edit this recipe
           </a>
         </div>
       </header>
@@ -237,8 +272,8 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
           background: "var(--bg-surface-1)",
         }}
       >
-        <DetailMetric label="latency" value={recipe.metrics.latency} />
-        <DetailMetric label="cost / min" value={recipe.metrics.cost_per_minute} border />
+        <DetailMetric label="latency" value={formatLatency(recipe)} />
+        <DetailMetric label="cost / min" value={formatCost(recipe)} border />
         <div
           style={{
             padding: 14,
@@ -357,65 +392,153 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
       </Section>
 
       <Section label="Prompt">
-        <CopyBlock
-          label="raw_prompt"
-          code={recipe.raw_prompt}
-          maxHeight={320}
-          fontFamily="var(--font-mono)"
-        />
+        {recipe.raw_prompt ? (
+          <CopyBlock
+            label="raw_prompt"
+            code={recipe.raw_prompt}
+            maxHeight={320}
+            fontFamily="var(--font-mono)"
+          />
+        ) : promptLink ? (
+          <a
+            href={promptLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              border: "1px dashed var(--border-strong)",
+              borderRadius: 6,
+              padding: 16,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 13,
+              color: "var(--accent-fg)",
+              textDecoration: "none",
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            <Icon name="external" size={13} />
+            View prompt file: {recipe.prompt_file}
+          </a>
+        ) : (
+          <div
+            style={{
+              border: "1px dashed var(--border-strong)",
+              borderRadius: 6,
+              padding: 16,
+              fontSize: 13,
+              color: "var(--fg-3)",
+            }}
+          >
+            No prompt published.
+          </div>
+        )}
       </Section>
 
       <Section label="Config">
         <CopyBlock label="config.json" code={configJson} maxHeight={360} />
       </Section>
 
-      <Section label="Tools">
-        <ul
-          style={{
-            margin: 0,
-            padding: 0,
-            listStyle: "none",
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-          }}
-        >
-          {recipe.config.tools.map((tool) => (
-            <li
-              key={tool.name}
-              style={{
-                border: "1px solid var(--border-default)",
-                background: "var(--bg-surface-1)",
-                borderRadius: 6,
-                padding: 12,
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-              }}
-            >
+      {tools.length > 0 && (
+        <Section label="Tools">
+          <ul
+            style={{
+              margin: 0,
+              padding: 0,
+              listStyle: "none",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+          >
+            {tools.map((tool) => (
+              <li
+                key={tool.name}
+                style={{
+                  border: "1px solid var(--border-default)",
+                  background: "var(--bg-surface-1)",
+                  borderRadius: 6,
+                  padding: 12,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 13,
+                    color: "var(--fg-1)",
+                    fontWeight: 500,
+                  }}
+                >
+                  {tool.name}
+                </span>
+                <span
+                  style={{
+                    fontSize: 13,
+                    color: "var(--fg-2)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {tool.description}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
+
+      {recipe.tags && recipe.tags.length > 0 && (
+        <Section label="Tags">
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {recipe.tags.map((t) => (
               <span
+                key={t}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: 13,
-                  color: "var(--fg-1)",
-                  fontWeight: 500,
-                }}
-              >
-                {tool.name}
-              </span>
-              <span
-                style={{
-                  fontSize: 13,
+                  fontSize: 11,
+                  padding: "2px 8px",
+                  borderRadius: 9999,
+                  border: "1px solid var(--border-default)",
+                  background: "var(--bg-surface-1)",
                   color: "var(--fg-2)",
-                  lineHeight: 1.5,
                 }}
               >
-                {tool.description}
+                {t}
               </span>
-            </li>
-          ))}
-        </ul>
-      </Section>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      <footer
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 11,
+          color: "var(--fg-3)",
+          paddingTop: 12,
+          borderTop: "1px solid var(--border-subtle)",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <span>
+          contributed by{" "}
+          <a
+            href={`https://github.com/${recipe.contributor.github}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--accent-fg)", textDecoration: "none" }}
+          >
+            @{recipe.contributor.github}
+          </a>{" "}
+          · {recipe.license} · source: {recipe.source.replaceAll("_", " ")}
+        </span>
+        <span>languages: {recipe.languages.join(", ")}</span>
+      </footer>
     </article>
   );
 }

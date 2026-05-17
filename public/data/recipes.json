@@ -1,23 +1,34 @@
 [
   {
     "id": "support-realtime",
+    "slug": "support-realtime",
     "title": "Realtime customer support agent",
     "description": "Handles tier-1 tickets end to end. Hands off to a human on escalation keywords.",
     "framework": "Vapi",
+    "use_case": "support",
+    "industry": "ecommerce",
+    "languages": ["en-US"],
     "pipeline": {
       "stt": "Deepgram Nova-3",
-      "llm": "gpt-4o",
-      "tts": "Cartesia Sonic-3"
+      "llm": "GPT-4o",
+      "tts": "Cartesia Sonic-3",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~187ms",
-      "cost_per_minute": "$0.04 / min"
+      "latency_p50_ms": 187,
+      "latency_p95_ms": 300,
+      "latency_display": "~187ms",
+      "cost_per_minute_usd_min": 0.04,
+      "cost_per_minute_usd_max": 0.04,
+      "cost_display": "$0.04 / min"
     },
     "raw_prompt": "You are a tier-1 customer support agent for an ecommerce store. Be concise, friendly, and direct. Confirm the customer's order number before discussing details. If the customer raises any of these escalation keywords — refund denied, lawsuit, fraud, manager — call the escalate_to_human tool immediately and stop the conversation. Never speculate about shipping dates; use the check_order_status tool. Keep responses under two sentences whenever possible.",
+    "prompt_file": null,
     "config": {
       "voice_id": "cartesia-clara-friendly",
       "temperature": 0.2,
       "barge_in": true,
+      "interruption_threshold_ms": 200,
       "tools": [
         {
           "name": "check_order_status",
@@ -30,32 +41,52 @@
       ]
     },
     "github_source_url": "https://github.com/VapiAI/examples",
-    "badge": "verified",
-    "forks": 31,
-    "stars": 248,
-    "updated": "2d",
-    "featured": true
+    "demo_url": null,
+    "tags": ["customer-support", "escalation", "ecommerce"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": true,
+    "featured": true,
+    "created_at": "2026-04-15T14:00:00Z",
+    "updated_at": "2026-05-15T14:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "outbound-survey",
+    "slug": "outbound-survey",
     "title": "Outbound NPS survey caller",
     "description": "Dials a list, runs a 6-question script, drops scores into Postgres.",
     "framework": "Bland",
+    "use_case": "survey",
+    "industry": "saas",
+    "languages": ["en-US"],
     "pipeline": {
-      "telephony": "Bland built-in PSTN",
       "stt": "Bland built-in",
-      "llm": "gpt-4o-mini",
-      "tts": "ElevenLabs Turbo v2"
+      "llm": "GPT-4o-mini",
+      "tts": "ElevenLabs Turbo v2",
+      "telephony": "Bland built-in PSTN"
     },
     "metrics": {
-      "latency": "~240ms",
-      "cost_per_minute": "$0.06 / min"
+      "latency_p50_ms": 240,
+      "latency_p95_ms": 400,
+      "latency_display": "~240ms",
+      "cost_per_minute_usd_min": 0.06,
+      "cost_per_minute_usd_max": 0.06,
+      "cost_display": "$0.06 / min"
     },
     "raw_prompt": "You are conducting a brief Net Promoter Score survey on behalf of {{company}}. Ask exactly six questions, in order. Do not improvise or skip ahead. After each rating, acknowledge briefly (\"thanks\") and move on. If the respondent declines or asks to be removed, call end_call with reason=opt_out and stop. After question six, thank them and end the call.",
+    "prompt_file": null,
     "config": {
       "voice_id": "elevenlabs-rachel-neutral",
       "temperature": 0.1,
       "barge_in": true,
+      "interruption_threshold_ms": 200,
       "tools": [
         {
           "name": "record_nps_score",
@@ -68,31 +99,52 @@
       ]
     },
     "github_source_url": "https://github.com/bland-ai",
-    "badge": "new",
-    "forks": 12,
-    "stars": 88,
-    "updated": "5d",
-    "featured": false
+    "demo_url": null,
+    "tags": ["outbound", "survey", "nps"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": false,
+    "featured": false,
+    "created_at": "2026-05-04T09:00:00Z",
+    "updated_at": "2026-05-12T09:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "voice-cursor",
+    "slug": "voice-cursor",
     "title": "Voice-controlled IDE companion",
     "description": "Listens to dictation, executes Cursor commands, narrates compile errors.",
-    "framework": "LiveKit",
+    "framework": "LiveKit Agents",
+    "use_case": "other",
+    "industry": "saas",
+    "languages": ["en-US"],
     "pipeline": {
       "stt": "Deepgram Nova-3",
-      "llm": "claude-3.5-haiku",
-      "tts": "Cartesia Sonic-3"
+      "llm": "Claude Haiku 4.5",
+      "tts": "Cartesia Sonic-3",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~120ms",
-      "cost_per_minute": "$0.03 / min"
+      "latency_p50_ms": 120,
+      "latency_p95_ms": 200,
+      "latency_display": "~120ms",
+      "cost_per_minute_usd_min": 0.03,
+      "cost_per_minute_usd_max": 0.03,
+      "cost_display": "$0.03 / min"
     },
     "raw_prompt": "You are a coding companion that lives inside Cursor. The developer talks; you act. Treat every utterance as either a (a) command to execute via run_cursor_command, (b) a question about the active file (use read_active_file to ground your answer), or (c) ambient narration to ignore. Never read code aloud unless asked. When narrating a compile error, give the file:line first, then the one-line cause. No filler. No \"sure thing\".",
+    "prompt_file": null,
     "config": {
       "voice_id": "cartesia-finn-low-latency",
       "temperature": 0.3,
       "barge_in": true,
+      "interruption_threshold_ms": 200,
       "tools": [
         {
           "name": "run_cursor_command",
@@ -105,32 +157,52 @@
       ]
     },
     "github_source_url": "https://github.com/livekit-examples/voice-pipeline-agent-python",
-    "badge": "verified",
-    "forks": 47,
-    "stars": 412,
-    "updated": "1d",
-    "featured": true
+    "demo_url": null,
+    "tags": ["developer-tools", "ide", "dictation"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": true,
+    "featured": true,
+    "created_at": "2026-03-20T10:00:00Z",
+    "updated_at": "2026-05-16T10:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "doctor-intake",
+    "slug": "doctor-intake",
     "title": "Doctor's office intake bot",
     "description": "HIPAA-conscious intake. Collects symptoms, books slots, syncs to EHR via webhook.",
     "framework": "Retell",
+    "use_case": "scheduling",
+    "industry": "healthcare",
+    "languages": ["en-US"],
     "pipeline": {
-      "telephony": "Twilio SIP",
       "stt": "Deepgram Medical",
-      "llm": "gpt-4o",
-      "tts": "ElevenLabs"
+      "llm": "GPT-4o",
+      "tts": "ElevenLabs Flash v2.5",
+      "telephony": "Twilio SIP"
     },
     "metrics": {
-      "latency": "~220ms",
-      "cost_per_minute": "$0.05 / min"
+      "latency_p50_ms": 220,
+      "latency_p95_ms": 380,
+      "latency_display": "~220ms",
+      "cost_per_minute_usd_min": 0.05,
+      "cost_per_minute_usd_max": 0.05,
+      "cost_display": "$0.05 / min"
     },
     "raw_prompt": "You are the front-desk intake agent for Crown Family Practice. Your job is to (1) verify the caller's date of birth against the EHR, (2) capture chief complaint and three associated symptoms, (3) book the next available appointment via book_appointment. Never give medical advice. Never repeat PHI back to the caller more than necessary. If the caller mentions chest pain, shortness of breath, or stroke symptoms, instruct them to call 911 and end the call.",
+    "prompt_file": null,
     "config": {
       "voice_id": "elevenlabs-bella-warm",
       "temperature": 0.15,
       "barge_in": true,
+      "interruption_threshold_ms": 250,
       "tools": [
         {
           "name": "book_appointment",
@@ -143,31 +215,52 @@
       ]
     },
     "github_source_url": "https://github.com/RetellAI/retell-typescript-example",
-    "badge": "beta",
-    "forks": 8,
-    "stars": 64,
-    "updated": "1w",
-    "featured": false
+    "demo_url": null,
+    "tags": ["healthcare", "intake", "scheduling", "ehr"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": false,
+    "featured": false,
+    "created_at": "2026-04-25T08:30:00Z",
+    "updated_at": "2026-05-10T08:30:00Z",
+    "license": "MIT",
+    "notes": "Stack and prompt are illustrative; HIPAA compliance requires additional configuration not captured here."
   },
   {
     "id": "podcast-cohost",
+    "slug": "podcast-cohost",
     "title": "Live podcast co-host",
     "description": "Drops in via WebRTC, asks pre-loaded questions, can be muted with a keypress.",
-    "framework": "LiveKit",
+    "framework": "LiveKit Agents",
+    "use_case": "other",
+    "industry": "media-and-entertainment",
+    "languages": ["en-US"],
     "pipeline": {
       "stt": "Deepgram Nova-3",
-      "llm": "gpt-4o",
-      "tts": "Cartesia Sonic-3"
+      "llm": "GPT-4o",
+      "tts": "Cartesia Sonic-3",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~95ms",
-      "cost_per_minute": "$0.04 / min"
+      "latency_p50_ms": 95,
+      "latency_p95_ms": 160,
+      "latency_display": "~95ms",
+      "cost_per_minute_usd_min": 0.04,
+      "cost_per_minute_usd_max": 0.04,
+      "cost_display": "$0.04 / min"
     },
     "raw_prompt": "You are a podcast co-host. The human host is interviewing a guest; you are the third voice. Stay quiet unless (a) the host invokes you by name, (b) the conversation goes silent for more than four seconds, or (c) you have been asked a direct question. When you speak, contribute a single sharp follow-up question — never a monologue. Match the host's tone. If muted via the mute tool, do not speak under any circumstance until unmuted.",
+    "prompt_file": null,
     "config": {
       "voice_id": "cartesia-jordan-warm",
       "temperature": 0.6,
       "barge_in": false,
+      "interruption_threshold_ms": 4000,
       "tools": [
         {
           "name": "next_question",
@@ -180,31 +273,52 @@
       ]
     },
     "github_source_url": "https://github.com/livekit-examples",
-    "badge": "verified",
-    "forks": 19,
-    "stars": 121,
-    "updated": "3d",
-    "featured": false
+    "demo_url": null,
+    "tags": ["podcast", "media", "webrtc"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": true,
+    "featured": false,
+    "created_at": "2026-04-30T15:00:00Z",
+    "updated_at": "2026-05-14T15:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "drive-thru",
+    "slug": "drive-thru",
     "title": "QSR drive-thru order taker",
     "description": "Background noise robust. Repeats the order in a confirmable summary.",
     "framework": "Pipecat",
+    "use_case": "order-taking",
+    "industry": "restaurant",
+    "languages": ["en-US"],
     "pipeline": {
       "stt": "Deepgram Nova-3",
-      "llm": "gpt-4o-mini",
-      "tts": "ElevenLabs Turbo v2"
+      "llm": "GPT-4o-mini",
+      "tts": "ElevenLabs Turbo v2",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~180ms",
-      "cost_per_minute": "$0.03 / min"
+      "latency_p50_ms": 180,
+      "latency_p95_ms": 300,
+      "latency_display": "~180ms",
+      "cost_per_minute_usd_min": 0.03,
+      "cost_per_minute_usd_max": 0.03,
+      "cost_display": "$0.03 / min"
     },
     "raw_prompt": "You are the drive-thru order taker at a fast-food window. Be friendly, fast, and explicit. After every item, repeat back \"so that's a [item], anything else?\". When the customer says \"that's it\" or \"that's all\", read the full order back once with the total, then call confirm_order. If the customer changes the order mid-stream, edit and re-confirm. Tolerate background noise — if you misheard, ask \"sorry, was that a [best guess]?\" rather than asking them to repeat.",
+    "prompt_file": null,
     "config": {
       "voice_id": "elevenlabs-anthony-cheerful",
       "temperature": 0.2,
       "barge_in": true,
+      "interruption_threshold_ms": 200,
       "tools": [
         {
           "name": "add_to_order",
@@ -221,31 +335,52 @@
       ]
     },
     "github_source_url": "https://github.com/pipecat-ai/pipecat",
-    "badge": "verified",
-    "forks": 22,
-    "stars": 156,
-    "updated": "4d",
-    "featured": false
+    "demo_url": null,
+    "tags": ["qsr", "drive-thru", "order-taking"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": true,
+    "featured": false,
+    "created_at": "2026-04-22T11:00:00Z",
+    "updated_at": "2026-05-13T11:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "lang-tutor",
+    "slug": "lang-tutor",
     "title": "Conversational language tutor",
     "description": "Switches languages mid-conversation, corrects pronunciation, tracks streaks.",
     "framework": "Vapi",
+    "use_case": "language-tutoring",
+    "industry": "education",
+    "languages": ["en-US", "es-MX", "fr-FR", "de-DE"],
     "pipeline": {
-      "stt": "Whisper Large v3",
-      "llm": "gpt-4o",
-      "tts": "ElevenLabs Multilingual v2"
+      "stt": "OpenAI Whisper",
+      "llm": "GPT-4o",
+      "tts": "ElevenLabs Multilingual v2",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~210ms",
-      "cost_per_minute": "$0.05 / min"
+      "latency_p50_ms": 210,
+      "latency_p95_ms": 350,
+      "latency_display": "~210ms",
+      "cost_per_minute_usd_min": 0.05,
+      "cost_per_minute_usd_max": 0.05,
+      "cost_display": "$0.05 / min"
     },
     "raw_prompt": "You are a patient, intermediate-level language tutor. The learner's target language is {{target_language}}; their native language is {{native_language}}. Speak primarily in the target language. If the learner stalls for more than five seconds, prompt them in their native language, then return to the target language. After each turn, silently score pronunciation 0–5 via evaluate_pronunciation. Do not correct grammar mid-sentence; correct gently at the end of the turn.",
+    "prompt_file": null,
     "config": {
       "voice_id": "elevenlabs-clara-multilingual",
       "temperature": 0.4,
       "barge_in": true,
+      "interruption_threshold_ms": 300,
       "tools": [
         {
           "name": "evaluate_pronunciation",
@@ -258,31 +393,52 @@
       ]
     },
     "github_source_url": "https://github.com/VapiAI/examples",
-    "badge": "new",
-    "forks": 14,
-    "stars": 94,
-    "updated": "6d",
-    "featured": false
+    "demo_url": null,
+    "tags": ["education", "language-learning", "multilingual"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": false,
+    "featured": false,
+    "created_at": "2026-05-05T12:00:00Z",
+    "updated_at": "2026-05-11T12:00:00Z",
+    "license": "MIT",
+    "notes": null
   },
   {
     "id": "sales-coach",
-    "title": "Sales call coach (post-call)",
+    "slug": "sales-coach",
+    "title": "Sales call coach (post-call analysis)",
     "description": "Transcribes the call, scores it against a rubric, emails the rep a 3-line debrief.",
     "framework": "Pipecat",
+    "use_case": "other",
+    "industry": "saas",
+    "languages": ["en-US"],
     "pipeline": {
       "stt": "Deepgram Nova-3",
-      "llm": "gpt-4o",
-      "tts": "n/a (text/email output)"
+      "llm": "GPT-4o",
+      "tts": "n/a (text/email output)",
+      "telephony": null
     },
     "metrics": {
-      "latency": "~90ms",
-      "cost_per_minute": "$0.01 / min"
+      "latency_p50_ms": 90,
+      "latency_p95_ms": 200,
+      "latency_display": "~90ms",
+      "cost_per_minute_usd_min": 0.01,
+      "cost_per_minute_usd_max": 0.01,
+      "cost_display": "$0.01 / min"
     },
     "raw_prompt": "You are a sales coach reviewing a recorded call transcript. Score the rep on five dimensions from the rubric: rapport, discovery, objection handling, close, next-step clarity. For each, give a 0–5 score and one specific quote from the transcript that earned the score. End with a three-line debrief: one strength, one fix, one drill. Email it via send_debrief_email. Be candid and concise. No platitudes.",
+    "prompt_file": null,
     "config": {
-      "voice_id": "n/a",
+      "voice_id": null,
       "temperature": 0.2,
       "barge_in": false,
+      "interruption_threshold_ms": null,
       "tools": [
         {
           "name": "score_call",
@@ -295,32 +451,52 @@
       ]
     },
     "github_source_url": "https://github.com/pipecat-ai/pipecat",
-    "badge": "verified",
-    "forks": 35,
-    "stars": 201,
-    "updated": "2w",
-    "featured": false
+    "demo_url": null,
+    "tags": ["sales", "post-call", "coaching"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": true,
+    "featured": false,
+    "created_at": "2026-04-10T16:00:00Z",
+    "updated_at": "2026-05-03T16:00:00Z",
+    "license": "MIT",
+    "notes": "Post-call analysis pipeline; not a live agent. TTS is text/email output."
   },
   {
     "id": "appointment-set",
-    "title": "Appointment-setting outbound",
+    "slug": "appointment-set",
+    "title": "Appointment-setting outbound caller",
     "description": "Mortgage-broker style outbound. Books a 15-min call into Cal.com.",
     "framework": "Bland",
+    "use_case": "outbound-follow-up",
+    "industry": "financial-services",
+    "languages": ["en-US"],
     "pipeline": {
-      "telephony": "Bland built-in PSTN",
       "stt": "Bland built-in",
-      "llm": "gpt-4o-mini",
-      "tts": "Cartesia Sonic-3"
+      "llm": "GPT-4o-mini",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Bland built-in PSTN"
     },
     "metrics": {
-      "latency": "~260ms",
-      "cost_per_minute": "$0.08 / min"
+      "latency_p50_ms": 260,
+      "latency_p95_ms": 450,
+      "latency_display": "~260ms",
+      "cost_per_minute_usd_min": 0.08,
+      "cost_per_minute_usd_max": 0.08,
+      "cost_display": "$0.08 / min"
     },
     "raw_prompt": "You are an appointment-setter for a mortgage broker. Goal: book a 15-minute discovery call into the broker's Cal.com link. Open with a one-line warm intro that references the lead's interest, ask if now is a good time, then offer three time slots. If the lead asks rate-specific questions, say \"the broker will walk you through that on the call\" and pivot back to scheduling. If voicemail is detected, leave a 12-second message and call end_call.",
+    "prompt_file": null,
     "config": {
       "voice_id": "cartesia-mason-confident",
       "temperature": 0.2,
       "barge_in": true,
+      "interruption_threshold_ms": 200,
       "tools": [
         {
           "name": "book_cal_slot",
@@ -333,10 +509,20 @@
       ]
     },
     "github_source_url": "https://github.com/bland-ai",
-    "badge": "beta",
-    "forks": 6,
-    "stars": 41,
-    "updated": "2w",
-    "featured": false
+    "demo_url": null,
+    "tags": ["outbound", "mortgage", "appointment-setting"],
+    "contributor": {
+      "github": "speechstack-ai",
+      "twitter": null,
+      "name": "SpeechStack editorial",
+      "website": "https://speechstack.com"
+    },
+    "source": "editorial",
+    "verified": false,
+    "featured": false,
+    "created_at": "2026-04-18T13:00:00Z",
+    "updated_at": "2026-05-03T13:00:00Z",
+    "license": "MIT",
+    "notes": null
   }
 ]

@@ -16,7 +16,12 @@ export function Footer() {
   const recipes = getRecipes();
 
   const topRecipes = [...recipes]
-    .sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0))
+    .sort((a, b) => {
+      const af = a.featured ? 1 : 0;
+      const bf = b.featured ? 1 : 0;
+      if (af !== bf) return bf - af;
+      return Date.parse(b.updated_at) - Date.parse(a.updated_at);
+    })
     .slice(0, TOP_RECIPE_COUNT);
 
   return (

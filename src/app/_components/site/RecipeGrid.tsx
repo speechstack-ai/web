@@ -4,25 +4,25 @@ import Link from "next/link";
 import { Fragment, useState, type MouseEvent } from "react";
 import { Icon } from "./Icon";
 import { VendorLogo, pickLogo } from "./VendorLogo";
-import type { Recipe, RecipeBadge } from "~/types/recipe";
+import {
+  displayBadge,
+  formatCost,
+  formatLatency,
+  type DisplayBadge,
+  type Recipe,
+} from "~/types/recipe";
 
 type RecipeGridProps = {
   recipes: Recipe[];
   view: "grid" | "list";
 };
 
-const BADGE_STYLES: Record<RecipeBadge, { bg: string; border: string; color: string; label: string }> = {
+const BADGE_STYLES: Record<DisplayBadge, { bg: string; border: string; color: string; label: string }> = {
   verified: {
     bg: "rgba(63,185,80,0.12)",
     border: "rgba(63,185,80,0.3)",
     color: "var(--success)",
     label: "verified",
-  },
-  beta: {
-    bg: "rgba(210,153,34,0.12)",
-    border: "rgba(210,153,34,0.3)",
-    color: "var(--warning)",
-    label: "beta",
   },
   new: {
     bg: "rgba(0,146,184,0.12)",
@@ -135,7 +135,9 @@ function CopyPromptButton({ prompt }: { prompt: string }) {
 
 function RecipeCard({ recipe }: { recipe: Recipe }) {
   const [hovered, setHovered] = useState(false);
-  const badge = recipe.badge ? BADGE_STYLES[recipe.badge] : null;
+  const badgeKind = displayBadge(recipe);
+  const badge = badgeKind ? BADGE_STYLES[badgeKind] : null;
+  const promptForCopy = recipe.raw_prompt ?? "";
 
   return (
     <Link
@@ -244,28 +246,10 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
           borderTop: "1px solid var(--border-subtle)",
         }}
       >
-        <Metric label="latency" value={recipe.metrics.latency} />
-        <Metric label="cost" value={recipe.metrics.cost_per_minute} />
-        {typeof recipe.forks === "number" && (
-          <Metric label="forks" value={String(recipe.forks)} />
-        )}
+        <Metric label="latency" value={formatLatency(recipe)} />
+        <Metric label="cost" value={formatCost(recipe)} />
         <div style={{ flex: 1 }} />
-        <CopyPromptButton prompt={recipe.raw_prompt} />
-        {typeof recipe.stars === "number" && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              color: "var(--fg-3)",
-              fontFamily: "var(--font-mono)",
-              fontSize: 12,
-            }}
-          >
-            <Icon name="star" size={12} />
-            <span>{recipe.stars}</span>
-          </div>
-        )}
+        {promptForCopy && <CopyPromptButton prompt={promptForCopy} />}
       </div>
     </Link>
   );
@@ -312,7 +296,7 @@ export function RecipeGrid({ recipes, view }: RecipeGridProps) {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "2fr 0.7fr 2fr 0.7fr 0.7fr 0.4fr",
+            gridTemplateColumns: "2fr 0.7fr 2fr 0.7fr 0.9fr",
             padding: "10px 16px",
             background: "var(--bg-surface-1)",
             borderBottom: "1px solid var(--border-default)",
@@ -329,7 +313,6 @@ export function RecipeGrid({ recipes, view }: RecipeGridProps) {
           <span>pipeline</span>
           <span>latency</span>
           <span>cost</span>
-          <span style={{ textAlign: "right" }}>★</span>
         </div>
         {recipes.map((r, i) => (
           <Link
@@ -341,7 +324,7 @@ export function RecipeGrid({ recipes, view }: RecipeGridProps) {
               textDecoration: "none",
               cursor: "pointer",
               display: "grid",
-              gridTemplateColumns: "2fr 0.7fr 2fr 0.7fr 0.7fr 0.4fr",
+              gridTemplateColumns: "2fr 0.7fr 2fr 0.7fr 0.9fr",
               padding: "12px 16px",
               alignItems: "center",
               background: "transparent",
@@ -378,20 +361,10 @@ export function RecipeGrid({ recipes, view }: RecipeGridProps) {
               {r.pipeline.stt} · {r.pipeline.llm} · {r.pipeline.tts}
             </span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>
-              {r.metrics.latency}
+              {formatLatency(r)}
             </span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>
-              {r.metrics.cost_per_minute}
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                color: "var(--fg-3)",
-                textAlign: "right",
-              }}
-            >
-              {r.stars ?? "—"}
+              {formatCost(r)}
             </span>
           </Link>
         ))}

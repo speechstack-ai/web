@@ -6,7 +6,8 @@ import { Icon } from "~/app/_components/site/Icon";
 import { VendorLogo, pickLogo } from "~/app/_components/site/VendorLogo";
 import {
   FRAMEWORKS,
-  parseLatencyMs,
+  getCostMin,
+  getLatencyMs,
   type Framework,
   type Recipe,
 } from "~/types/recipe";
@@ -41,24 +42,20 @@ function parseSlug(slug: string): [Framework, Framework] | null {
   return [a, b];
 }
 
-function parseCostPerMinute(s: string): number | null {
-  const m = /\$?\s*([0-9]+(?:\.[0-9]+)?)/.exec(s);
-  return m ? Number(m[1]) : null;
-}
-
 function mean(xs: number[]): number | null {
   if (!xs.length) return null;
   return xs.reduce((a, b) => a + b, 0) / xs.length;
 }
 
 function frameworkStats(recipes: Recipe[], framework: Framework) {
-  const subset = recipes.filter((r) => r.framework === framework);
+  const needle = framework.toLowerCase();
+  const subset = recipes.filter((r) => r.framework.toLowerCase().startsWith(needle));
   const latencies = subset
-    .map((r) => parseLatencyMs(r.metrics.latency))
+    .map((r) => getLatencyMs(r))
     .filter((n) => Number.isFinite(n));
   const costs = subset
-    .map((r) => parseCostPerMinute(r.metrics.cost_per_minute))
-    .filter((n): n is number => n !== null);
+    .map((r) => getCostMin(r))
+    .filter((n) => Number.isFinite(n));
   const stt = Array.from(new Set(subset.map((r) => r.pipeline.stt))).sort();
   const tts = Array.from(new Set(subset.map((r) => r.pipeline.tts))).sort();
   return {
