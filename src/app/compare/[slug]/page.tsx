@@ -12,6 +12,7 @@ import {
   type Recipe,
 } from "~/types/recipe";
 import { getRecipes } from "~/utils/getRecipes";
+import { SITE_NAME, SITE_URL } from "~/utils/site";
 
 type RouteParams = { slug: string };
 
@@ -84,9 +85,25 @@ export async function generateMetadata({
   const recipes = getRecipes();
   const aStats = frameworkStats(recipes, a);
   const bStats = frameworkStats(recipes, b);
+  const url = `${SITE_URL}/compare/${slugFor(a, b)}`;
+  const title = `${a} vs ${b} — Voice AI framework comparison`;
+  const description = `Side-by-side comparison of ${a} (${aStats.count} recipes) and ${b} (${bStats.count} recipes) on latency, cost, supported STT/TTS engines, and production recipes.`;
   return {
-    title: `${a} vs ${b} — Voice AI framework comparison · SpeechStack`,
-    description: `Side-by-side comparison of ${a} (${aStats.count} recipes) and ${b} (${bStats.count} recipes) on latency, cost, supported STT/TTS engines, and production recipes.`,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      siteName: SITE_NAME,
+      title: `${title} · ${SITE_NAME}`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · ${SITE_NAME}`,
+      description,
+    },
   };
 }
 
@@ -102,8 +119,61 @@ export default async function Page({
   const recipes = getRecipes();
   const aStats = frameworkStats(recipes, a);
   const bStats = frameworkStats(recipes, b);
+  const url = `${SITE_URL}/compare/${slugFor(a, b)}`;
+  const recipesMostRecent = recipes
+    .map((r) => new Date(r.updated_at))
+    .filter((d) => !Number.isNaN(d.getTime()))
+    .sort((x, y) => y.getTime() - x.getTime())[0]
+    ?.toISOString();
+
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${a} vs ${b} — voice AI framework comparison`,
+    description: `Side-by-side comparison of ${a} and ${b} for production voice AI agents across ${aStats.count + bStats.count} indexed recipes.`,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    image: `${SITE_URL}/compare/${slugFor(a, b)}/opengraph-image`,
+    dateModified: recipesMostRecent,
+    author: { "@type": "Organization", "@id": `${SITE_URL}#organization` },
+    publisher: { "@type": "Organization", "@id": `${SITE_URL}#organization` },
+    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}#website` },
+    about: [
+      {
+        "@type": "SoftwareApplication",
+        name: a,
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "Web",
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: b,
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "Web",
+      },
+    ],
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "SpeechStack", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Compare", item: `${SITE_URL}/#compare` },
+      { "@type": "ListItem", position: 3, name: `${a} vs ${b}`, item: url },
+    ],
+  };
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
     <article
       style={{
         maxWidth: 1100,
@@ -259,6 +329,7 @@ export default async function Page({
         </Link>
       </footer>
     </article>
+    </>
   );
 }
 

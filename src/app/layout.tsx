@@ -47,6 +47,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE_NAME }],
   icons: [{ rel: "icon", url: "/brand/mark.svg" }],
+  alternates: {
+    types: {
+      "text/markdown": [
+        { url: "/llms.txt", title: "LLM-friendly index" },
+        { url: "/llms-full.txt", title: "Full recipe content for LLMs" },
+      ],
+    },
+  },
   robots: {
     index: true,
     follow: true,
@@ -66,6 +74,39 @@ export const metadata: Metadata = {
   },
 };
 
+const siteLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      publisher: { "@id": `${SITE_URL}#organization` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/brand/logo.svg`,
+      },
+      sameAs: ["https://github.com/speechstack-ai"],
+    },
+  ],
+};
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -81,6 +122,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontSans.variable} ${fontMono.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteLd) }}
+        />
         <TRPCReactProvider>
           <SiteShell footer={<Footer />}>{children}</SiteShell>
         </TRPCReactProvider>
