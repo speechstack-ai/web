@@ -23,7 +23,7 @@ export function Directory({ recipes }: DirectoryProps) {
   const [activeFramework, setActiveFramework] = useState<Framework | "all">("all");
   const [activeStt, setActiveStt] = useState<STTEngine[]>([]);
   const [activeTts, setActiveTts] = useState<TTSEngine[]>([]);
-  const [maxLatency, setMaxLatency] = useState(400);
+  const [maxLatency, setMaxLatency] = useState(1200);
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -78,7 +78,7 @@ export function Directory({ recipes }: DirectoryProps) {
     setActiveFramework("all");
     setActiveStt([]);
     setActiveTts([]);
-    setMaxLatency(400);
+    setMaxLatency(1200);
     setQuery("");
   };
 
@@ -86,7 +86,7 @@ export function Directory({ recipes }: DirectoryProps) {
     activeFramework !== "all" ||
     activeStt.length > 0 ||
     activeTts.length > 0 ||
-    maxLatency < 400 ||
+    maxLatency < 1200 ||
     query.length > 0;
 
   return (
@@ -95,9 +95,9 @@ export function Directory({ recipes }: DirectoryProps) {
 
       <section
         id="recipes"
-        style={{ maxWidth: 1440, margin: "0 auto", padding: "32px" }}
+        style={{ maxWidth: 1440, margin: "0 auto", padding: "24px 32px 48px" }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <FilterBar
             recipes={recipes}
             activeFramework={activeFramework}
@@ -112,12 +112,7 @@ export function Directory({ recipes }: DirectoryProps) {
             hasFilters={hasFilters}
           />
 
-          <DirectoryToolbar
-            count={filtered.length}
-            view={view}
-            setView={setView}
-            heading={activeFramework === "all" ? "All recipes" : `${activeFramework} recipes`}
-          />
+          <DirectoryToolbar count={filtered.length} view={view} setView={setView} />
 
           {filtered.length === 0 ? (
             <EmptyState onClear={clear} />
@@ -134,10 +129,9 @@ type ToolbarProps = {
   count: number;
   view: "grid" | "list";
   setView: (v: "grid" | "list") => void;
-  heading: string;
 };
 
-function DirectoryToolbar({ count, view, setView, heading }: ToolbarProps) {
+function DirectoryToolbar({ count, view, setView }: ToolbarProps) {
   return (
     <div
       style={{
@@ -147,28 +141,15 @@ function DirectoryToolbar({ count, view, setView, heading }: ToolbarProps) {
         gap: 16,
       }}
     >
-      <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-        <h2
-          style={{
-            margin: 0,
-            fontSize: 20,
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
-            color: "var(--fg-1)",
-          }}
-        >
-          {heading}
-        </h2>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 13,
-            color: "var(--fg-3)",
-          }}
-        >
-          {count} results
-        </span>
-      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 13,
+          color: "var(--fg-3)",
+        }}
+      >
+        {count} {count === 1 ? "recipe" : "recipes"}
+      </span>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <select
           style={{

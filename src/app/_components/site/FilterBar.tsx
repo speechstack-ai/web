@@ -39,8 +39,9 @@ export function FilterBar({
   onClearAll,
   hasFilters,
 }: FilterBarProps) {
-  const frameworkCount = (f: Framework) =>
-    recipes.filter((r) => r.framework.toLowerCase().startsWith(f.toLowerCase())).length;
+  const hasAdvanced = activeStt.length > 0 || activeTts.length > 0 || maxLatency < 1200;
+  const [advancedOpen, setAdvancedOpen] = useState(hasAdvanced);
+
   const sttCount = (s: STTEngine) =>
     recipes.filter((r) => r.pipeline.stt.toLowerCase().includes(s.toLowerCase())).length;
   const ttsCount = (t: TTSEngine) =>
@@ -52,94 +53,130 @@ export function FilterBar({
         style={{
           display: "flex",
           alignItems: "center",
+          gap: 6,
+          flexWrap: "wrap",
+        }}
+      >
+        <Chip
+          label="All"
+          active={activeFramework === "all"}
+          onClick={() => setActiveFramework("all")}
+        />
+        {FRAMEWORKS.map((f) => (
+          <Chip
+            key={f}
+            label={f}
+            active={activeFramework === f}
+            onClick={() => setActiveFramework(f)}
+          />
+        ))}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
           gap: 8,
           flexWrap: "wrap",
         }}
       >
-        <Dropdown
-          label="Framework"
-          value={activeFramework === "all" ? null : activeFramework}
-          activeCount={activeFramework === "all" ? 0 : 1}
+        <button
+          type="button"
+          onClick={() => setAdvancedOpen((o) => !o)}
+          aria-expanded={advancedOpen}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "6px 10px",
+            borderRadius: 4,
+            background: hasAdvanced ? "var(--accent-soft)" : "var(--bg-surface-1)",
+            border: `1px solid ${hasAdvanced ? "var(--accent)" : "var(--border-default)"}`,
+            color: "var(--fg-2)",
+            fontSize: 12,
+            fontFamily: "var(--font-sans)",
+            fontWeight: 500,
+            cursor: "pointer",
+          }}
         >
-          <DropdownPanel>
-            <DropdownRow
-              label="All"
-              count={recipes.length}
-              active={activeFramework === "all"}
-              onClick={() => setActiveFramework("all")}
-            />
-            {FRAMEWORKS.map((f) => (
-              <DropdownRow
-                key={f}
-                label={f}
-                count={frameworkCount(f)}
-                active={activeFramework === f}
-                onClick={() => setActiveFramework(f)}
-              />
-            ))}
-          </DropdownPanel>
-        </Dropdown>
+          Advanced
+          <Icon
+            name="chevron-down"
+            size={12}
+            style={{
+              color: "var(--fg-3)",
+              transform: advancedOpen ? "rotate(180deg)" : "none",
+              transition: "transform 120ms var(--ease-out)",
+            }}
+          />
+        </button>
 
-        <Dropdown label="STT engine" activeCount={activeStt.length}>
-          <DropdownPanel>
-            {STT_ENGINES.map((s) => (
-              <DropdownCheck
-                key={s}
-                label={s}
-                count={sttCount(s)}
-                checked={activeStt.includes(s)}
-                onToggle={() => toggleStt(s)}
-              />
-            ))}
-          </DropdownPanel>
-        </Dropdown>
+        {advancedOpen && (
+          <>
+            <Dropdown label="STT engine" activeCount={activeStt.length}>
+              <DropdownPanel>
+                {STT_ENGINES.map((s) => (
+                  <DropdownCheck
+                    key={s}
+                    label={s}
+                    count={sttCount(s)}
+                    checked={activeStt.includes(s)}
+                    onToggle={() => toggleStt(s)}
+                  />
+                ))}
+              </DropdownPanel>
+            </Dropdown>
 
-        <Dropdown label="TTS engine" activeCount={activeTts.length}>
-          <DropdownPanel>
-            {TTS_ENGINES.map((t) => (
-              <DropdownCheck
-                key={t}
-                label={t}
-                count={ttsCount(t)}
-                checked={activeTts.includes(t)}
-                onToggle={() => toggleTts(t)}
-              />
-            ))}
-          </DropdownPanel>
-        </Dropdown>
+            <Dropdown label="TTS engine" activeCount={activeTts.length}>
+              <DropdownPanel>
+                {TTS_ENGINES.map((t) => (
+                  <DropdownCheck
+                    key={t}
+                    label={t}
+                    count={ttsCount(t)}
+                    checked={activeTts.includes(t)}
+                    onToggle={() => toggleTts(t)}
+                  />
+                ))}
+              </DropdownPanel>
+            </Dropdown>
 
-        <Dropdown
-          label="Max latency"
-          value={maxLatency < 400 ? `≤ ${maxLatency}ms` : null}
-          activeCount={maxLatency < 400 ? 1 : 0}
-        >
-          <DropdownPanel width={240}>
-            <div style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
-              <input
-                type="range"
-                min={50}
-                max={400}
-                step={10}
-                value={maxLatency}
-                onChange={(e) => setMaxLatency(Number(e.target.value))}
-                style={{ width: "100%", accentColor: "var(--accent)" }}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  color: "var(--fg-3)",
-                }}
-              >
-                <span>50ms</span>
-                <span style={{ color: "var(--fg-1)" }}>≤ {maxLatency}ms</span>
-                <span>400ms</span>
-              </div>
-            </div>
-          </DropdownPanel>
-        </Dropdown>
+            <Dropdown
+              label="Max latency"
+              value={maxLatency < 1200 ? `≤ ${maxLatency}ms` : null}
+              activeCount={maxLatency < 1200 ? 1 : 0}
+            >
+              <DropdownPanel width={240}>
+                <div
+                  style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}
+                >
+                  <input
+                    type="range"
+                    min={200}
+                    max={1200}
+                    step={50}
+                    value={maxLatency}
+                    onChange={(e) => setMaxLatency(Number(e.target.value))}
+                    style={{ width: "100%", accentColor: "var(--accent)" }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 11,
+                      color: "var(--fg-3)",
+                    }}
+                  >
+                    <span>200ms</span>
+                    <span style={{ color: "var(--fg-1)" }}>≤ {maxLatency}ms</span>
+                    <span>1200ms</span>
+                  </div>
+                </div>
+              </DropdownPanel>
+            </Dropdown>
+          </>
+        )}
 
         {hasFilters && (
           <button
@@ -178,17 +215,14 @@ export function FilterBar({
           }}
         >
           <span style={{ marginRight: 4 }}>active:</span>
-          {activeFramework !== "all" && (
-            <Tag label={activeFramework} onRemove={() => setActiveFramework("all")} />
-          )}
           {activeStt.map((s) => (
             <Tag key={`stt-${s}`} label={`stt:${s}`} onRemove={() => toggleStt(s)} />
           ))}
           {activeTts.map((t) => (
             <Tag key={`tts-${t}`} label={`tts:${t}`} onRemove={() => toggleTts(t)} />
           ))}
-          {maxLatency < 400 && (
-            <Tag label={`≤ ${maxLatency}ms`} onRemove={() => setMaxLatency(400)} />
+          {maxLatency < 1200 && (
+            <Tag label={`≤ ${maxLatency}ms`} onRemove={() => setMaxLatency(1200)} />
           )}
         </div>
       )}
@@ -305,14 +339,12 @@ function DropdownPanel({ children, width }: { children: ReactNode; width?: numbe
   );
 }
 
-function DropdownRow({
+function Chip({
   label,
-  count,
   active,
   onClick,
 }: {
   label: string;
-  count: number;
   active: boolean;
   onClick: () => void;
 }) {
@@ -320,32 +352,27 @@ function DropdownRow({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "6px 8px",
-        borderRadius: 4,
-        background: active ? "var(--bg-surface-2)" : "transparent",
-        color: active ? "var(--fg-1)" : "var(--fg-2)",
-        border: "none",
-        cursor: "pointer",
-        textAlign: "left",
+        padding: "6px 12px",
+        borderRadius: 9999,
+        background: active ? "var(--accent-soft)" : "var(--bg-surface-1)",
+        border: `1px solid ${active ? "var(--accent)" : "var(--border-default)"}`,
+        color: active ? "var(--accent-fg)" : "var(--fg-2)",
         fontSize: 13,
         fontFamily: "var(--font-sans)",
-        fontWeight: active ? 500 : 400,
+        fontWeight: 500,
+        cursor: "pointer",
+        lineHeight: 1,
       }}
       onMouseEnter={(e) => {
         if (!active) e.currentTarget.style.background = "var(--bg-surface-2)";
       }}
       onMouseLeave={(e) => {
-        if (!active) e.currentTarget.style.background = "transparent";
+        if (!active) e.currentTarget.style.background = "var(--bg-surface-1)";
       }}
     >
-      <span style={{ flex: 1 }}>{label}</span>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>
-        {count}
-      </span>
+      {label}
     </button>
   );
 }
