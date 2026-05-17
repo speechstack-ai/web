@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Fragment, useState, type MouseEvent } from "react";
 import { Icon } from "./Icon";
+import { VendorLogo, pickLogo } from "./VendorLogo";
 import type { Recipe, RecipeBadge } from "~/types/recipe";
 
 type RecipeGridProps = {
@@ -49,40 +50,46 @@ function PipelineChain({ recipe }: { recipe: Recipe }) {
         fontSize: 12,
       }}
     >
-      {steps.map((s, i) => (
-        <Fragment key={s.label}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: 4,
-            }}
-          >
+      {steps.map((s, i) => {
+        const hasLogo = pickLogo(s.value) !== null;
+        return (
+          <Fragment key={s.label}>
             <span
               style={{
-                fontSize: 9,
-                color: "var(--fg-4)",
-                letterSpacing: "0.06em",
-              }}
-            >
-              {s.label}
-            </span>
-            <span style={{ color: "var(--fg-2)" }}>{s.value}</span>
-          </span>
-          {i < steps.length - 1 && (
-            <span
-              style={{
-                color: "var(--fg-4)",
-                margin: "0 8px",
                 display: "inline-flex",
                 alignItems: "center",
+                gap: 5,
               }}
             >
-              <Icon name="arrow-right" size={11} />
+              <span
+                style={{
+                  fontSize: 9,
+                  color: "var(--fg-4)",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {s.label}
+              </span>
+              {hasLogo && (
+                <VendorLogo name={s.value} height={11} style={{ color: "var(--fg-2)" }} />
+              )}
+              <span style={{ color: "var(--fg-2)" }}>{s.value}</span>
             </span>
-          )}
-        </Fragment>
-      ))}
+            {i < steps.length - 1 && (
+              <span
+                style={{
+                  color: "var(--fg-4)",
+                  margin: "0 8px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <Icon name="arrow-right" size={11} />
+              </span>
+            )}
+          </Fragment>
+        );
+      })}
     </div>
   );
 }
@@ -183,13 +190,17 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 10,
-              padding: "1px 6px",
+              padding: "2px 6px",
               borderRadius: 3,
               color: "var(--fg-2)",
               border: "1px solid var(--border-default)",
               background: "var(--bg-surface-2)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
             }}
           >
+            <VendorLogo name={recipe.framework} height={11} />
             {recipe.framework}
           </span>
           {badge && (
@@ -349,8 +360,12 @@ export function RecipeGrid({ recipes, view }: RecipeGridProps) {
                 fontFamily: "var(--font-mono)",
                 fontSize: 12,
                 color: "var(--fg-2)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
               }}
             >
+              <VendorLogo name={r.framework} height={12} />
               {r.framework}
             </span>
             <span

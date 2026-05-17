@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Icon, type IconName } from "./Icon";
 import { Hero } from "./Hero";
-import { FilterRail } from "./FilterRail";
+import { FilterBar } from "./FilterBar";
 import { RecipeGrid } from "./RecipeGrid";
 import {
   parseLatencyMs,
@@ -89,8 +89,8 @@ export function Directory({ recipes }: DirectoryProps) {
         id="recipes"
         style={{ maxWidth: 1440, margin: "0 auto", padding: "32px" }}
       >
-        <div style={{ display: "flex", gap: 32, alignItems: "flex-start" }}>
-          <FilterRail
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <FilterBar
             recipes={recipes}
             activeFramework={activeFramework}
             setActiveFramework={setActiveFramework}
@@ -100,23 +100,22 @@ export function Directory({ recipes }: DirectoryProps) {
             toggleTts={toggleTts}
             maxLatency={maxLatency}
             setMaxLatency={setMaxLatency}
+            onClearAll={clear}
+            hasFilters={hasFilters}
           />
 
-          <main style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-            <DirectoryToolbar
-              count={filtered.length}
-              view={view}
-              setView={setView}
-              heading={activeFramework === "all" ? "All recipes" : `${activeFramework} recipes`}
-              hasFilters={hasFilters}
-              onClear={clear}
-            />
-            {filtered.length === 0 ? (
-              <EmptyState onClear={clear} />
-            ) : (
-              <RecipeGrid recipes={filtered} view={view} />
-            )}
-          </main>
+          <DirectoryToolbar
+            count={filtered.length}
+            view={view}
+            setView={setView}
+            heading={activeFramework === "all" ? "All recipes" : `${activeFramework} recipes`}
+          />
+
+          {filtered.length === 0 ? (
+            <EmptyState onClear={clear} />
+          ) : (
+            <RecipeGrid recipes={filtered} view={view} />
+          )}
         </div>
       </section>
     </>
@@ -128,18 +127,9 @@ type ToolbarProps = {
   view: "grid" | "list";
   setView: (v: "grid" | "list") => void;
   heading: string;
-  hasFilters: boolean;
-  onClear: () => void;
 };
 
-function DirectoryToolbar({
-  count,
-  view,
-  setView,
-  heading,
-  hasFilters,
-  onClear,
-}: ToolbarProps) {
+function DirectoryToolbar({ count, view, setView, heading }: ToolbarProps) {
   return (
     <div
       style={{
@@ -170,22 +160,6 @@ function DirectoryToolbar({
         >
           {count} results
         </span>
-        {hasFilters && (
-          <button
-            onClick={onClear}
-            style={{
-              background: "transparent",
-              border: "none",
-              color: "var(--accent-fg)",
-              fontSize: 12,
-              cursor: "pointer",
-              fontFamily: "var(--font-sans)",
-              padding: 0,
-            }}
-          >
-            clear filters ×
-          </button>
-        )}
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <select

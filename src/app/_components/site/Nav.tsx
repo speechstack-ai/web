@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { Icon, BrandMark } from "./Icon";
+import { FRAMEWORKS } from "~/types/recipe";
 
 type NavProps = {
-  active?: string;
   theme: "dark" | "light";
   onTheme: () => void;
-  onSearch?: () => void;
 };
 
-const ITEMS = [
-  { id: "recipes", label: "recipes", href: "/" },
-  { id: "vendors", label: "vendors", href: "/#recipes" },
-  { id: "stacks", label: "stacks", href: "/#recipes" },
-  { id: "submit", label: "submit", href: "/submit" },
-] as const;
-
-export function Nav({ active = "recipes", theme, onTheme, onSearch }: NavProps) {
+export function Nav({ theme, onTheme }: NavProps) {
   return (
     <header
       style={{
@@ -53,72 +46,15 @@ export function Nav({ active = "recipes", theme, onTheme, onSearch }: NavProps) 
           <BrandMark size={22} />
           <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em" }}>SpeechStack</span>
         </Link>
+
         <nav style={{ display: "flex", gap: 4, alignItems: "center" }}>
-          {ITEMS.map((it) => {
-            const isActive = active === it.id;
-            return (
-              <Link
-                key={it.id}
-                href={it.href}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: 4,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  textDecoration: "none",
-                  color: isActive ? "var(--fg-1)" : "var(--fg-3)",
-                  background: isActive ? "var(--bg-surface-2)" : "transparent",
-                  transition:
-                    "color 120ms var(--ease-out), background 120ms var(--ease-out)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) e.currentTarget.style.color = "var(--fg-1)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) e.currentTarget.style.color = "var(--fg-3)";
-                }}
-              >
-                {it.label}
-              </Link>
-            );
-          })}
+          <NavLink href="#newsletter" label="Subscribe" />
+          <CategoriesMenu />
+          <NavLink href="/submit" label="Submit" />
         </nav>
+
         <div style={{ flex: 1 }} />
-        <button
-          onClick={onSearch}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "6px 10px",
-            minWidth: 240,
-            background: "var(--bg-surface-1)",
-            border: "1px solid var(--border-default)",
-            borderRadius: 4,
-            color: "var(--fg-3)",
-            fontSize: 13,
-            fontFamily: "var(--font-sans)",
-            cursor: "pointer",
-          }}
-        >
-          <Icon name="search" size={14} />
-          <span style={{ flex: 1, textAlign: "left" }}>
-            search recipes, vendors, stacks…
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--fg-3)",
-              background: "var(--bg-surface-3)",
-              padding: "1px 5px",
-              borderRadius: 3,
-              border: "1px solid var(--border-default)",
-            }}
-          >
-            ⌘K
-          </span>
-        </button>
+
         <button
           onClick={onTheme}
           title="Toggle theme"
@@ -180,5 +116,139 @@ export function Nav({ active = "recipes", theme, onTheme, onSearch }: NavProps) 
         </Link>
       </div>
     </header>
+  );
+}
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        padding: "6px 10px",
+        borderRadius: 4,
+        fontSize: 13,
+        fontWeight: 500,
+        textDecoration: "none",
+        color: "var(--fg-3)",
+        background: "transparent",
+        transition: "color 120ms var(--ease-out), background 120ms var(--ease-out)",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--fg-1)")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-3)")}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function CategoriesMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDocClick(e: MouseEvent) {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} style={{ position: "relative" }}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          padding: "6px 10px",
+          borderRadius: 4,
+          fontSize: 13,
+          fontWeight: 500,
+          background: "transparent",
+          color: "var(--fg-3)",
+          border: "none",
+          cursor: "pointer",
+          fontFamily: "var(--font-sans)",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--fg-1)")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-3)")}
+      >
+        Categories
+        <Icon
+          name="chevron-down"
+          size={11}
+          style={{
+            transform: open ? "rotate(180deg)" : "none",
+            transition: "transform 120ms var(--ease-out)",
+          }}
+        />
+      </button>
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            left: 0,
+            zIndex: 20,
+            background: "var(--bg-surface-1)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: 6,
+            boxShadow: "var(--shadow-pop)",
+            padding: 4,
+            minWidth: 180,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CategoryItem href="/" label="All recipes" />
+          {FRAMEWORKS.map((f) => (
+            <CategoryItem
+              key={f}
+              href={`/?framework=${encodeURIComponent(f)}`}
+              label={f}
+            />
+          ))}
+          <div style={{ borderTop: "1px solid var(--border-default)", margin: "4px 0" }} />
+          <CategoryItem href="/compare/vapi-vs-retell" label="Compare frameworks" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CategoryItem({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        padding: "6px 8px",
+        borderRadius: 4,
+        fontSize: 13,
+        color: "var(--fg-2)",
+        textDecoration: "none",
+        fontFamily: "var(--font-sans)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = "var(--bg-surface-2)";
+        e.currentTarget.style.color = "var(--fg-1)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = "transparent";
+        e.currentTarget.style.color = "var(--fg-2)";
+      }}
+    >
+      {label}
+    </Link>
   );
 }

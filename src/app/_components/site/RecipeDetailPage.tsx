@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { CopyBlock } from "./CopyBlock";
 import { Icon } from "./Icon";
+import { VendorLogo, pickLogo } from "./VendorLogo";
 import type { Recipe, RecipeBadge } from "~/types/recipe";
 
 const BADGE_STYLES: Record<RecipeBadge, { bg: string; border: string; color: string }> = {
@@ -85,14 +86,18 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
           <span
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: 10,
-              padding: "1px 6px",
+              fontSize: 11,
+              padding: "3px 8px",
               borderRadius: 3,
               color: "var(--fg-2)",
               border: "1px solid var(--border-default)",
               background: "var(--bg-surface-2)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
             }}
           >
+            <VendorLogo name={recipe.framework} height={13} />
             {recipe.framework}
           </span>
           {badge && (
@@ -234,7 +239,48 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
       >
         <DetailMetric label="latency" value={recipe.metrics.latency} />
         <DetailMetric label="cost / min" value={recipe.metrics.cost_per_minute} border />
-        <DetailMetric label="framework" value={recipe.framework} border />
+        <div
+          style={{
+            padding: 14,
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            borderLeft: "1px solid var(--border-default)",
+            background: "var(--bg-surface-1)",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--fg-3)",
+              fontWeight: 600,
+            }}
+          >
+            framework
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              color: "var(--fg-1)",
+            }}
+          >
+            <VendorLogo name={recipe.framework} height={20} />
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: 18,
+                fontWeight: 500,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {recipe.framework}
+            </span>
+          </span>
+        </div>
       </div>
 
       <Section label="Pipeline">
@@ -251,50 +297,62 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             rowGap: 12,
           }}
         >
-          {steps.map((s, i) => (
-            <Fragment key={s.label}>
-              <div
-                style={{
-                  border: "1px solid var(--border-strong)",
-                  borderRadius: 4,
-                  padding: "8px 12px",
-                  background: "var(--bg-surface-2)",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: 2,
-                  minWidth: 130,
-                }}
-              >
-                <span
+          {steps.map((s, i) => {
+            const hasLogo = pickLogo(s.value) !== null;
+            return (
+              <Fragment key={s.label}>
+                <div
                   style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    color: "var(--fg-3)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
+                    border: "1px solid var(--border-strong)",
+                    borderRadius: 4,
+                    padding: "8px 12px",
+                    background: "var(--bg-surface-2)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: 4,
+                    minWidth: 130,
                   }}
                 >
-                  {s.label}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: 13,
-                    color: "var(--fg-1)",
-                    fontWeight: 500,
-                  }}
-                >
-                  {s.value}
-                </span>
-              </div>
-              {i < steps.length - 1 && (
-                <div style={{ color: "var(--fg-4)" }}>
-                  <Icon name="arrow-right" size={14} />
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 10,
+                      color: "var(--fg-3)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      color: "var(--fg-1)",
+                    }}
+                  >
+                    {hasLogo && <VendorLogo name={s.value} height={14} />}
+                    <span
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: 13,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {s.value}
+                    </span>
+                  </span>
                 </div>
-              )}
-            </Fragment>
-          ))}
+                {i < steps.length - 1 && (
+                  <div style={{ color: "var(--fg-4)" }}>
+                    <Icon name="arrow-right" size={14} />
+                  </div>
+                )}
+              </Fragment>
+            );
+          })}
         </div>
       </Section>
 

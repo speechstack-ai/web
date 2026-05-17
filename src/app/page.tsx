@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AfterItems, HOME_FAQ } from "~/app/_components/site/AfterItems";
 import { Directory } from "~/app/_components/site/Directory";
 import { getRecipes } from "~/utils/getRecipes";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "~/utils/site";
@@ -54,6 +55,16 @@ export default function Home() {
     },
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: HOME_FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
   return (
     <>
       <script
@@ -64,7 +75,12 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <Directory recipes={recipes} />
+      <AfterItems />
     </>
   );
 }

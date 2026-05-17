@@ -1,11 +1,24 @@
 "use client";
 
 import { Icon } from "./Icon";
+import { NewsletterForm } from "./NewsletterForm";
+import { VendorLogo } from "./VendorLogo";
 
 type HeroProps = {
   query: string;
   setQuery: (q: string) => void;
 };
+
+const VENDOR_STRIP = [
+  "Vapi",
+  "Retell",
+  "LiveKit",
+  "Pipecat",
+  "Bland",
+  "Deepgram",
+  "Cartesia",
+  "ElevenLabs",
+];
 
 export function Hero({ query, setQuery }: HeroProps) {
   return (
@@ -61,17 +74,23 @@ export function Hero({ query, setQuery }: HeroProps) {
               maxWidth: 480,
             }}
           >
-            Curated recipes across{" "}
-            {(["Vapi", "Retell", "LiveKit", "Cartesia", "Pipecat", "ElevenLabs", "Bland"] as const).map(
-              (name, i, arr) => (
-                <span key={name}>
-                  <span style={{ color: "var(--fg-1)", fontWeight: 500 }}>{name}</span>
-                  {i < arr.length - 1 ? ", " : ""}
-                </span>
-              ),
-            )}{" "}
-            and the rest. STT, LLM, TTS, and glue.
+            Curated recipes across the modern voice AI stack — STT, LLM, TTS, telephony, and the
+            glue.
           </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 22,
+              flexWrap: "wrap",
+              color: "var(--fg-3)",
+              minHeight: 22,
+            }}
+          >
+            {VENDOR_STRIP.map((name) => (
+              <VendorLogo key={name} name={name} height={18} />
+            ))}
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
             <div
               style={{
@@ -115,7 +134,8 @@ export function Hero({ query, setQuery }: HeroProps) {
                 ⌘K
               </span>
             </div>
-            <button
+            <a
+              href="#recipes"
               style={{
                 padding: "10px 16px",
                 borderRadius: 6,
@@ -126,10 +146,16 @@ export function Hero({ query, setQuery }: HeroProps) {
                 fontWeight: 500,
                 fontFamily: "var(--font-sans)",
                 cursor: "pointer",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
               }}
             >
               Browse all
-            </button>
+            </a>
+          </div>
+          <div style={{ maxWidth: 460, width: "100%" }}>
+            <NewsletterForm size="md" />
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
+import { Footer } from "~/app/_components/site/Footer";
 import { SiteShell } from "~/app/_components/site/SiteShell";
 import { TRPCReactProvider } from "~/trpc/react";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "~/utils/site";
@@ -81,7 +82,7 @@ export default function RootLayout({
     <html lang="en" className={`${fontSans.variable} ${fontMono.variable}`}>
       <body>
         <TRPCReactProvider>
-          <SiteShell>{children}</SiteShell>
+          <SiteShell footer={<Footer />}>{children}</SiteShell>
         </TRPCReactProvider>
       </body>
     </html>

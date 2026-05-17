@@ -8,7 +8,6 @@ import {
   type ReactNode,
 } from "react";
 import { Nav } from "./Nav";
-import { Footer } from "./Footer";
 
 type Theme = "dark" | "light";
 
@@ -25,7 +24,12 @@ export function useSiteShell(): SiteShellContextValue {
   return ctx;
 }
 
-export function SiteShell({ children }: { children: ReactNode }) {
+type SiteShellProps = {
+  children: ReactNode;
+  footer: ReactNode;
+};
+
+export function SiteShell({ children, footer }: SiteShellProps) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
@@ -62,7 +66,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       >
         <Nav theme={theme} onTheme={toggleTheme} />
         <div style={{ flex: 1 }}>{children}</div>
-        <Footer />
+        {footer}
       </div>
     </SiteShellContext.Provider>
   );

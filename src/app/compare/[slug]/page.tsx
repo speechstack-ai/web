@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Icon } from "~/app/_components/site/Icon";
+import { VendorLogo, pickLogo } from "~/app/_components/site/VendorLogo";
 import {
   FRAMEWORKS,
   parseLatencyMs,
@@ -151,9 +152,21 @@ export default async function Page({
             letterSpacing: "-0.025em",
             lineHeight: 1.05,
             color: "var(--fg-1)",
+            display: "flex",
+            alignItems: "center",
+            gap: 16,
+            flexWrap: "wrap",
           }}
         >
-          {a} <span style={{ color: "var(--fg-4)" }}>vs</span> {b}
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+            <VendorLogo name={a} height={40} />
+            {a}
+          </span>
+          <span style={{ color: "var(--fg-4)", fontWeight: 400 }}>vs</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+            <VendorLogo name={b} height={40} />
+            {b}
+          </span>
         </h1>
         <p
           style={{
@@ -183,8 +196,8 @@ export default async function Page({
         }}
       >
         <StatHeader label="" />
-        <StatHeader label={a} accent />
-        <StatHeader label={b} accent />
+        <StatHeader label={a} accent withLogo />
+        <StatHeader label={b} accent withLogo />
 
         <StatLabel>Recipes indexed</StatLabel>
         <StatValue mono>{aStats.count}</StatValue>
@@ -252,7 +265,16 @@ export default async function Page({
   );
 }
 
-function StatHeader({ label, accent }: { label: string; accent?: boolean }) {
+function StatHeader({
+  label,
+  accent,
+  withLogo,
+}: {
+  label: string;
+  accent?: boolean;
+  withLogo?: boolean;
+}) {
+  const showLogo = withLogo && label && pickLogo(label) !== null;
   return (
     <div
       style={{
@@ -265,8 +287,12 @@ function StatHeader({ label, accent }: { label: string; accent?: boolean }) {
         letterSpacing: "0.08em",
         color: accent ? "var(--fg-1)" : "var(--fg-3)",
         fontWeight: 600,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
       }}
     >
+      {showLogo && <VendorLogo name={label} height={14} />}
       {label}
     </div>
   );
@@ -325,8 +351,12 @@ function FrameworkColumn({
           textTransform: "uppercase",
           color: "var(--fg-3)",
           fontWeight: 600,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
         }}
       >
+        <VendorLogo name={framework} height={12} />
         Top {framework} recipes
       </span>
       {recipes.length === 0 ? (
