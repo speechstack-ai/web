@@ -14,19 +14,29 @@ type LogoSlug =
   | "anthropic"
   | "twilio";
 
-const LOGO_META: Record<LogoSlug, { aspect: number; label: string }> = {
-  vapi: { aspect: 512 / 280, label: "Vapi" },
-  retell: { aspect: 72 / 20, label: "Retell" },
-  livekit: { aspect: 1, label: "LiveKit" },
-  pipecat: { aspect: 1, label: "Pipecat" },
-  bland: { aspect: 1440 / 493, label: "Bland" },
-  deepgram: { aspect: 1, label: "Deepgram" },
-  assemblyai: { aspect: 31.8962 / 27.8708, label: "AssemblyAI" },
-  cartesia: { aspect: 72 / 24, label: "Cartesia" },
-  elevenlabs: { aspect: 1, label: "ElevenLabs" },
-  openai: { aspect: 1, label: "OpenAI" },
-  anthropic: { aspect: 1, label: "Anthropic" },
-  twilio: { aspect: 1, label: "Twilio" },
+export type LogoVariant = "lockup" | "mark";
+
+type LogoMeta = {
+  label: string;
+  /** Aspect ratios (width / height) for each variant. */
+  aspect: Record<LogoVariant, number>;
+  /** When false, mark requests fall back to the lockup file. */
+  hasMark: boolean;
+};
+
+const LOGO_META: Record<LogoSlug, LogoMeta> = {
+  vapi:       { label: "Vapi",       aspect: { lockup: 676 / 192,         mark: 750 / 380 },         hasMark: true  },
+  retell:     { label: "Retell",     aspect: { lockup: 659 / 227,         mark: 1 },                 hasMark: true  },
+  livekit:    { label: "LiveKit",    aspect: { lockup: 1,                 mark: 1 },                 hasMark: true  },
+  pipecat:    { label: "Pipecat",    aspect: { lockup: 1,                 mark: 1 },                 hasMark: true  },
+  bland:      { label: "Bland",      aspect: { lockup: 1278 / 358,        mark: 276 / 349 },         hasMark: true  },
+  deepgram:   { label: "Deepgram",   aspect: { lockup: 694 / 90,          mark: 1 },                 hasMark: true  },
+  assemblyai: { label: "AssemblyAI", aspect: { lockup: 120.243 / 19.7034, mark: 31.8962 / 27.8708 }, hasMark: true  },
+  cartesia:   { label: "Cartesia",   aspect: { lockup: 734 / 164,         mark: 1 },                 hasMark: true  },
+  elevenlabs: { label: "ElevenLabs", aspect: { lockup: 146 / 32,          mark: 1 },                 hasMark: true  },
+  openai:     { label: "OpenAI",     aspect: { lockup: 1,                 mark: 1 },                 hasMark: true  },
+  anthropic:  { label: "Anthropic",  aspect: { lockup: 1,                 mark: 1 },                 hasMark: true  },
+  twilio:     { label: "Twilio",     aspect: { lockup: 1,                 mark: 1 },                 hasMark: true  },
 };
 
 /** Maps any free-form vendor / pipeline string to a logo slug, or null when we don't have an asset. */
@@ -39,11 +49,9 @@ export function pickLogo(name: string): LogoSlug | null {
   if (n.startsWith("bland")) return "bland";
   if (n.startsWith("deepgram")) return "deepgram";
   if (n.startsWith("assemblyai")) return "assemblyai";
-  // OpenAI products
   if (n.startsWith("whisper") || n.startsWith("gpt-") || n.startsWith("gpt ") || n.startsWith("openai")) {
     return "openai";
   }
-  // Anthropic products
   if (n.startsWith("claude") || n.startsWith("anthropic")) return "anthropic";
   if (n.startsWith("cartesia")) return "cartesia";
   if (n.startsWith("elevenlabs") || n.startsWith("eleven labs")) return "elevenlabs";
@@ -56,7 +64,9 @@ type VendorLogoProps = {
   name: string;
   /** Rendered height in px. Width is computed from intrinsic aspect ratio. */
   height?: number;
-  /** Optional accessible name override; defaults to the canonical label for the slug, or the raw name. */
+  /** Which representation to render. `mark` is the icon only; `lockup` is the full wordmark (or wordmark+icon). */
+  variant?: LogoVariant;
+  /** Optional accessible name override; defaults to the canonical label for the slug. */
   title?: string;
   /** Optional CSS override. */
   style?: CSSProperties;
@@ -66,12 +76,15 @@ type VendorLogoProps = {
  * Renders the vendor logo with currentColor tinting (via CSS mask).
  * Returns null when no logo asset is available — callers can render text fallback.
  */
-export function VendorLogo({ name, height = 14, title, style }: VendorLogoProps) {
+export function VendorLogo({ name, height = 14, variant = "mark", title, style }: VendorLogoProps) {
   const slug = pickLogo(name);
   if (!slug) return null;
   const meta = LOGO_META[slug];
-  const width = Math.max(1, Math.round(height * meta.aspect));
-  const url = `url(/brand/vendors/${slug}.svg)`;
+  const useMark = variant === "mark" && meta.hasMark;
+  const aspect = useMark ? meta.aspect.mark : meta.aspect.lockup;
+  const width = Math.max(1, Math.round(height * aspect));
+  const file = useMark ? `${slug}-mark.svg` : `${slug}.svg`;
+  const url = `url(/brand/vendors/${file})`;
   return (
     <span
       role="img"
@@ -106,13 +119,15 @@ export function VendorMark({
   name,
   height = 14,
   fontSize = 11,
+  variant = "mark",
 }: {
   name: string;
   height?: number;
   fontSize?: number;
+  variant?: LogoVariant;
 }) {
   const slug = pickLogo(name);
-  if (slug) return <VendorLogo name={name} height={height} />;
+  if (slug) return <VendorLogo name={name} height={height} variant={variant} />;
   return (
     <span
       style={{
