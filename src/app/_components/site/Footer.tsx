@@ -49,6 +49,7 @@ export function Footer() {
           </FooterColumn>
           <FooterColumn label="About">
             <FooterLink href="/about">About</FooterLink>
+            <FooterLink href="mailto:hello@speechstack.com">Contact</FooterLink>
             <FooterLink href="/sponsors">Sponsors</FooterLink>
             <FooterLink href="/press">Press kit</FooterLink>
             <FooterLink href="/llms.txt">llms.txt</FooterLink>
