@@ -16,10 +16,10 @@ const PLACEHOLDER_PRICING: PricingBand = "$$";
 export const metadata: Metadata = {
   title: STACK_TITLE,
   description: STACK_SUBHEAD,
-  alternates: { canonical: "/stack" },
+  alternates: { canonical: "/tools" },
   openGraph: {
     type: "website",
-    url: `${SITE_URL}/stack`,
+    url: `${SITE_URL}/tools`,
     siteName: SITE_NAME,
     title: `${STACK_TITLE} · ${SITE_NAME}`,
     description: STACK_SUBHEAD,
@@ -188,7 +188,7 @@ function LayerSection({ layer }: { layer: Layer }) {
     >
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 896,
           margin: "0 auto",
           padding: "40px 32px",
           display: "flex",

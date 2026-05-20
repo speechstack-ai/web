@@ -43,24 +43,18 @@ export function Footer() {
         >
           <FooterColumn label="Library">
             <FooterLink href="/templates">Templates</FooterLink>
-            <FooterLink href="/stack">Stack</FooterLink>
-            <FooterLink href="/compare">Compare</FooterLink>
+            <FooterLink href="/tools">Tools</FooterLink>
             <FooterLink href="/submit">Submit</FooterLink>
           </FooterColumn>
           <FooterColumn label="About">
             <FooterLink href="/about">About</FooterLink>
-            <FooterLink href="mailto:hello@speechstack.com">Contact</FooterLink>
             <FooterLink href="/sponsors">Sponsors</FooterLink>
-            <FooterLink href="/press">Press kit</FooterLink>
             <FooterLink href="/llms.txt">llms.txt</FooterLink>
           </FooterColumn>
           <FooterColumn label="Build">
             <FooterLink href="https://github.com/speechstack-ai/recipes" external>
               GitHub
             </FooterLink>
-            <FooterLink href="/schema">Schema</FooterLink>
-            <FooterLink href="/contributors">Contributors</FooterLink>
-            <FooterLink href="/changelog">Changelog</FooterLink>
           </FooterColumn>
         </div>
 
