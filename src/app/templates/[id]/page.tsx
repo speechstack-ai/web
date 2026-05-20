@@ -31,7 +31,7 @@ export async function generateMetadata({
   const recipe = getRecipeById(id);
   if (!recipe) return { title: `Recipe not found · ${SITE_NAME}` };
 
-  const url = `${SITE_URL}/recipes/${recipe.id}`;
+  const url = `${SITE_URL}/templates/${recipe.id}`;
   const title = `${recipe.title} · ${SITE_NAME}`;
   return {
     title,
@@ -64,7 +64,7 @@ export default async function Page({
   const recipe = getRecipeById(id);
   if (!recipe) notFound();
 
-  const url = `${SITE_URL}/recipes/${recipe.id}`;
+  const url = `${SITE_URL}/templates/${recipe.id}`;
   const keywords = [
     "voice AI",
     recipe.framework,
@@ -89,7 +89,7 @@ export default async function Page({
     description: recipe.description,
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    image: `${SITE_URL}/recipes/${recipe.id}/opengraph-image`,
+    image: `${SITE_URL}/templates/${recipe.id}/opengraph-image`,
     datePublished: recipe.created_at,
     dateModified: recipe.updated_at,
     inLanguage: recipe.languages,

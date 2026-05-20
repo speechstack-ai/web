@@ -23,7 +23,7 @@ const fontMono = localFont({
 });
 
 const OG_DESCRIPTION =
-  "Forkable voice AI templates with the stack, the prompt, the config, and the unit economics. Cost/min and p50 latency published.";
+  "Pick a stack, copy the prompts and configs, ship the agent this week. Vendor-neutral across Vapi, Retell, LiveKit, Cartesia, Deepgram.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
