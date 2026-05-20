@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Fragment, useState } from "react";
-import { VendorLogo, pickLogo } from "./VendorLogo";
+import { Tooltip } from "./Tooltip";
+import { VendorLogo, pickLogo, vendorLabel } from "./VendorLogo";
 import { displayBadge, type DisplayBadge, type Recipe } from "~/types/recipe";
 
 type RecipeGridProps = {
@@ -81,27 +82,31 @@ function TechBadges({ recipe }: { recipe: Recipe }) {
         flexShrink: 0,
       }}
     >
-      {slugs.map((s) => (
-        <Fragment key={s.slug}>
-          <span
-            style={{
-              width: 22,
-              height: 22,
-              borderRadius: 4,
-              background: "var(--bg-surface-2)",
-              border: "1px solid var(--border-default)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "var(--fg-2)",
-            }}
-            title={s.name}
-            aria-label={s.name}
-          >
-            <VendorLogo name={s.name} height={12} />
-          </span>
-        </Fragment>
-      ))}
+      {slugs.map((s) => {
+        const label = vendorLabel(s.name) ?? s.name;
+        return (
+          <Fragment key={s.slug}>
+            <Tooltip label={label}>
+              <span
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: 4,
+                  background: "var(--bg-surface-2)",
+                  border: "1px solid var(--border-default)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--fg-2)",
+                }}
+                aria-label={label}
+              >
+                <VendorLogo name={s.name} height={12} />
+              </span>
+            </Tooltip>
+          </Fragment>
+        );
+      })}
     </div>
   );
 }

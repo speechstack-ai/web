@@ -15,19 +15,25 @@ type LogoSlug =
   | "twilio";
 
 const LOGO_META: Record<LogoSlug, { aspect: number; label: string }> = {
-  vapi: { aspect: 512 / 280, label: "Vapi" },
-  retell: { aspect: 72 / 20, label: "Retell" },
+  vapi: { aspect: 1, label: "Vapi" },
+  retell: { aspect: 1, label: "Retell" },
   livekit: { aspect: 1, label: "LiveKit" },
   pipecat: { aspect: 1, label: "Pipecat" },
-  bland: { aspect: 1440 / 493, label: "Bland" },
+  bland: { aspect: 110.299 / 28, label: "Bland" },
   deepgram: { aspect: 1, label: "Deepgram" },
   assemblyai: { aspect: 31.8962 / 27.8708, label: "AssemblyAI" },
-  cartesia: { aspect: 72 / 24, label: "Cartesia" },
+  cartesia: { aspect: 1, label: "Cartesia" },
   elevenlabs: { aspect: 1, label: "ElevenLabs" },
   openai: { aspect: 1, label: "OpenAI" },
   anthropic: { aspect: 1, label: "Anthropic" },
   twilio: { aspect: 1, label: "Twilio" },
 };
+
+/** Canonical brand label (e.g. "OpenAI", "Anthropic") for a free-form vendor / pipeline string, or null. */
+export function vendorLabel(name: string): string | null {
+  const slug = pickLogo(name);
+  return slug ? LOGO_META[slug].label : null;
+}
 
 /** Maps any free-form vendor / pipeline string to a logo slug, or null when we don't have an asset. */
 export function pickLogo(name: string): LogoSlug | null {

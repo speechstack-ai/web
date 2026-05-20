@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { CopyBlock } from "./CopyBlock";
 import { Icon } from "./Icon";
-import { VendorLogo, pickLogo } from "./VendorLogo";
+import { Tooltip } from "./Tooltip";
+import { VendorLogo, pickLogo, vendorLabel } from "./VendorLogo";
 import {
   displayBadge,
   formatCost,
@@ -37,9 +38,9 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
 
   const steps: { label: string; value: string }[] = [];
   if (recipe.pipeline.telephony) steps.push({ label: "telephony", value: recipe.pipeline.telephony });
-  steps.push({ label: "stt", value: recipe.pipeline.stt });
+  steps.push({ label: "speech-to-text", value: recipe.pipeline.stt });
   steps.push({ label: "llm", value: recipe.pipeline.llm });
-  steps.push({ label: "tts", value: recipe.pipeline.tts });
+  steps.push({ label: "text-to-speech", value: recipe.pipeline.tts });
 
   const configJson = JSON.stringify(recipe.config ?? {}, null, 2);
   const tools = recipe.config?.tools ?? [];
@@ -368,7 +369,11 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
                       color: "var(--fg-1)",
                     }}
                   >
-                    {hasLogo && <VendorLogo name={s.value} height={14} />}
+                    {hasLogo && (
+                      <Tooltip label={vendorLabel(s.value) ?? s.value}>
+                        <VendorLogo name={s.value} height={14} />
+                      </Tooltip>
+                    )}
                     <span
                       style={{
                         fontFamily: "var(--font-sans)",
