@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Icon } from "./Icon";
 
 export function AfterItems() {
@@ -42,7 +43,7 @@ function SubmitBlock() {
             fontWeight: 600,
           }}
         >
-          Got a recipe?
+          Built a stack worth forking?
         </span>
         <h2
           style={{
@@ -54,17 +55,14 @@ function SubmitBlock() {
             color: "var(--fg-1)",
           }}
         >
-          Add yours to the directory.
+          Open a PR or drop it in the form.
         </h2>
         <p style={{ margin: 0, fontSize: 14, color: "var(--fg-2)", lineHeight: 1.55 }}>
-          Open-source agent stacks only. We review weekly and publish anything
-          reproducible.
+          Both land in the same queue.
         </p>
       </div>
-      <a
-        href="https://github.com/speechstack-ai/recipes"
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/submit"
         style={{
           padding: "10px 18px",
           background: "var(--accent)",
@@ -78,9 +76,9 @@ function SubmitBlock() {
           gap: 6,
         }}
       >
-        Submit a recipe
+        Submit a template
         <Icon name="arrow-right" size={13} />
-      </a>
+      </Link>
     </section>
   );
 }

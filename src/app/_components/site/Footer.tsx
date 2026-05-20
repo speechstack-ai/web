@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BrandMark } from "./Icon";
 
 export function Footer() {
@@ -13,10 +14,10 @@ export function Footer() {
         style={{
           maxWidth: 896,
           margin: "0 auto",
-          padding: "32px 32px 24px",
+          padding: "40px 32px 28px",
           display: "flex",
           flexDirection: "column",
-          gap: 12,
+          gap: 32,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -32,17 +33,45 @@ export function Footer() {
             SpeechStack
           </span>
         </div>
-        <span style={{ fontSize: 13, color: "var(--fg-3)", lineHeight: 1.55, maxWidth: 480 }}>
-          A curated directory of voice AI agent recipes. Independent. Not affiliated with any
-          vendor.
-        </span>
-        <div style={{ display: "flex", gap: 8 }}>
-          <FooterLink href="https://github.com/speechstack-ai/recipes">Submit</FooterLink>
-          <span style={{ color: "var(--fg-4)" }}>·</span>
-          <FooterLink href="https://github.com/speechstack-ai/recipes">GitHub</FooterLink>
-          <span style={{ color: "var(--fg-4)" }}>·</span>
-          <FooterLink href="https://twitter.com/speechstack">@speechstack</FooterLink>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+            gap: 32,
+          }}
+        >
+          <FooterColumn label="Library">
+            <FooterLink href="/templates">Templates</FooterLink>
+            <FooterLink href="/stack">Stack</FooterLink>
+            <FooterLink href="/compare">Compare</FooterLink>
+            <FooterLink href="/submit">Submit</FooterLink>
+          </FooterColumn>
+          <FooterColumn label="About">
+            <FooterLink href="/about">About</FooterLink>
+            <FooterLink href="/sponsors">Sponsors</FooterLink>
+            <FooterLink href="/press">Press kit</FooterLink>
+            <FooterLink href="/llms.txt">llms.txt</FooterLink>
+          </FooterColumn>
+          <FooterColumn label="Build">
+            <FooterLink href="https://github.com/speechstack-ai/recipes" external>
+              GitHub
+            </FooterLink>
+            <FooterLink href="/schema">Schema</FooterLink>
+            <FooterLink href="/contributors">Contributors</FooterLink>
+            <FooterLink href="/changelog">Changelog</FooterLink>
+          </FooterColumn>
         </div>
+
+        <span
+          style={{
+            fontSize: 13,
+            color: "var(--fg-3)",
+            lineHeight: 1.55,
+          }}
+        >
+          Latency, cost, stack. On every template.
+        </span>
       </div>
 
       <div style={{ borderTop: "1px solid var(--border-subtle)" }}>
@@ -59,7 +88,7 @@ export function Footer() {
             color: "var(--fg-3)",
           }}
         >
-          <span>© 2026 SpeechStack · independent voice AI directory</span>
+          <span>© 2026 SpeechStack</span>
           <span>
             Made by{" "}
             <a
@@ -77,26 +106,56 @@ export function Footer() {
   );
 }
 
-function FooterLink({
-  href,
+function FooterColumn({
+  label,
   children,
 }: {
-  href: string;
+  label: string;
   children: React.ReactNode;
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        fontSize: 13,
-        color: "var(--fg-2)",
-        textDecoration: "none",
-        lineHeight: 1.4,
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <span
+        style={{
+          fontSize: 11,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "var(--fg-3)",
+          fontWeight: 600,
+        }}
+      >
+        {label}
+      </span>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>{children}</div>
+    </div>
+  );
+}
+
+function FooterLink({
+  href,
+  children,
+  external = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  external?: boolean;
+}) {
+  const style = {
+    fontSize: 13,
+    color: "var(--fg-2)",
+    textDecoration: "none",
+    lineHeight: 1.4,
+  } as const;
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={style}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} style={style}>
       {children}
-    </a>
+    </Link>
   );
 }

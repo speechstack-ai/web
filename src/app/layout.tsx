@@ -22,16 +22,20 @@ const fontMono = localFont({
   weight: "100 900",
 });
 
+const OG_DESCRIPTION =
+  "Forkable voice AI templates with the stack, the prompt, the config, and the unit economics. Cost/min and p50 latency published.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — the voice AI directory`,
+    default: `${SITE_NAME} — Voice AI Stack Library`,
     template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
     "voice AI",
+    "voice AI stack",
     "voice agents",
     "Vapi",
     "Retell",
@@ -51,7 +55,7 @@ export const metadata: Metadata = {
     types: {
       "text/markdown": [
         { url: "/llms.txt", title: "LLM-friendly index" },
-        { url: "/llms-full.txt", title: "Full recipe content for LLMs" },
+        { url: "/llms-full.txt", title: "Full template content for LLMs" },
       ],
     },
   },
@@ -64,13 +68,13 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — the voice AI directory`,
-    description: SITE_DESCRIPTION,
+    title: `${SITE_NAME} — Voice AI Stack Library`,
+    description: OG_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — the voice AI directory`,
-    description: SITE_DESCRIPTION,
+    title: `${SITE_NAME} — Voice AI Stack Library`,
+    description: OG_DESCRIPTION,
   },
 };
 

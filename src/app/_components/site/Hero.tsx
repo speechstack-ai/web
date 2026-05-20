@@ -25,7 +25,7 @@ export function Hero() {
             fontWeight: 600,
           }}
         >
-          The voice AI directory
+          Voice AI Stack Library
         </span>
         <h1
           style={{
@@ -37,7 +37,7 @@ export function Hero() {
             color: "var(--fg-1)",
           }}
         >
-          Find the right voice AI stack.
+          Every voice AI stack, in one place.
         </h1>
         <p
           style={{
@@ -47,18 +47,8 @@ export function Hero() {
             color: "var(--fg-2)",
           }}
         >
-          Open-source recipes for voice AI engineers. Each one shows the STT, LLM, TTS,
-          and telephony layers plus the system prompt and config.
-        </p>
-        <p
-          style={{
-            margin: 0,
-            fontSize: 14,
-            lineHeight: 1.6,
-            color: "var(--fg-3)",
-          }}
-        >
-          Most voice AI comparison sites are vendor pages dressed up. This isn&rsquo;t.
+          Forkable templates with the stack, the prompt, the config, and the unit
+          economics &mdash; every cost-per-minute and p50 latency published.
         </p>
       </div>
     </section>

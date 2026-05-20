@@ -45,6 +45,19 @@ export function Nav({ theme, onTheme }: NavProps) {
           <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em" }}>SpeechStack</span>
         </Link>
 
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 18,
+            marginLeft: 8,
+          }}
+        >
+          <NavLink href="/templates">Templates</NavLink>
+          <NavLink href="/stack">Stack</NavLink>
+          <NavLink href="/submit">Submit</NavLink>
+        </nav>
+
         <div style={{ flex: 1 }} />
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -111,33 +124,31 @@ export function Nav({ theme, onTheme }: NavProps) {
           >
             <Icon name="github" size={16} />
           </a>
-          <a
-            href="https://github.com/speechstack-ai/recipes"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: "7px 14px",
-              borderRadius: 4,
-              background: "var(--accent)",
-              color: "#fff",
-              border: "none",
-              fontSize: 13,
-              fontWeight: 500,
-              fontFamily: "var(--font-sans)",
-              cursor: "pointer",
-              transition: "background 120ms var(--ease-out)",
-              whiteSpace: "nowrap",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--accent-hover)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--accent)")}
-          >
-            Submit recipe
-          </a>
         </div>
       </div>
     </header>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        fontSize: 13,
+        fontWeight: 500,
+        color: "var(--fg-2)",
+        textDecoration: "none",
+        transition: "color 120ms var(--ease-out)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.color = "var(--fg-1)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.color = "var(--fg-2)";
+      }}
+    >
+      {children}
+    </Link>
   );
 }

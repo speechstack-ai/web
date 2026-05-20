@@ -7,21 +7,26 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "~/utils/site";
 
 export const dynamic = "force-static";
 
+const HOME_TITLE = `${SITE_NAME} — Every voice AI stack, in one place.`;
+const HOME_OG_TITLE = `${SITE_NAME} — Voice AI Stack Library`;
+const HOME_OG_DESCRIPTION =
+  "Forkable voice AI templates with the stack, the prompt, the config, and the unit economics. Cost/min and p50 latency published.";
+
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — the voice AI directory`,
+  title: HOME_TITLE,
   description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — the voice AI directory`,
-    description: SITE_DESCRIPTION,
+    title: HOME_OG_TITLE,
+    description: HOME_OG_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — the voice AI directory`,
-    description: SITE_DESCRIPTION,
+    title: HOME_OG_TITLE,
+    description: HOME_OG_DESCRIPTION,
   },
 };
 
@@ -31,7 +36,7 @@ export default function Home() {
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Voice AI recipes",
+    name: "Voice AI templates",
     description: SITE_DESCRIPTION,
     numberOfItems: recipes.length,
     itemListElement: recipes.map((r, i) => ({
