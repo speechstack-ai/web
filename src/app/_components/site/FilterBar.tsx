@@ -1,245 +1,133 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "./Icon";
-import {
-  FRAMEWORKS,
-  STT_ENGINES,
-  TTS_ENGINES,
-  type Framework,
-  type Recipe,
-  type STTEngine,
-  type TTSEngine,
-} from "~/types/recipe";
+import { VendorLogo, pickLogo } from "./VendorLogo";
+import type { Recipe } from "~/types/recipe";
 
-type FilterBarProps = {
-  recipes: Recipe[];
-  activeFramework: Framework | "all";
-  setActiveFramework: (f: Framework | "all") => void;
-  activeStt: STTEngine[];
-  toggleStt: (s: STTEngine) => void;
-  activeTts: TTSEngine[];
-  toggleTts: (t: TTSEngine) => void;
-  maxLatency: number;
-  setMaxLatency: (n: number) => void;
-  onClearAll: () => void;
-  hasFilters: boolean;
+export type TechCategory = "framework" | "stt" | "llm" | "tts" | "telephony";
+
+export type TechSelection = Record<TechCategory, string[]>;
+
+export const EMPTY_TECH_SELECTION: TechSelection = {
+  framework: [],
+  stt: [],
+  llm: [],
+  tts: [],
+  telephony: [],
 };
 
-export function FilterBar({
+const CATEGORY_LABELS: Record<TechCategory, string> = {
+  framework: "Framework",
+  stt: "STT",
+  llm: "LLM",
+  tts: "TTS",
+  telephony: "Telephony",
+};
+
+const CATEGORY_ORDER: TechCategory[] = ["framework", "stt", "llm", "tts", "telephony"];
+
+function pipelineValue(r: Recipe, c: TechCategory): string | null {
+  switch (c) {
+    case "framework":
+      return r.framework;
+    case "stt":
+      return r.pipeline.stt;
+    case "llm":
+      return r.pipeline.llm;
+    case "tts":
+      return r.pipeline.tts;
+    case "telephony":
+      return r.pipeline.telephony ?? null;
+  }
+}
+
+function collectOptions(recipes: Recipe[]): Record<TechCategory, string[]> {
+  const out: Record<TechCategory, Set<string>> = {
+    framework: new Set(),
+    stt: new Set(),
+    llm: new Set(),
+    tts: new Set(),
+    telephony: new Set(),
+  };
+  for (const r of recipes) {
+    for (const c of CATEGORY_ORDER) {
+      const v = pipelineValue(r, c);
+      if (v) out[c].add(v);
+    }
+  }
+  return Object.fromEntries(
+    CATEGORY_ORDER.map((c) => [c, Array.from(out[c]).sort((a, b) => a.localeCompare(b))]),
+  ) as Record<TechCategory, string[]>;
+}
+
+export function matchesTechSelection(r: Recipe, sel: TechSelection): boolean {
+  for (const c of CATEGORY_ORDER) {
+    if (sel[c].length === 0) continue;
+    const v = pipelineValue(r, c);
+    if (!v || !sel[c].includes(v)) return false;
+  }
+  return true;
+}
+
+type SearchAndFilterProps = {
+  recipes: Recipe[];
+  query: string;
+  setQuery: (q: string) => void;
+  selected: TechSelection;
+  setSelected: (next: TechSelection) => void;
+};
+
+export function SearchAndFilter({
   recipes,
-  activeFramework,
-  setActiveFramework,
-  activeStt,
-  toggleStt,
-  activeTts,
-  toggleTts,
-  maxLatency,
-  setMaxLatency,
-  onClearAll,
-  hasFilters,
-}: FilterBarProps) {
-  const hasAdvanced = activeStt.length > 0 || activeTts.length > 0 || maxLatency < 1200;
-  const [advancedOpen, setAdvancedOpen] = useState(hasAdvanced);
-
-  const sttCount = (s: STTEngine) =>
-    recipes.filter((r) => r.pipeline.stt.toLowerCase().includes(s.toLowerCase())).length;
-  const ttsCount = (t: TTSEngine) =>
-    recipes.filter((r) => r.pipeline.tts.toLowerCase().includes(t.toLowerCase())).length;
-
+  query,
+  setQuery,
+  selected,
+  setSelected,
+}: SearchAndFilterProps) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
       <div
         style={{
+          flex: 1,
           display: "flex",
           alignItems: "center",
-          gap: 6,
-          flexWrap: "wrap",
+          gap: 10,
+          background: "var(--bg-surface-1)",
+          border: "1px solid var(--border-strong)",
+          borderRadius: 6,
+          padding: "10px 14px",
         }}
       >
-        <Chip
-          label="All"
-          active={activeFramework === "all"}
-          onClick={() => setActiveFramework("all")}
-        />
-        {FRAMEWORKS.map((f) => (
-          <Chip
-            key={f}
-            label={f}
-            active={activeFramework === f}
-            onClick={() => setActiveFramework(f)}
-          />
-        ))}
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          flexWrap: "wrap",
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setAdvancedOpen((o) => !o)}
-          aria-expanded={advancedOpen}
+        <Icon name="search" size={16} style={{ color: "var(--fg-3)" }} />
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="try “realtime support”, “outbound”, “gpt-4o + cartesia”…"
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "6px 10px",
-            borderRadius: 4,
-            background: hasAdvanced ? "var(--accent-soft)" : "var(--bg-surface-1)",
-            border: `1px solid ${hasAdvanced ? "var(--accent)" : "var(--border-default)"}`,
-            color: "var(--fg-2)",
-            fontSize: 12,
+            flex: 1,
+            background: "transparent",
+            border: "none",
+            outline: "none",
+            color: "var(--fg-1)",
+            fontSize: 14,
             fontFamily: "var(--font-sans)",
-            fontWeight: 500,
-            cursor: "pointer",
           }}
-        >
-          Advanced
-          <Icon
-            name="chevron-down"
-            size={12}
-            style={{
-              color: "var(--fg-3)",
-              transform: advancedOpen ? "rotate(180deg)" : "none",
-              transition: "transform 120ms var(--ease-out)",
-            }}
-          />
-        </button>
-
-        {advancedOpen && (
-          <>
-            <Dropdown label="STT engine" activeCount={activeStt.length}>
-              <DropdownPanel>
-                {STT_ENGINES.map((s) => (
-                  <DropdownCheck
-                    key={s}
-                    label={s}
-                    count={sttCount(s)}
-                    checked={activeStt.includes(s)}
-                    onToggle={() => toggleStt(s)}
-                  />
-                ))}
-              </DropdownPanel>
-            </Dropdown>
-
-            <Dropdown label="TTS engine" activeCount={activeTts.length}>
-              <DropdownPanel>
-                {TTS_ENGINES.map((t) => (
-                  <DropdownCheck
-                    key={t}
-                    label={t}
-                    count={ttsCount(t)}
-                    checked={activeTts.includes(t)}
-                    onToggle={() => toggleTts(t)}
-                  />
-                ))}
-              </DropdownPanel>
-            </Dropdown>
-
-            <Dropdown
-              label="Max latency"
-              value={maxLatency < 1200 ? `≤ ${maxLatency}ms` : null}
-              activeCount={maxLatency < 1200 ? 1 : 0}
-            >
-              <DropdownPanel width={240}>
-                <div
-                  style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}
-                >
-                  <input
-                    type="range"
-                    min={200}
-                    max={1200}
-                    step={50}
-                    value={maxLatency}
-                    onChange={(e) => setMaxLatency(Number(e.target.value))}
-                    style={{ width: "100%", accentColor: "var(--accent)" }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 11,
-                      color: "var(--fg-3)",
-                    }}
-                  >
-                    <span>200ms</span>
-                    <span style={{ color: "var(--fg-1)" }}>≤ {maxLatency}ms</span>
-                    <span>1200ms</span>
-                  </div>
-                </div>
-              </DropdownPanel>
-            </Dropdown>
-          </>
-        )}
-
-        {hasFilters && (
-          <button
-            type="button"
-            onClick={onClearAll}
-            style={{
-              padding: "6px 10px",
-              background: "transparent",
-              border: "1px dashed var(--border-strong)",
-              borderRadius: 4,
-              color: "var(--fg-2)",
-              fontSize: 12,
-              fontFamily: "var(--font-sans)",
-              cursor: "pointer",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Icon name="close" size={11} />
-            Clear all
-          </button>
-        )}
+        />
       </div>
-
-      {hasFilters && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            flexWrap: "wrap",
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            color: "var(--fg-3)",
-          }}
-        >
-          <span style={{ marginRight: 4 }}>active:</span>
-          {activeStt.map((s) => (
-            <Tag key={`stt-${s}`} label={`stt:${s}`} onRemove={() => toggleStt(s)} />
-          ))}
-          {activeTts.map((t) => (
-            <Tag key={`tts-${t}`} label={`tts:${t}`} onRemove={() => toggleTts(t)} />
-          ))}
-          {maxLatency < 1200 && (
-            <Tag label={`≤ ${maxLatency}ms`} onRemove={() => setMaxLatency(1200)} />
-          )}
-        </div>
-      )}
+      <FilterButton recipes={recipes} selected={selected} setSelected={setSelected} />
     </div>
   );
 }
 
-function Dropdown({
-  label,
-  value,
-  activeCount,
-  children,
+function FilterButton({
+  recipes,
+  selected,
+  setSelected,
 }: {
-  label: string;
-  value?: string | null;
-  activeCount: number;
-  children: ReactNode;
+  recipes: Recipe[];
+  selected: TechSelection;
+  setSelected: (next: TechSelection) => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -260,7 +148,17 @@ function Dropdown({
     };
   }, [open]);
 
-  const isActive = activeCount > 0;
+  const options = useMemo(() => collectOptions(recipes), [recipes]);
+  const totalSelected = CATEGORY_ORDER.reduce((n, c) => n + selected[c].length, 0);
+
+  const toggle = (c: TechCategory, v: string) => {
+    const current = selected[c];
+    const next = current.includes(v) ? current.filter((x) => x !== v) : [...current, v];
+    setSelected({ ...selected, [c]: next });
+  };
+
+  const clear = () => setSelected(EMPTY_TECH_SELECTION);
+  const isActive = totalSelected > 0;
 
   return (
     <div ref={ref} style={{ position: "relative" }}>
@@ -271,25 +169,22 @@ function Dropdown({
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: 6,
-          padding: "6px 10px",
-          borderRadius: 4,
+          gap: 8,
+          padding: "10px 14px",
+          borderRadius: 6,
           background: isActive ? "var(--accent-soft)" : "var(--bg-surface-1)",
-          border: `1px solid ${isActive ? "var(--accent)" : "var(--border-default)"}`,
+          border: `1px solid ${isActive ? "var(--accent)" : "var(--border-strong)"}`,
           color: "var(--fg-1)",
-          fontSize: 13,
+          fontSize: 14,
           fontFamily: "var(--font-sans)",
           fontWeight: 500,
           cursor: "pointer",
+          whiteSpace: "nowrap",
         }}
       >
-        <span style={{ color: isActive ? "var(--accent-fg)" : "var(--fg-2)" }}>{label}</span>
-        {value && (
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--fg-1)" }}>
-            {value}
-          </span>
-        )}
-        {activeCount > 1 && (
+        <Icon name="filter" size={14} style={{ color: "var(--fg-2)" }} />
+        Filter
+        {totalSelected > 0 && (
           <span
             style={{
               fontFamily: "var(--font-mono)",
@@ -300,100 +195,111 @@ function Dropdown({
               padding: "0 6px",
               minWidth: 18,
               textAlign: "center",
+              lineHeight: "16px",
             }}
           >
-            {activeCount}
+            {totalSelected}
           </span>
         )}
-        <Icon
-          name="chevron-down"
-          size={12}
-          style={{
-            color: "var(--fg-3)",
-            transform: open ? "rotate(180deg)" : "none",
-            transition: "transform 120ms var(--ease-out)",
-          }}
-        />
       </button>
-      {open && <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 20 }}>{children}</div>}
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% + 6px)",
+            right: 0,
+            zIndex: 20,
+            width: 320,
+            maxHeight: 480,
+            overflow: "auto",
+            background: "var(--bg-surface-1)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: 6,
+            boxShadow: "var(--shadow-pop)",
+            padding: 8,
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "4px 6px 8px",
+            }}
+          >
+            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--fg-1)" }}>
+              Filter by tech
+            </span>
+            {totalSelected > 0 && (
+              <button
+                type="button"
+                onClick={clear}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "var(--fg-3)",
+                  fontSize: 12,
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                Clear all
+              </button>
+            )}
+          </div>
+          {CATEGORY_ORDER.map((c) => {
+            const opts = options[c];
+            if (opts.length === 0) return null;
+            return (
+              <div key={c} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <span
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "var(--fg-3)",
+                    fontWeight: 600,
+                    padding: "8px 6px 4px",
+                  }}
+                >
+                  {CATEGORY_LABELS[c]}
+                </span>
+                {opts.map((v) => (
+                  <CheckRow
+                    key={`${c}:${v}`}
+                    label={v}
+                    checked={selected[c].includes(v)}
+                    onToggle={() => toggle(c, v)}
+                  />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
 
-function DropdownPanel({ children, width }: { children: ReactNode; width?: number }) {
-  return (
-    <div
-      style={{
-        width: width ?? 220,
-        background: "var(--bg-surface-1)",
-        border: "1px solid var(--border-strong)",
-        borderRadius: 6,
-        padding: 4,
-        boxShadow: "var(--shadow-pop)",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Chip({
+function CheckRow({
   label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      style={{
-        padding: "6px 12px",
-        borderRadius: 9999,
-        background: active ? "var(--accent-soft)" : "var(--bg-surface-1)",
-        border: `1px solid ${active ? "var(--accent)" : "var(--border-default)"}`,
-        color: active ? "var(--accent-fg)" : "var(--fg-2)",
-        fontSize: 13,
-        fontFamily: "var(--font-sans)",
-        fontWeight: 500,
-        cursor: "pointer",
-        lineHeight: 1,
-      }}
-      onMouseEnter={(e) => {
-        if (!active) e.currentTarget.style.background = "var(--bg-surface-2)";
-      }}
-      onMouseLeave={(e) => {
-        if (!active) e.currentTarget.style.background = "var(--bg-surface-1)";
-      }}
-    >
-      {label}
-    </button>
-  );
-}
-
-function DropdownCheck({
-  label,
-  count,
   checked,
   onToggle,
 }: {
   label: string;
-  count: number;
   checked: boolean;
   onToggle: () => void;
 }) {
+  const hasLogo = pickLogo(label) !== null;
   return (
     <label
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 8,
+        gap: 10,
         padding: "6px 8px",
         borderRadius: 4,
         cursor: "pointer",
@@ -414,61 +320,18 @@ function DropdownCheck({
           alignItems: "center",
           justifyContent: "center",
           color: "#fff",
+          flexShrink: 0,
         }}
       >
         {checked && <Icon name="check" size={10} strokeWidth={3} />}
       </span>
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={onToggle}
-        style={{ display: "none" }}
-      />
-      <span style={{ flex: 1, color: checked ? "var(--fg-1)" : "var(--fg-2)" }}>
-        {label}
-      </span>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>
-        {count}
-      </span>
+      <input type="checkbox" checked={checked} onChange={onToggle} style={{ display: "none" }} />
+      {hasLogo && (
+        <span style={{ color: "var(--fg-2)", display: "inline-flex", alignItems: "center" }}>
+          <VendorLogo name={label} height={11} />
+        </span>
+      )}
+      <span style={{ flex: 1, color: checked ? "var(--fg-1)" : "var(--fg-2)" }}>{label}</span>
     </label>
-  );
-}
-
-function Tag({ label, onRemove }: { label: string; onRemove: () => void }) {
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 4,
-        padding: "2px 4px 2px 8px",
-        background: "var(--bg-surface-2)",
-        border: "1px solid var(--border-default)",
-        borderRadius: 9999,
-        color: "var(--fg-1)",
-        fontFamily: "var(--font-mono)",
-        fontSize: 11,
-      }}
-    >
-      {label}
-      <button
-        type="button"
-        onClick={onRemove}
-        aria-label={`Remove ${label} filter`}
-        style={{
-          background: "transparent",
-          border: "none",
-          color: "var(--fg-3)",
-          cursor: "pointer",
-          padding: "1px 4px",
-          display: "inline-flex",
-          alignItems: "center",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--fg-1)")}
-        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-3)")}
-      >
-        <Icon name="close" size={10} />
-      </button>
-    </span>
   );
 }

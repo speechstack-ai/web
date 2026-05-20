@@ -1,52 +1,68 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Icon, type IconName } from "./Icon";
 import { Hero } from "./Hero";
-import { FilterBar } from "./FilterBar";
-import { RecipeGrid } from "./RecipeGrid";
 import {
-  getLatencyMs,
-  type Framework,
-  type Recipe,
-  type STTEngine,
-  type TTSEngine,
-} from "~/types/recipe";
+  EMPTY_TECH_SELECTION,
+  SearchAndFilter,
+  matchesTechSelection,
+  type TechSelection,
+} from "./FilterBar";
+import { RecipeGrid } from "./RecipeGrid";
+import type { Recipe } from "~/types/recipe";
 
 type DirectoryProps = {
   recipes: Recipe[];
 };
 
+function recipeCategory(r: Recipe): string {
+  const useCase = r.use_case?.toLowerCase() ?? "";
+  const industry = r.industry?.toLowerCase() ?? "";
+
+  if (industry === "restaurant") return "Food & bev";
+  if (industry === "healthcare" || industry === "dental") return "Healthcare";
+  if (industry === "education") return "Education";
+
+  if (useCase === "sales" || useCase === "lead-qualification") return "Sales";
+  if (useCase === "technical-support" || useCase === "ivr-replacement") return "Support";
+  if (useCase === "research-interview") return "Recruiting";
+  if (useCase === "after-hours-receptionist" || useCase === "scheduling") return "Healthcare";
+  if (useCase === "order-taking") return "Food & bev";
+
+  return "Other";
+}
+
+const CATEGORY_ORDER = [
+  "Sales",
+  "Support",
+  "Healthcare",
+  "Food & bev",
+  "Recruiting",
+  "Education",
+];
+
 export function Directory({ recipes }: DirectoryProps) {
-  const [view, setView] = useState<"grid" | "list">("grid");
-  const [activeFramework, setActiveFramework] = useState<Framework | "all">("all");
-  const [activeStt, setActiveStt] = useState<STTEngine[]>([]);
-  const [activeTts, setActiveTts] = useState<TTSEngine[]>([]);
-  const [maxLatency, setMaxLatency] = useState(1200);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [selectedTech, setSelectedTech] = useState<TechSelection>(EMPTY_TECH_SELECTION);
   const [query, setQuery] = useState("");
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    for (const r of recipes) set.add(recipeCategory(r));
+    return Array.from(set).sort((a, b) => {
+      const ai = CATEGORY_ORDER.indexOf(a);
+      const bi = CATEGORY_ORDER.indexOf(b);
+      if (ai === -1 && bi === -1) return a.localeCompare(b);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+  }, [recipes]);
 
   const filtered = useMemo(() => {
     return recipes.filter((r) => {
-      if (
-        activeFramework !== "all" &&
-        !r.framework.toLowerCase().startsWith(activeFramework.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        activeStt.length &&
-        !activeStt.some((s) => r.pipeline.stt.toLowerCase().includes(s.toLowerCase()))
-      ) {
-        return false;
-      }
-      if (
-        activeTts.length &&
-        !activeTts.some((t) => r.pipeline.tts.toLowerCase().includes(t.toLowerCase()))
-      ) {
-        return false;
-      }
-      if (getLatencyMs(r) > maxLatency) return false;
+      if (activeCategory !== "all" && recipeCategory(r) !== activeCategory) return false;
+      if (!matchesTechSelection(r, selectedTech)) return false;
       if (query) {
         const q = query.toLowerCase();
         const hay = [
@@ -67,57 +83,41 @@ export function Directory({ recipes }: DirectoryProps) {
       }
       return true;
     });
-  }, [recipes, activeFramework, activeStt, activeTts, maxLatency, query]);
+  }, [recipes, activeCategory, selectedTech, query]);
 
-  const toggleStt = (s: STTEngine) =>
-    setActiveStt((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
-  const toggleTts = (t: TTSEngine) =>
-    setActiveTts((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
-
-  const clear = () => {
-    setActiveFramework("all");
-    setActiveStt([]);
-    setActiveTts([]);
-    setMaxLatency(1200);
+  const clearAll = () => {
+    setActiveCategory("all");
+    setSelectedTech(EMPTY_TECH_SELECTION);
     setQuery("");
   };
 
-  const hasFilters =
-    activeFramework !== "all" ||
-    activeStt.length > 0 ||
-    activeTts.length > 0 ||
-    maxLatency < 1200 ||
-    query.length > 0;
-
   return (
     <>
-      <Hero query={query} setQuery={setQuery} />
+      <Hero />
 
       <section
         id="recipes"
-        style={{ maxWidth: 1440, margin: "0 auto", padding: "24px 32px 48px" }}
+        style={{ maxWidth: 896, margin: "0 auto", padding: "24px 32px 48px" }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <FilterBar
+          <SearchAndFilter
             recipes={recipes}
-            activeFramework={activeFramework}
-            setActiveFramework={setActiveFramework}
-            activeStt={activeStt}
-            toggleStt={toggleStt}
-            activeTts={activeTts}
-            toggleTts={toggleTts}
-            maxLatency={maxLatency}
-            setMaxLatency={setMaxLatency}
-            onClearAll={clear}
-            hasFilters={hasFilters}
+            query={query}
+            setQuery={setQuery}
+            selected={selectedTech}
+            setSelected={setSelectedTech}
           />
 
-          <DirectoryToolbar count={filtered.length} view={view} setView={setView} />
+          <CategoryTabs
+            categories={categories}
+            active={activeCategory}
+            setActive={setActiveCategory}
+          />
 
           {filtered.length === 0 ? (
-            <EmptyState onClear={clear} />
+            <EmptyState onClear={clearAll} />
           ) : (
-            <RecipeGrid recipes={filtered} view={view} />
+            <RecipeGrid recipes={filtered} />
           )}
         </div>
       </section>
@@ -125,90 +125,71 @@ export function Directory({ recipes }: DirectoryProps) {
   );
 }
 
-type ToolbarProps = {
-  count: number;
-  view: "grid" | "list";
-  setView: (v: "grid" | "list") => void;
-};
-
-function DirectoryToolbar({ count, view, setView }: ToolbarProps) {
+function CategoryTabs({
+  categories,
+  active,
+  setActive,
+}: {
+  categories: string[];
+  active: string;
+  setActive: (c: string) => void;
+}) {
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        gap: 16,
+        gap: 6,
+        flexWrap: "wrap",
       }}
     >
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 13,
-          color: "var(--fg-3)",
-        }}
-      >
-        {count} {count === 1 ? "recipe" : "recipes"}
-      </span>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <select
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 12,
-            padding: "5px 10px",
-            background: "var(--bg-surface-1)",
-            color: "var(--fg-2)",
-            border: "1px solid var(--border-default)",
-            borderRadius: 4,
-            cursor: "pointer",
-          }}
-          defaultValue="trending"
-        >
-          <option value="trending">sort: trending</option>
-          <option value="newest">sort: newest</option>
-          <option value="lowest-latency">sort: lowest latency</option>
-          <option value="lowest-cost">sort: lowest cost</option>
-        </select>
-        <div
-          style={{
-            display: "inline-flex",
-            border: "1px solid var(--border-default)",
-            borderRadius: 4,
-            overflow: "hidden",
-          }}
-        >
-          <ViewBtn active={view === "grid"} onClick={() => setView("grid")} icon="grid" />
-          <ViewBtn active={view === "list"} onClick={() => setView("list")} icon="list" />
-        </div>
-      </div>
+      <Chip label="All" active={active === "all"} onClick={() => setActive("all")} />
+      {categories.map((c) => (
+        <Chip
+          key={c}
+          label={c}
+          active={active === c}
+          onClick={() => setActive(c)}
+        />
+      ))}
     </div>
   );
 }
 
-function ViewBtn({
+function Chip({
+  label,
   active,
   onClick,
-  icon,
 }: {
+  label: string;
   active: boolean;
   onClick: () => void;
-  icon: IconName;
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
-      aria-label={icon === "grid" ? "Grid view" : "List view"}
+      aria-pressed={active}
       style={{
-        padding: "5px 8px",
-        background: active ? "var(--bg-surface-2)" : "transparent",
-        color: active ? "var(--fg-1)" : "var(--fg-3)",
-        border: "none",
+        padding: "6px 12px",
+        borderRadius: 9999,
+        background: active ? "var(--accent-soft)" : "var(--bg-surface-1)",
+        border: `1px solid ${active ? "var(--accent)" : "var(--border-default)"}`,
+        color: active ? "var(--accent-fg)" : "var(--fg-2)",
+        fontSize: 13,
+        fontFamily: "var(--font-sans)",
+        fontWeight: 500,
         cursor: "pointer",
-        display: "inline-flex",
-        alignItems: "center",
+        lineHeight: 1,
+      }}
+      onMouseEnter={(e) => {
+        if (!active) e.currentTarget.style.background = "var(--bg-surface-2)";
+      }}
+      onMouseLeave={(e) => {
+        if (!active) e.currentTarget.style.background = "var(--bg-surface-1)";
       }}
     >
-      <Icon name={icon} size={14} />
+      {label}
     </button>
   );
 }
@@ -249,8 +230,10 @@ function EmptyState({ onClear }: { onClear: () => void }) {
         >
           Clear filters
         </button>
-        <Link
-          href="/submit"
+        <a
+          href="https://github.com/speechstack-ai/recipes"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             padding: "7px 12px",
             background: "var(--accent)",
@@ -266,7 +249,7 @@ function EmptyState({ onClear }: { onClear: () => void }) {
           }}
         >
           Submit a recipe
-        </Link>
+        </a>
       </div>
     </div>
   );
