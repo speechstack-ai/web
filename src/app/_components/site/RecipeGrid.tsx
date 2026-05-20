@@ -124,7 +124,7 @@ function RecipeRow({
   const badgeKind = displayBadge(recipe);
   return (
     <Link
-      href={`/recipes/${recipe.id}`}
+      href={`/templates/${recipe.id}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

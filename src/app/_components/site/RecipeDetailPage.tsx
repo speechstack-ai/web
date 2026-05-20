@@ -77,7 +77,7 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             textDecoration: "none",
           }}
         >
-          ← all recipes
+          ← All templates
         </Link>
         <span
           style={{
@@ -86,7 +86,7 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             color: "var(--fg-3)",
           }}
         >
-          recipes / <span style={{ color: "var(--fg-2)" }}>{recipe.id}</span>
+          templates / <span style={{ color: "var(--fg-2)" }}>{recipe.id}</span>
         </span>
       </div>
 
@@ -109,31 +109,40 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             <VendorLogo name={recipe.framework} height={13} />
             {recipe.framework}
           </span>
-          {badge && (
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                padding: "1px 6px",
-                borderRadius: 3,
-                background: badge.bg,
-                border: `1px solid ${badge.border}`,
-                color: badge.color,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-              }}
+          {badge && badgeKind && (
+            <Tooltip
+              label={
+                badgeKind === "verified"
+                  ? "Verified means our editorial team ran this template end-to-end and confirmed it works as published."
+                  : badgeKind
+              }
+              maxWidth={badgeKind === "verified" ? 280 : undefined}
             >
               <span
                 style={{
-                  width: 5,
-                  height: 5,
-                  background: badge.color,
-                  borderRadius: 9999,
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 10,
+                  padding: "1px 6px",
+                  borderRadius: 3,
+                  background: badge.bg,
+                  border: `1px solid ${badge.border}`,
+                  color: badge.color,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
                 }}
-              />
-              {badgeKind}
-            </span>
+              >
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    background: badge.color,
+                    borderRadius: 9999,
+                  }}
+                />
+                {badgeKind}
+              </span>
+            </Tooltip>
           )}
           <span
             style={{
@@ -235,7 +244,7 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
               }}
             >
               <Icon name="external" size={13} />
-              View on GitHub
+              View source
             </a>
           )}
           <a
@@ -258,21 +267,22 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             }}
           >
             <Icon name="external" size={13} />
-            Edit this recipe
+            Fork template
           </a>
         </div>
       </header>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          border: "1px solid var(--border-default)",
-          borderRadius: 6,
-          overflow: "hidden",
-          background: "var(--bg-surface-1)",
-        }}
-      >
+      <Section label="The numbers">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            border: "1px solid var(--border-default)",
+            borderRadius: 6,
+            overflow: "hidden",
+            background: "var(--bg-surface-1)",
+          }}
+        >
         <DetailMetric label="latency" value={formatLatency(recipe)} />
         <DetailMetric label="cost / min" value={formatCost(recipe)} border />
         <div
@@ -317,9 +327,10 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             </span>
           </span>
         </div>
-      </div>
+        </div>
+      </Section>
 
-      <Section label="Pipeline">
+      <Section label="The stack">
         <div
           style={{
             border: "1px solid var(--border-default)",
@@ -396,13 +407,15 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
         </div>
       </Section>
 
-      <Section label="Prompt">
+      <Section label="System prompt">
         {recipe.raw_prompt ? (
           <CopyBlock
             label="raw_prompt"
             code={recipe.raw_prompt}
             maxHeight={320}
             fontFamily="var(--font-mono)"
+            copyLabel="Copy"
+            copiedLabel="Copied"
           />
         ) : promptLink ? (
           <a
@@ -441,7 +454,13 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
       </Section>
 
       <Section label="Config">
-        <CopyBlock label="config.json" code={configJson} maxHeight={360} />
+        <CopyBlock
+          label="config.json"
+          code={configJson}
+          maxHeight={360}
+          copyLabel="Copy JSON"
+          copiedLabel="Copied"
+        />
       </Section>
 
       {tools.length > 0 && (
