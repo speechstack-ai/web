@@ -13,6 +13,16 @@ const config = {
         destination: "/templates/:id",
         permanent: true,
       },
+      {
+        source: "/stack",
+        destination: "/tools",
+        permanent: true,
+      },
+      {
+        source: "/templates",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };

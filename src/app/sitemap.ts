@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE_URL, lastModified: recipesMostRecent },
     { url: `${SITE_URL}/sponsors`, lastModified: now },
     { url: `${SITE_URL}/about`, lastModified: now },
-    { url: `${SITE_URL}/stack`, lastModified: now },
+    { url: `${SITE_URL}/tools`, lastModified: now },
     { url: `${SITE_URL}/submit`, lastModified: now },
     ...comparePairs().map(([a, b]) => ({
       url: `${SITE_URL}/compare/${a}-vs-${b}`,

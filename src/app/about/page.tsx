@@ -95,7 +95,7 @@ export default function AboutPage() {
           config. Every template publishes what it costs to run. Every vendor
           across the five layers gets the same card shape on{" "}
           <code style={{ fontFamily: "var(--font-mono)", fontSize: "0.92em" }}>
-            /stack
+            /tools
           </code>
           . Nobody pays for a better position. There isn&apos;t one.
         </p>
@@ -119,7 +119,7 @@ export default function AboutPage() {
           Sponsorship pays for this site (eventually). Sponsors get logo
           placement on{" "}
           <code style={{ fontFamily: "var(--font-mono)", fontSize: "0.92em" }}>
-            /stack
+            /tools
           </code>{" "}
           and footer presence. They don&apos;t get editorial influence, ranking
           changes, or template-selection bias. If that trade-off doesn&apos;t

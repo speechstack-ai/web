@@ -8,7 +8,7 @@ export const dynamic = "force-static";
 const STACK_TITLE = "Voice AI Stack Atlas";
 const STACK_H1 = "The voice AI stack, mapped.";
 const STACK_SUBHEAD =
-  "Five layers — telephony, speech-to-text, LLM, text-to-speech, orchestration. Every vendor listed, none ranked, each one linked to the templates that use it.";
+  "Pick a layer, see who builds there, click through to a template that runs it in production.";
 
 const PLACEHOLDER_DESCRIPTION = "[Description coming]";
 const PLACEHOLDER_PRICING: PricingBand = "$$";
@@ -16,10 +16,10 @@ const PLACEHOLDER_PRICING: PricingBand = "$$";
 export const metadata: Metadata = {
   title: STACK_TITLE,
   description: STACK_SUBHEAD,
-  alternates: { canonical: "/stack" },
+  alternates: { canonical: "/tools" },
   openGraph: {
     type: "website",
-    url: `${SITE_URL}/stack`,
+    url: `${SITE_URL}/tools`,
     siteName: SITE_NAME,
     title: `${STACK_TITLE} · ${SITE_NAME}`,
     description: STACK_SUBHEAD,
@@ -188,7 +188,7 @@ function LayerSection({ layer }: { layer: Layer }) {
     >
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 896,
           margin: "0 auto",
           padding: "40px 32px",
           display: "flex",

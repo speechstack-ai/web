@@ -54,13 +54,41 @@ export function Nav({ theme, onTheme }: NavProps) {
           }}
         >
           <NavLink href="/templates">Templates</NavLink>
-          <NavLink href="/stack">Stack</NavLink>
-          <NavLink href="/submit">Submit</NavLink>
+          <NavLink href="/tools">Tools</NavLink>
         </nav>
 
         <div style={{ flex: 1 }} />
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Link
+            href="/submit"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 32,
+              padding: "0 12px",
+              borderRadius: 4,
+              background: "var(--accent)",
+              color: "var(--fg-on-accent)",
+              border: "1px solid var(--accent)",
+              fontSize: 13,
+              fontWeight: 600,
+              textDecoration: "none",
+              transition:
+                "background 120ms var(--ease-out), border-color 120ms var(--ease-out)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--accent-hover)";
+              e.currentTarget.style.borderColor = "var(--accent-hover)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "var(--accent)";
+              e.currentTarget.style.borderColor = "var(--accent)";
+            }}
+          >
+            Submit a template
+          </Link>
           <button
             onClick={onTheme}
             title="Toggle theme"

@@ -65,8 +65,8 @@ The information architecture is URL-pattern navigable:
 - \`/\` — homepage, recent and featured templates
 - \`/templates\` — full template index, filterable by stack component, vendor, outcome, and cost band
 - \`/templates/[id]\` — individual template detail page with the full schema, fork links, and source
-- \`/stack\` — the Voice AI Stack Atlas, a vendor map covering every component layer
-- \`/stack/[vendor]\` — vendor detail page with the templates that actually use it
+- \`/tools\` — the Voice AI Stack Atlas, a vendor map covering every component layer
+- \`/tools/[vendor]\` — vendor detail page with the templates that actually use it
 - \`/compare/[a-vs-b]\` — programmatic head-to-head comparisons between two vendors in the same layer
 - \`/submit\` — submission flow, accepts GitHub PRs or a short form
 - \`/sponsors\` — current sponsors and the sponsorship policy
