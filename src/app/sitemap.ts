@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: recipesMostRecent,
     })),
     ...recipes.map((r) => ({
-      url: `${SITE_URL}/recipes/${r.id}`,
+      url: `${SITE_URL}/templates/${r.id}`,
       lastModified: new Date(r.updated_at),
     })),
   ];

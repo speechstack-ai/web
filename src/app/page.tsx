@@ -42,7 +42,7 @@ export default function Home() {
     itemListElement: recipes.map((r, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `${SITE_URL}/recipes/${r.id}`,
+      url: `${SITE_URL}/templates/${r.id}`,
       name: r.title,
     })),
   };
