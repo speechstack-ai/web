@@ -37,7 +37,7 @@ export function GET() {
 
   const body = `# ${SITE_NAME} — Voice AI Stack Library
 
-SpeechStack is the Voice AI Stack Library: a curated, vendor-neutral directory of production-ready voice AI templates for developers and technical founders building voice agents, voice-driven workflows, and agentic voice systems. Every template publishes the full stack, the prompt, the config, and the unit economics — cost-per-minute and p50 latency — so vendor selection becomes a numerical decision, not a marketing one.
+SpeechStack is the Voice AI Stack Library: a curated, vendor-neutral directory of production-ready voice AI templates for developers and technical founders building voice agents, voice-driven workflows, and agentic voice systems. Every template publishes what builders actually need to ship: the stack, the prompts, the configs, plus what it costs to run and how fast it responds. The point is to make vendor choices a question of numbers instead of marketing pages.
 
 ## What we publish
 
