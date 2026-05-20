@@ -153,7 +153,7 @@ export default async function Page({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Recipes", item: SITE_URL },
+      { "@type": "ListItem", position: 1, name: "Templates", item: SITE_URL },
       { "@type": "ListItem", position: 2, name: recipe.title, item: url },
     ],
   };

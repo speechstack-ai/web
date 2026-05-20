@@ -212,8 +212,8 @@ function EmptyState({ onClear }: { onClear: () => void }) {
         Nothing here yet.
       </span>
       <span style={{ fontSize: 13, color: "var(--fg-2)", maxWidth: 340 }}>
-        Either no recipe matches these filters, or you&apos;ve stumbled into a gap in the
-        directory.
+        Either no template matches these filters, or you&apos;ve stumbled into a gap in the
+        library.
       </span>
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
         <button
@@ -248,7 +248,7 @@ function EmptyState({ onClear }: { onClear: () => void }) {
             alignItems: "center",
           }}
         >
-          Submit a recipe
+          Submit a template
         </a>
       </div>
     </div>
