@@ -10,7 +10,7 @@ export const dynamic = "force-static";
 const HOME_TITLE = `${SITE_NAME} — Every voice AI stack, in one place.`;
 const HOME_OG_TITLE = `${SITE_NAME} — Voice AI Stack Library`;
 const HOME_OG_DESCRIPTION =
-  "Forkable voice AI templates with the stack, the prompt, the config, and the unit economics. Cost/min and p50 latency published.";
+  "Pick a stack, copy the prompts and configs, ship the agent this week. Vendor-neutral across Vapi, Retell, LiveKit, Cartesia, Deepgram.";
 
 export const metadata: Metadata = {
   title: HOME_TITLE,
@@ -42,7 +42,7 @@ export default function Home() {
     itemListElement: recipes.map((r, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `${SITE_URL}/recipes/${r.id}`,
+      url: `${SITE_URL}/templates/${r.id}`,
       name: r.title,
     })),
   };

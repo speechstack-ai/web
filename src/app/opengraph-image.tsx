@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { SITE_NAME } from "~/utils/site";
 
 const OG_DESCRIPTION =
-  "Forkable voice AI templates with the stack, the prompt, the config, and the unit economics. Cost/min and p50 latency published.";
+  "Pick a stack, copy the prompts and configs, ship the agent this week. Vendor-neutral across Vapi, Retell, LiveKit, Cartesia, Deepgram.";
 
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };

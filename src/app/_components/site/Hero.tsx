@@ -47,8 +47,7 @@ export function Hero() {
             color: "var(--fg-2)",
           }}
         >
-          Forkable templates with the stack, the prompt, the config, and the unit
-          economics &mdash; every cost-per-minute and p50 latency published.
+          Pick a stack, copy the prompts and configs, ship the agent this week.
         </p>
       </div>
     </section>

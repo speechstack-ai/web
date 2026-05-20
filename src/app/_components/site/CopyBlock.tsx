@@ -12,9 +12,20 @@ type CopyBlockProps = {
   maxHeight?: number;
   /** Optional CSS font-family override (defaults to var(--font-mono)). */
   fontFamily?: string;
+  /** Optional label shown on the copy button in its idle state. Defaults to "Copy". */
+  copyLabel?: string;
+  /** Optional label shown on the copy button after a successful copy. Defaults to "Copied". */
+  copiedLabel?: string;
 };
 
-export function CopyBlock({ label, code, maxHeight = 360, fontFamily }: CopyBlockProps) {
+export function CopyBlock({
+  label,
+  code,
+  maxHeight = 360,
+  fontFamily,
+  copyLabel = "Copy",
+  copiedLabel = "Copied",
+}: CopyBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const onCopy = async () => {
@@ -74,7 +85,7 @@ export function CopyBlock({ label, code, maxHeight = 360, fontFamily }: CopyBloc
           }}
         >
           <Icon name={copied ? "check" : "copy"} size={11} />
-          {copied ? "copied" : "copy"}
+          {copied ? copiedLabel : copyLabel}
         </button>
       </div>
       <pre

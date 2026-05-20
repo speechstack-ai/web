@@ -8,7 +8,7 @@ function recipeBlock(r: Recipe): string {
   const lines: string[] = [];
   lines.push(`## ${r.title}`);
   lines.push("");
-  lines.push(`Canonical URL: ${SITE_URL}/recipes/${r.id}`);
+  lines.push(`Canonical URL: ${SITE_URL}/templates/${r.id}`);
   lines.push(`Framework: ${r.framework}`);
   lines.push(`Use case: ${r.use_case} · Industry: ${r.industry}`);
   lines.push(`Languages: ${r.languages.join(", ")}`);
@@ -74,7 +74,7 @@ export function GET() {
 
 > ${SITE_DESCRIPTION}
 
-This file contains every recipe published on ${SITE_NAME} as concatenated markdown. It is intended for AI agents that prefer a single file over crawling. The lighter index lives at ${SITE_URL}/llms.txt. Canonical recipe pages live at ${SITE_URL}/recipes/[id].
+This file contains every recipe published on ${SITE_NAME} as concatenated markdown. It is intended for AI agents that prefer a single file over crawling. The lighter index lives at ${SITE_URL}/llms.txt. Canonical recipe pages live at ${SITE_URL}/templates/[id].
 
 Generated from ${recipes.length} recipes.
 

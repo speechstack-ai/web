@@ -5,9 +5,11 @@ import { useRef, useState, type ReactNode } from "react";
 type TooltipProps = {
   label: string;
   children: ReactNode;
+  /** Maximum width in px for wrapped tooltip text. Default behavior is no wrap. */
+  maxWidth?: number;
 };
 
-export function Tooltip({ label, children }: TooltipProps) {
+export function Tooltip({ label, children, maxWidth }: TooltipProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
 
@@ -39,8 +41,9 @@ export function Tooltip({ label, children }: TooltipProps) {
             padding: "4px 8px",
             fontFamily: "var(--font-mono)",
             fontSize: 11,
-            lineHeight: 1.2,
-            whiteSpace: "nowrap",
+            lineHeight: 1.4,
+            whiteSpace: maxWidth ? "normal" : "nowrap",
+            maxWidth: maxWidth ?? undefined,
             background: "var(--bg-surface-3)",
             color: "var(--fg-1)",
             border: "1px solid var(--border-strong)",

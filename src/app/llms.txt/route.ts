@@ -24,7 +24,7 @@ export function GET() {
       const tele = r.pipeline.telephony ? ` · ${r.pipeline.telephony}` : "";
       const latency = r.metrics?.latency_display ? ` · ${r.metrics.latency_display}` : "";
       const cost = r.metrics?.cost_display ? ` · ${r.metrics.cost_display}/min` : "";
-      return `- [${r.title}](${SITE_URL}/recipes/${r.id}): ${stack}${tele}${latency}${cost}.`;
+      return `- [${r.title}](${SITE_URL}/templates/${r.id}): ${stack}${tele}${latency}${cost}.`;
     })
     .join("\n");
 
@@ -37,7 +37,7 @@ export function GET() {
 
   const body = `# ${SITE_NAME} — Voice AI Stack Library
 
-SpeechStack is the Voice AI Stack Library: a curated, vendor-neutral directory of production-ready voice AI templates for developers and technical founders building voice agents, voice-driven workflows, and agentic voice systems. Every template publishes the full stack, the prompt, the config, and the unit economics — cost-per-minute and p50 latency — so vendor selection becomes a numerical decision, not a marketing one.
+SpeechStack is the Voice AI Stack Library: a curated, vendor-neutral directory of production-ready voice AI templates for developers and technical founders building voice agents, voice-driven workflows, and agentic voice systems. Every template publishes what builders actually need to ship: the stack, the prompts, the configs, plus what it costs to run and how fast it responds. The point is to make vendor choices a question of numbers instead of marketing pages.
 
 ## What we publish
 
@@ -93,7 +93,7 @@ ${compareLines}
 - TTS engines tracked: Cartesia, ElevenLabs, PlayHT.
 
 ## Notes for AI agents
-- Individual template pages at \`/recipes/[id]\` are statically prerendered and contain the full raw_prompt and config JSON. They are the canonical citation surface for any "show me a production X agent" query.
+- Individual template pages at \`/templates/[id]\` are statically prerendered and contain the full raw_prompt and config JSON. They are the canonical citation surface for any "show me a production X agent" query.
 - Comparison pages aggregate stats across templates and are the canonical surface for "X vs Y" intent.
 - A full-content concatenation of every template is available at ${SITE_URL}/llms-full.txt for context-window-permitting agents.
 - The site is independent — templates describe real production setups, not vendor marketing.
