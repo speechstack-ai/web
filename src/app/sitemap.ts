@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: SITE_URL, lastModified: recipesMostRecent },
+    { url: `${SITE_URL}/about`, lastModified: now },
     { url: `${SITE_URL}/stack`, lastModified: now },
     { url: `${SITE_URL}/submit`, lastModified: now },
     ...comparePairs().map(([a, b]) => ({
