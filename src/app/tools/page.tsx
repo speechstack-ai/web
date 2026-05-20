@@ -8,7 +8,7 @@ export const dynamic = "force-static";
 const STACK_TITLE = "Voice AI Stack Atlas";
 const STACK_H1 = "The voice AI stack, mapped.";
 const STACK_SUBHEAD =
-  "Five layers — telephony, speech-to-text, LLM, text-to-speech, orchestration. Every vendor listed, none ranked, each one linked to the templates that use it.";
+  "Pick a layer, see who builds there, click through to a template that runs it in production.";
 
 const PLACEHOLDER_DESCRIPTION = "[Description coming]";
 const PLACEHOLDER_PRICING: PricingBand = "$$";
