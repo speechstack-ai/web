@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 
 import { Footer } from "~/app/_components/site/Footer";
 import { SiteShell } from "~/app/_components/site/SiteShell";
+import { PostHogProvider } from "~/app/_components/analytics/PostHogProvider";
+import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "~/utils/site";
 
@@ -63,6 +65,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" },
+  },
+  verification: {
+    google: env.NEXT_PUBLIC_GSC_VERIFICATION,
   },
   openGraph: {
     type: "website",
@@ -131,7 +136,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteLd) }}
         />
         <TRPCReactProvider>
-          <SiteShell footer={<Footer />}>{children}</SiteShell>
+          <PostHogProvider>
+            <SiteShell footer={<Footer />}>{children}</SiteShell>
+          </PostHogProvider>
         </TRPCReactProvider>
       </body>
     </html>
