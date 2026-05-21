@@ -72,32 +72,40 @@ const PRICING: {
   includes: React.ReactNode;
 }[] = [
   {
-    tier: "Featured sponsor",
-    price: "$1,200 / mo",
+    tier: "Founding sponsor",
+    price: "$400 / mo",
     includes: (
       <>
-        Logo on <code style={inlineCodeStyle}>/stack</code>, footer presence, OG
-        mention. Cap: 3 slots.
+        Locked-in rate for the first 12 months. Logo on{" "}
+        <code style={inlineCodeStyle}>/stack</code>, footer presence, OG
+        mention. Cap: 3 slots, first-come.
       </>
     ),
   },
   {
-    tier: "Job board slot",
-    price: "$400 / mo",
+    tier: "Featured sponsor",
+    price: "$750 / mo",
     includes: (
       <>
-        Single vacancy posting on <code style={inlineCodeStyle}>/jobs</code>.
+        Standard rate after the founding cohort fills. Same placements as
+        founding tier. Cap: 5 slots total.
       </>
     ),
   },
   {
     tier: "Newsletter slot",
-    price: "$700 / mo",
+    price: "$150 / send",
     includes: (
-      <>Sponsored placement (available when the newsletter launches).</>
+      <>
+        Single sponsored placement in a SpeechStack newsletter edition. Goes
+        live once the list clears 1,000 subscribers.
+      </>
     ),
   },
 ];
+
+const PRICING_FOOTNOTE =
+  "Pricing benchmarked against OpenAlternative ($147–$597/mo), AI Agents Directory ($89/issue main sponsor), and Sidebar.io ($950/single send). Founding rate is below market on purpose — early sponsors get the discount, and the rate card grows with traffic.";
 
 const CONTAINER: React.CSSProperties = {
   maxWidth: 896,
@@ -376,6 +384,17 @@ export default function SponsorsPage() {
               </div>
             ))}
           </div>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 13,
+              lineHeight: 1.6,
+              color: "var(--fg-3)",
+              maxWidth: 720,
+            }}
+          >
+            {PRICING_FOOTNOTE}
+          </p>
         </div>
       </section>
 
