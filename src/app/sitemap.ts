@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { VENDORS } from "~/lib/vendors";
 import { FRAMEWORKS } from "~/types/recipe";
 import { getRecipes } from "~/utils/getRecipes";
 import { SITE_URL } from "~/utils/site";
@@ -33,6 +34,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...comparePairs().map(([a, b]) => ({
       url: `${SITE_URL}/compare/${a}-vs-${b}`,
       lastModified: recipesMostRecent,
+    })),
+    ...VENDORS.map((v) => ({
+      url: `${SITE_URL}/tools/${v.slug}`,
+      lastModified: now,
     })),
     ...recipes.map((r) => ({
       url: `${SITE_URL}/templates/${r.id}`,
