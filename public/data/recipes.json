@@ -988,6 +988,47 @@
     "license": "MIT"
   },
   {
+    "id": "general-purpose-voice-agent-with-low-latency-streaming",
+    "slug": "general-purpose-voice-agent-with-low-latency-streaming",
+    "title": "General Purpose Voice Agent with Low Latency Streaming",
+    "description": "A low-latency voice agent template demonstrating integration between AssemblyAI's Universal-Streaming API for speech recognition, OpenAI GPT-4 for conversational intelligence, and ElevenLabs for natural voice synthesis. Suitable for building custom voice assistants across various use cases.",
+    "framework": "Custom",
+    "use_case": "other",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "AssemblyAI Streaming",
+      "llm": "GPT-4o",
+      "tts": "ElevenLabs Turbo v2.5",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "debug_mode": false,
+      "llm_provider": "OpenAI",
+      "stt_provider": "AssemblyAI Universal-Streaming",
+      "tts_provider": "ElevenLabs"
+    },
+    "github_source_url": "https://github.com/gsharp-aai/voice-agent-aai-elevenlabs-openai",
+    "demo_url": null,
+    "tags": [
+      "python",
+      "low-latency",
+      "streaming",
+      "tutorial"
+    ],
+    "contributor": {
+      "github": "gsharp-aai"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-06-16T19:30:00Z",
+    "updated_at": "2025-06-16T19:30:00Z",
+    "license": "Proprietary"
+  },
+  {
     "id": "conversational-article-discussion-assistant",
     "slug": "conversational-article-discussion-assistant",
     "title": "Conversational Article Discussion Assistant",
@@ -1191,6 +1232,50 @@
     "created_at": "2025-06-10T12:00:00-08:00",
     "updated_at": "2025-06-10T12:00:00-08:00",
     "license": "Proprietary"
+  },
+  {
+    "id": "telephony-bridge-for-real-time-voice-agents",
+    "slug": "telephony-bridge-for-real-time-voice-agents",
+    "title": "Telephony Bridge for Real Time Voice Agents",
+    "description": "A telephony server that connects telephony providers like Twilio, Vonage, and Plivo with real-time communication platforms including Pipecat, LiveKit, and Jay.so. Enables seamless call routing, metrics collection, and observability for voice AI deployments. Includes an example taxi dispatcher agent that handles ride bookings and customer inquiries.",
+    "framework": "Pipecat",
+    "use_case": "other",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4o-mini",
+      "tts": "ElevenLabs Flash v2.5",
+      "telephony": "Twilio Voice"
+    },
+    "raw_prompt": "You are Navi, an AI-powered taxi dispatcher handling customer calls 24/7 with accuracy and professionalism. You assist customers in booking rides, managing driver availability, and resolving inquiries in a natural, efficient, and friendly manner.\n\nYou prioritize clear communication, confirming pickup details, estimating wait times, and ensuring a smooth booking experience. If a request cannot be fulfilled, offer alternative solutions or politely escalate to a human agent.\n\nMaintain a warm, professional, and helpful tone. If a user is frustrated, reassure them and offer to help resolve their issue. Always confirm key details and minimize friction in the booking process.",
+    "prompt_file": null,
+    "config": {
+      "llm_model": "gpt-4o-mini",
+      "greeting_message": "Thanks for calling, I'm Navi, your AI-powered taxi dispatcher. How can I help you today?",
+      "telephony_params": {
+        "Record": "false"
+      }
+    },
+    "github_source_url": "https://github.com/steinathan/telephony-server",
+    "demo_url": null,
+    "tags": [
+      "telephony",
+      "bridge",
+      "infrastructure",
+      "multi-provider",
+      "call-routing",
+      "taxi-dispatcher"
+    ],
+    "contributor": {
+      "github": "steinathan"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-06-08T12:00:00-08:00",
+    "updated_at": "2025-06-08T12:00:00-08:00",
+    "license": "BSD-2-Clause"
   },
   {
     "id": "insurance-lead-follow-up-agent",
@@ -2248,6 +2333,73 @@
     "license": "Proprietary"
   },
   {
+    "id": "multi-agent-voice-framework-for-customer-service-and-chat-supervision",
+    "slug": "multi-agent-voice-framework-for-customer-service-and-chat-supervision",
+    "title": "Multi Agent Voice Framework for Customer Service and Chat Supervision",
+    "description": "A demonstration framework for building advanced voice AI agents using OpenAI's Realtime API and Agents SDK. Features two core patterns: chat-supervisor (where a voice agent delegates complex tasks to a text-based supervisor model) and sequential handoffs (where specialized agents transfer users between them). Includes examples for customer service, authentication, returns processing, and sales with state machine prompting and output guardrails.",
+    "framework": "Custom",
+    "use_case": "support",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "OpenAI Whisper",
+      "llm": "GPT-4o",
+      "tts": "OpenAI TTS-1",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "agents": [
+        "authentication",
+        "returns",
+        "sales",
+        "simulatedHuman",
+        "greeter",
+        "haikuWriter"
+      ],
+      "features": [
+        "multi_agent_orchestration",
+        "tool_calling",
+        "state_machine_prompting",
+        "output_guardrails",
+        "agent_handoffs"
+      ],
+      "patterns": [
+        "chat-supervisor",
+        "sequential-handoffs"
+      ],
+      "chat_model": "gpt-4o-realtime-mini",
+      "push_to_talk": true,
+      "escalation_model": "o4-mini",
+      "supervisor_model": "gpt-4.1",
+      "voice_activity_detection": true
+    },
+    "github_source_url": "https://github.com/openai/openai-realtime-agents",
+    "demo_url": null,
+    "tags": [
+      "multi-agent",
+      "customer-service",
+      "agent-handoffs",
+      "chat-supervisor",
+      "state-machine",
+      "guardrails",
+      "typescript",
+      "nextjs",
+      "openai-agents-sdk",
+      "realtime-api"
+    ],
+    "contributor": {
+      "github": "openai"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-26T12:00:00-07:00",
+    "updated_at": "2025-05-26T12:00:00-07:00",
+    "license": "MIT"
+  },
+  {
     "id": "customer-support-agent-with-ticket-status-lookup",
     "slug": "customer-support-agent-with-ticket-status-lookup",
     "title": "Customer Support Agent with Ticket Status Lookup",
@@ -2336,6 +2488,50 @@
     "created_at": "2025-05-24T12:00:00+00:00",
     "updated_at": "2025-05-24T12:00:00+00:00",
     "license": "MIT"
+  },
+  {
+    "id": "general-assistant-voice-chatbot-with-audio-streaming",
+    "slug": "general-assistant-voice-chatbot-with-audio-streaming",
+    "title": "General Assistant Voice Chatbot with Audio Streaming",
+    "description": "A voice AI assistant that receives calls through Plivo, transcribes caller speech using Deepgram, generates contextual responses via OpenAI, and converts replies back to natural speech with ElevenLabs. Designed to handle general queries across various fields with polite, helpful conversation.",
+    "framework": "Custom",
+    "use_case": "support",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4o",
+      "tts": "ElevenLabs Turbo v2.5",
+      "telephony": "Plivo"
+    },
+    "metrics": {
+      "latency_display": "500ms buffering with voice activity detection"
+    },
+    "raw_prompt": "You are John Doe, a chatbot assistant that helps in resolving general queries related to any fields. When someone says hello, you will greet them and answer their questions in a polite way.",
+    "prompt_file": null,
+    "config": {
+      "buffering": "pause-based",
+      "audio_format": "mulaw/8000",
+      "vad_pause_threshold_ms": 500,
+      "system_message_customizable": true
+    },
+    "github_source_url": "https://github.com/plivo/plivo-audiostream-integration-guides/tree/main/voiceagent",
+    "demo_url": null,
+    "tags": [
+      "audio-streaming",
+      "voice-activity-detection",
+      "telephony-integration",
+      "proof-of-concept"
+    ],
+    "contributor": {
+      "github": "prashantp-plivo"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-24T10:30:00Z",
+    "updated_at": "2025-05-24T10:30:00Z",
+    "license": "Proprietary"
   },
   {
     "id": "conversational-ai-agent-with-streaming-stt-and-tts",
@@ -2743,6 +2939,66 @@
     "source": "github_discovery",
     "created_at": "2025-05-14T10:30:00Z",
     "updated_at": "2025-05-14T10:30:00Z",
+    "license": "MIT"
+  },
+  {
+    "id": "openclaw-phone-assistant-with-semantic-turn-detection",
+    "slug": "openclaw-phone-assistant-with-semantic-turn-detection",
+    "title": "OpenClaw Phone Assistant with Semantic Turn Detection",
+    "description": "A phone-based voice interface for OpenClaw that uses Deepgram's semantic turn detection to understand when callers are finished speaking, not just when they stop making noise. Supports inbound calls via Twilio or Telnyx with low-latency responses and natural barge-in capabilities.",
+    "framework": "Custom",
+    "use_case": "support",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "Claude Haiku 4.5",
+      "tts": "Deepgram Aura-2",
+      "telephony": "Twilio Voice"
+    },
+    "metrics": {
+      "latency_p50_ms": null,
+      "latency_p95_ms": null,
+      "latency_display": "90ms TTFB (TTS), ~5s LLM buffering",
+      "cost_per_minute_usd_min": null,
+      "cost_per_minute_usd_max": null,
+      "cost_display": "$0.030/1K chars TTS, $0.085/min Twilio"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "voice_id": "aura-2-thalia-en",
+      "barge_in": true,
+      "default_model": "anthropic/claude-haiku-4-5-20251001",
+      "turn_detection": "semantic_flux",
+      "voice_agent_api": "deepgram",
+      "supported_voices": 80,
+      "telephony_options": [
+        "twilio",
+        "telnyx"
+      ],
+      "supported_languages": 7
+    },
+    "github_source_url": "https://github.com/deepgram/deepclaw",
+    "demo_url": null,
+    "tags": [
+      "phone",
+      "semantic-turn-detection",
+      "barge-in",
+      "openclaw",
+      "twilio",
+      "telnyx",
+      "self-hosted",
+      "low-latency"
+    ],
+    "contributor": {
+      "github": "dpmishler"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-10T00:00:00Z",
+    "updated_at": "2025-05-10T00:00:00Z",
     "license": "MIT"
   },
   {
