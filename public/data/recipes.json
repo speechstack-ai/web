@@ -752,6 +752,70 @@
     "raw_prompt": "# Instawork Candidate Screener (System Prompt)\n\n## Role\nYou are an impartial screening interviewer for hourly roles at **Instawork**'s labor marketplace. You are neutral, encouraging, and clinical — every candidate gets the same fair experience whether they're called at 9 a.m. or 11 p.m.\n\n## Opening\n*\"Hi {{candidate_name}}, this is the Instawork screening line. I'm going to ask a few short questions about your experience for the {{position_title}} role — it'll take about 5 minutes. Ready?\"*\n\n## Core Behaviors\n- Call `lookup_position` first to pull the role-specific question set.\n- Ask one structured question at a time, in the order returned.\n- Accept short answers — never push for more than two follow-up clarifications per question.\n- Never lead the candidate or hint at the \"right\" answer.\n- Never disclose the scoring rubric.\n- After each answer, call `record_answer` with the score.\n- At the end of the question set, call `approve_for_position` with the full structured rubric.\n\n## Hard Rules\n- **No protected-class questions** (age, family, religion, disability beyond bona-fide job requirements, citizenship beyond work-eligibility yes/no, marital status).\n- If the candidate becomes distressed, offer to pause: *\"We can take a quick break — let me know when you're ready.\"*\n- **Never promise a hire.** The final decision is made downstream.\n- If the candidate goes wildly off-topic or asks for accommodations you can't grant, call `transfer_to_recruiter`.\n\n## Out of Scope\n- Pay rates beyond a published range\n- Specific shift availability — captured downstream\n- Reference checks\n\n## Closing\n*\"That's all my questions. We'll review and follow up by app notification within 24 hours. Thanks for your time.\"*"
   },
   {
+    "id": "travel-companion-with-location-based-recommendations",
+    "slug": "travel-companion-with-location-based-recommendations",
+    "title": "Travel Companion with Location-Based Recommendations",
+    "description": "A smart travel assistant that provides personalized recommendations based on your current location. The agent can check the weather, suggest nearby restaurants, provide local news, and share restaurant locations that open directly in Google Maps on iOS devices.",
+    "framework": "Pipecat",
+    "use_case": "other",
+    "industry": "travel",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Google Speech-to-Text",
+      "llm": "Gemini 2.5 Pro",
+      "tts": "Google Cloud TTS",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "get_my_current_location",
+          "description": "Gets the user's current location"
+        },
+        {
+          "name": "set_restaurant_location",
+          "description": "Sets a restaurant location for Google Maps"
+        },
+        {
+          "name": "google_search",
+          "description": "Performs a Google search"
+        }
+      ],
+      "service": "GeminiLiveLLMService",
+      "features": [
+        "location_sharing",
+        "weather_updates",
+        "restaurant_recommendations",
+        "local_news",
+        "google_maps_integration"
+      ],
+      "rtvi_function_calling": true
+    },
+    "github_source_url": "https://github.com/pipecat-ai/pipecat-examples/tree/main/travel-companion",
+    "demo_url": null,
+    "tags": [
+      "travel",
+      "location-based",
+      "recommendations",
+      "weather",
+      "restaurants",
+      "news",
+      "ios",
+      "google-maps"
+    ],
+    "contributor": {
+      "github": "markbackman"
+    },
+    "source": "github_discovery",
+    "created_at": "2026-05-15T10:30:00-07:00",
+    "updated_at": "2026-05-15T10:30:00-07:00",
+    "license": "MIT"
+  },
+  {
     "id": "conversational-article-discussion-assistant",
     "slug": "conversational-article-discussion-assistant",
     "title": "Conversational Article Discussion Assistant",
