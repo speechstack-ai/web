@@ -44,6 +44,7 @@ export function Footer() {
           <FooterColumn label="Library">
             <FooterLink href="/templates">Templates</FooterLink>
             <FooterLink href="/tools">Tools</FooterLink>
+            <FooterLink href="/#email-capture-homepage">Newsletter</FooterLink>
             <FooterLink href="/submit">Submit</FooterLink>
           </FooterColumn>
           <FooterColumn label="About">

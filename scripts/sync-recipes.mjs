@@ -7,6 +7,8 @@
  * - When a recipe has `prompt_file` and no `raw_prompt`, reads
  *   `recipes/<prompt_file>` from disk and inlines it as `raw_prompt` so the
  *   web app doesn't need a separate fetch.
+ * - Merges data/github-metrics.json (stars/watchers sidecar) onto each recipe
+ *   as `github_metrics` when present.
  * - Sorts recipes featured-first, then by updated_at desc.
  * - Writes a single bundled JSON to public/data/recipes.json.
  * - Logs the synced SHA and, when running in GitHub Actions, writes
@@ -30,6 +32,7 @@ import path from "node:path";
 
 const RECIPES_REPO = process.env.RECIPES_REPO || "speechstack-ai/recipes";
 const RECIPES_REF = process.env.RECIPES_REF || "main";
+const SITE_URL = process.env.SITE_URL || "https://speechstack.com";
 const REPO_ROOT = process.cwd();
 const OUTPUT_PATH = path.join(REPO_ROOT, "public", "data", "recipes.json");
 const TMP_DIR = path.join(REPO_ROOT, ".sync-recipes-tmp");
@@ -97,6 +100,29 @@ try {
     recipes.push(recipe);
   }
 
+  const metricsPath = path.join(TMP_DIR, "data", "github-metrics.json");
+  let metricsByRecipeId = {};
+  if (existsSync(metricsPath)) {
+    try {
+      const metricsDoc = JSON.parse(readFileSync(metricsPath, "utf8"));
+      metricsByRecipeId = metricsDoc.recipes ?? {};
+      log(
+        `loaded GitHub metrics for ${Object.keys(metricsByRecipeId).length} recipe(s) (fetched ${metricsDoc.fetchedAt ?? "unknown"})`,
+      );
+    } catch (err) {
+      warn(`could not parse ${path.relative(TMP_DIR, metricsPath)}: ${err.message}`);
+    }
+  } else {
+    warn("data/github-metrics.json missing — recipes will ship without github_metrics");
+  }
+
+  for (const recipe of recipes) {
+    const metrics = metricsByRecipeId[recipe.id];
+    if (metrics) {
+      recipe.github_metrics = metrics;
+    }
+  }
+
   recipes.sort((a, b) => {
     const af = a.featured ? 1 : 0;
     const bf = b.featured ? 1 : 0;
@@ -106,12 +132,36 @@ try {
     return (Number.isFinite(bt) ? bt : 0) - (Number.isFinite(at) ? at : 0);
   });
 
+  // Diff against the previous bundle to know which recipe pages need an
+  // IndexNow ping. A recipe is "changed" if it's new or its updated_at moved.
+  let prevRecipes = [];
+  if (existsSync(OUTPUT_PATH)) {
+    try {
+      prevRecipes = JSON.parse(readFileSync(OUTPUT_PATH, "utf8"));
+    } catch (err) {
+      warn(`could not parse previous ${path.relative(REPO_ROOT, OUTPUT_PATH)}: ${err.message}`);
+    }
+  }
+  const prevUpdatedAt = new Map(prevRecipes.map((r) => [r.id, r.updated_at]));
+  const changedIds = recipes
+    .filter((r) => prevUpdatedAt.get(r.id) !== r.updated_at)
+    .map((r) => r.id);
+  log(`detected ${changedIds.length} added/updated recipe(s)`);
+
   mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
   writeFileSync(OUTPUT_PATH, JSON.stringify(recipes, null, 2) + "\n");
   log(`wrote ${recipes.length} recipes -> ${path.relative(REPO_ROOT, OUTPUT_PATH)}`);
 
   if (process.env.GITHUB_OUTPUT) {
-    appendFileSync(process.env.GITHUB_OUTPUT, `sha=${sha}\ncount=${recipes.length}\n`);
+    const changedUrls =
+      changedIds.length > 0
+        ? [SITE_URL, ...changedIds.map((id) => `${SITE_URL}/recipes/${id}`)]
+        : [];
+    appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `sha=${sha}\ncount=${recipes.length}\nchanged_count=${changedIds.length}\n` +
+        `changed_urls<<EOF\n${changedUrls.join("\n")}\nEOF\n`,
+    );
   }
 } finally {
   cleanup();

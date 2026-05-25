@@ -124,34 +124,54 @@ export function SearchAndFilter({
   setSelected,
 }: SearchAndFilterProps) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 8 }}>
       <div
         style={{
           flex: 1,
           display: "flex",
-          alignItems: "center",
-          gap: 10,
-          background: "var(--bg-surface-1)",
-          border: "1px solid var(--border-strong)",
-          borderRadius: 6,
-          padding: "10px 14px",
+          flexDirection: "column",
+          gap: 8,
         }}
       >
-        <Icon name="search" size={16} style={{ color: "var(--fg-3)" }} />
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="try “realtime support”, “outbound”, “gpt-4o + cartesia”…"
+        <label
+          htmlFor="template-search"
           style={{
-            flex: 1,
-            background: "transparent",
-            border: "none",
-            outline: "none",
+            fontSize: 16,
+            fontWeight: 600,
+            letterSpacing: "-0.01em",
             color: "var(--fg-1)",
-            fontSize: 14,
-            fontFamily: "var(--font-sans)",
           }}
-        />
+        >
+          Search templates
+        </label>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "var(--bg-surface-1)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: 6,
+            padding: "10px 14px",
+          }}
+        >
+          <Icon name="search" size={16} style={{ color: "var(--fg-3)" }} />
+          <input
+            id="template-search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="try “realtime support”, “outbound”, “gpt-4o + cartesia”…"
+            style={{
+              flex: 1,
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              color: "var(--fg-1)",
+              fontSize: 14,
+              fontFamily: "var(--font-sans)",
+            }}
+          />
+        </div>
       </div>
       <FilterButton
         recipes={recipes}
