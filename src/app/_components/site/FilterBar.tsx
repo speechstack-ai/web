@@ -5,7 +5,16 @@ import { Icon } from "./Icon";
 import { VendorLogo, pickLogo } from "./VendorLogo";
 import type { Recipe } from "~/types/recipe";
 
-export type TechCategory = "framework" | "stt" | "llm" | "tts" | "telephony";
+export const MIN_COUNT = 5;
+
+export type TechCategory =
+  | "framework"
+  | "stt"
+  | "llm"
+  | "tts"
+  | "telephony"
+  | "useCase"
+  | "industry";
 
 export type TechSelection = Record<TechCategory, string[]>;
 
@@ -15,6 +24,8 @@ export const EMPTY_TECH_SELECTION: TechSelection = {
   llm: [],
   tts: [],
   telephony: [],
+  useCase: [],
+  industry: [],
 };
 
 const CATEGORY_LABELS: Record<TechCategory, string> = {
@@ -23,9 +34,19 @@ const CATEGORY_LABELS: Record<TechCategory, string> = {
   llm: "LLM",
   tts: "TTS",
   telephony: "Telephony",
+  useCase: "Use case",
+  industry: "Industry",
 };
 
-const CATEGORY_ORDER: TechCategory[] = ["framework", "stt", "llm", "tts", "telephony"];
+const CATEGORY_ORDER: TechCategory[] = [
+  "framework",
+  "stt",
+  "tts",
+  "useCase",
+  "industry",
+  "llm",
+  "telephony",
+];
 
 function pipelineValue(r: Recipe, c: TechCategory): string | null {
   switch (c) {
@@ -39,25 +60,42 @@ function pipelineValue(r: Recipe, c: TechCategory): string | null {
       return r.pipeline.tts;
     case "telephony":
       return r.pipeline.telephony ?? null;
+    case "useCase":
+      return r.use_case;
+    case "industry":
+      return r.industry;
   }
 }
 
-function collectOptions(recipes: Recipe[]): Record<TechCategory, string[]> {
-  const out: Record<TechCategory, Set<string>> = {
-    framework: new Set(),
-    stt: new Set(),
-    llm: new Set(),
-    tts: new Set(),
-    telephony: new Set(),
+export function getVisibleFilterOptions(
+  recipes: Recipe[],
+): Record<TechCategory, string[]> {
+  const counts: Record<TechCategory, Map<string, number>> = {
+    framework: new Map(),
+    stt: new Map(),
+    llm: new Map(),
+    tts: new Map(),
+    telephony: new Map(),
+    useCase: new Map(),
+    industry: new Map(),
   };
+
   for (const r of recipes) {
     for (const c of CATEGORY_ORDER) {
       const v = pipelineValue(r, c);
-      if (v) out[c].add(v);
+      if (!v) continue;
+      counts[c].set(v, (counts[c].get(v) ?? 0) + 1);
     }
   }
+
   return Object.fromEntries(
-    CATEGORY_ORDER.map((c) => [c, Array.from(out[c]).sort((a, b) => a.localeCompare(b))]),
+    CATEGORY_ORDER.map((c) => [
+      c,
+      Array.from(counts[c])
+        .filter(([, count]) => count >= MIN_COUNT)
+        .map(([value]) => value)
+        .sort((a, b) => a.localeCompare(b)),
+    ]),
   ) as Record<TechCategory, string[]>;
 }
 
@@ -115,7 +153,11 @@ export function SearchAndFilter({
           }}
         />
       </div>
-      <FilterButton recipes={recipes} selected={selected} setSelected={setSelected} />
+      <FilterButton
+        recipes={recipes}
+        selected={selected}
+        setSelected={setSelected}
+      />
     </div>
   );
 }
@@ -148,12 +190,17 @@ function FilterButton({
     };
   }, [open]);
 
-  const options = useMemo(() => collectOptions(recipes), [recipes]);
-  const totalSelected = CATEGORY_ORDER.reduce((n, c) => n + selected[c].length, 0);
+  const options = useMemo(() => getVisibleFilterOptions(recipes), [recipes]);
+  const totalSelected = CATEGORY_ORDER.reduce(
+    (n, c) => n + selected[c].length,
+    0,
+  );
 
   const toggle = (c: TechCategory, v: string) => {
     const current = selected[c];
-    const next = current.includes(v) ? current.filter((x) => x !== v) : [...current, v];
+    const next = current.includes(v)
+      ? current.filter((x) => x !== v)
+      : [...current, v];
     setSelected({ ...selected, [c]: next });
   };
 
@@ -230,7 +277,9 @@ function FilterButton({
               padding: "4px 6px 8px",
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--fg-1)" }}>
+            <span
+              style={{ fontSize: 12, fontWeight: 600, color: "var(--fg-1)" }}
+            >
               Filter by tech
             </span>
             {totalSelected > 0 && (
@@ -254,7 +303,10 @@ function FilterButton({
             const opts = options[c];
             if (opts.length === 0) return null;
             return (
-              <div key={c} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <div
+                key={c}
+                style={{ display: "flex", flexDirection: "column", gap: 2 }}
+              >
                 <span
                   style={{
                     fontSize: 10,
@@ -306,7 +358,9 @@ function CheckRow({
         fontSize: 13,
         color: "var(--fg-2)",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-surface-2)")}
+      onMouseEnter={(e) =>
+        (e.currentTarget.style.background = "var(--bg-surface-2)")
+      }
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       <span
@@ -325,13 +379,26 @@ function CheckRow({
       >
         {checked && <Icon name="check" size={10} strokeWidth={3} />}
       </span>
-      <input type="checkbox" checked={checked} onChange={onToggle} style={{ display: "none" }} />
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onToggle}
+        style={{ display: "none" }}
+      />
       {hasLogo && (
-        <span style={{ color: "var(--fg-2)", display: "inline-flex", alignItems: "center" }}>
+        <span
+          style={{
+            color: "var(--fg-2)",
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+        >
           <VendorLogo name={label} height={11} />
         </span>
       )}
-      <span style={{ flex: 1, color: checked ? "var(--fg-1)" : "var(--fg-2)" }}>{label}</span>
+      <span style={{ flex: 1, color: checked ? "var(--fg-1)" : "var(--fg-2)" }}>
+        {label}
+      </span>
     </label>
   );
 }
