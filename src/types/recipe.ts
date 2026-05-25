@@ -76,6 +76,16 @@ export type RecipeContributor = {
   website?: string | null;
 };
 
+/** GitHub popularity for a recipe's source repo (merged at sync from recipes repo sidecar). */
+export type GitHubMetrics = {
+  stars: number;
+  watchers: number;
+  forks?: number;
+  repoPushedAt?: string | null;
+  fetchedAt: string;
+  repo: string;
+};
+
 export type Recipe = {
   id: string;
   slug: string;
@@ -107,9 +117,58 @@ export type Recipe = {
   updated_at: string;
   license: License;
   notes?: string | null;
+  github_metrics?: GitHubMetrics | null;
 };
 
 /* ---------------- helpers ---------------- */
+
+/** Popularity score for Top tab: stars + watchers weight + log forks. */
+export function getTopScore(r: Recipe): number {
+  const m = r.github_metrics;
+  if (!m) return 0;
+  const forks = m.forks ?? 0;
+  return m.stars + m.watchers * 3 + Math.log1p(forks);
+}
+
+/** Recency multiplier from repo last push (30-day decay scale). */
+export function recencyDecay(
+  repoPushedAt: string | null | undefined,
+  now = Date.now(),
+): number {
+  if (!repoPushedAt) return 0.25;
+  const pushed = Date.parse(repoPushedAt);
+  if (!Number.isFinite(pushed)) return 0.25;
+  const days = Math.max(0, (now - pushed) / (24 * 60 * 60 * 1000));
+  return Math.exp(-days / 30);
+}
+
+/** Popularity score for Trending tab: top score × recency decay. */
+export function getTrendingScore(r: Recipe, now = Date.now()): number {
+  return getTopScore(r) * recencyDecay(r.github_metrics?.repoPushedAt, now);
+}
+
+function compareByUpdatedThenTitle(a: Recipe, b: Recipe): number {
+  const at = Date.parse(a.updated_at);
+  const bt = Date.parse(b.updated_at);
+  if (Number.isFinite(bt) && Number.isFinite(at) && bt !== at) return bt - at;
+  if (!Number.isFinite(at) && Number.isFinite(bt)) return 1;
+  if (Number.isFinite(at) && !Number.isFinite(bt)) return -1;
+  return a.title.localeCompare(b.title);
+}
+
+/** Sort recipes by a popularity score (desc), then updated_at, then title. */
+export function sortRecipesByScore(
+  recipes: Recipe[],
+  score: (r: Recipe) => number,
+): Recipe[] {
+  return [...recipes].sort((a, b) => {
+    const diff = score(b) - score(a);
+    if (diff !== 0) return diff;
+    return compareByUpdatedThenTitle(a, b);
+  });
+}
+
+/* ---------------- display helpers ---------------- */
 
 /** Numeric p50 latency for sorting / comparison; Infinity when unknown. */
 export function getLatencyMs(r: Recipe): number {

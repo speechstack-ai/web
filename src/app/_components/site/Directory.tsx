@@ -8,60 +8,47 @@ import {
   matchesTechSelection,
   type TechSelection,
 } from "./FilterBar";
+import { EmailCaptureForm } from "./EmailCaptureForm";
 import { RecipeGrid } from "./RecipeGrid";
+import {
+  getTopScore,
+  getTrendingScore,
+  isNewRecipe,
+  sortRecipesByScore,
+} from "~/types/recipe";
 import type { Recipe } from "~/types/recipe";
 
 type DirectoryProps = {
   recipes: Recipe[];
 };
 
-function recipeCategory(r: Recipe): string {
-  const useCase = r.use_case?.toLowerCase() ?? "";
-  const industry = r.industry?.toLowerCase() ?? "";
-
-  if (industry === "restaurant") return "Food & bev";
-  if (industry === "healthcare" || industry === "dental") return "Healthcare";
-  if (industry === "education") return "Education";
-
-  if (useCase === "sales" || useCase === "lead-qualification") return "Sales";
-  if (useCase === "technical-support" || useCase === "ivr-replacement") return "Support";
-  if (useCase === "research-interview") return "Recruiting";
-  if (useCase === "after-hours-receptionist" || useCase === "scheduling") return "Healthcare";
-  if (useCase === "order-taking") return "Food & bev";
-
-  return "Other";
-}
-
-const CATEGORY_ORDER = [
-  "Sales",
-  "Support",
-  "Healthcare",
-  "Food & bev",
-  "Recruiting",
-  "Education",
-];
+const SEGMENTS = ["trending", "top", "new"] as const;
+type Segment = (typeof SEGMENTS)[number];
 
 export function Directory({ recipes }: DirectoryProps) {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeSegment, setActiveSegment] = useState<Segment>("trending");
   const [selectedTech, setSelectedTech] = useState<TechSelection>(EMPTY_TECH_SELECTION);
   const [query, setQuery] = useState("");
 
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    for (const r of recipes) set.add(recipeCategory(r));
-    return Array.from(set).sort((a, b) => {
-      const ai = CATEGORY_ORDER.indexOf(a);
-      const bi = CATEGORY_ORDER.indexOf(b);
-      if (ai === -1 && bi === -1) return a.localeCompare(b);
-      if (ai === -1) return 1;
-      if (bi === -1) return -1;
-      return ai - bi;
+  const segmented = useMemo(() => {
+    const newRecipes = recipes.filter((recipe) => isNewRecipe(recipe)).sort((a, b) => {
+      const at = Date.parse(a.created_at);
+      const bt = Date.parse(b.created_at);
+      if (Number.isFinite(bt) && Number.isFinite(at) && bt !== at) return bt - at;
+      return a.title.localeCompare(b.title);
     });
+
+    return {
+      trending: sortRecipesByScore(recipes, getTrendingScore),
+      top: sortRecipesByScore(recipes, getTopScore),
+      new: newRecipes,
+    };
   }, [recipes]);
 
   const filtered = useMemo(() => {
-    return recipes.filter((r) => {
-      if (activeCategory !== "all" && recipeCategory(r) !== activeCategory) return false;
+    const segmentRecipes = segmented[activeSegment];
+
+    return segmentRecipes.filter((r) => {
       if (!matchesTechSelection(r, selectedTech)) return false;
       if (query) {
         const q = query.toLowerCase();
@@ -83,10 +70,10 @@ export function Directory({ recipes }: DirectoryProps) {
       }
       return true;
     });
-  }, [recipes, activeCategory, selectedTech, query]);
+  }, [segmented, activeSegment, selectedTech, query]);
 
   const clearAll = () => {
-    setActiveCategory("all");
+    setActiveSegment("trending");
     setSelectedTech(EMPTY_TECH_SELECTION);
     setQuery("");
   };
@@ -99,7 +86,7 @@ export function Directory({ recipes }: DirectoryProps) {
         id="recipes"
         style={{ maxWidth: 896, margin: "0 auto", padding: "24px 32px 48px" }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <SearchAndFilter
             recipes={recipes}
             query={query}
@@ -108,11 +95,7 @@ export function Directory({ recipes }: DirectoryProps) {
             setSelected={setSelectedTech}
           />
 
-          <CategoryTabs
-            categories={categories}
-            active={activeCategory}
-            setActive={setActiveCategory}
-          />
+          <SegmentTabs active={activeSegment} setActive={setActiveSegment} />
 
           {filtered.length === 0 ? (
             <EmptyState onClear={clearAll} />
@@ -121,18 +104,19 @@ export function Directory({ recipes }: DirectoryProps) {
           )}
         </div>
       </section>
+      <div style={{ maxWidth: 896, margin: "0 auto", padding: "0 32px 48px" }}>
+        <EmailCaptureForm location="homepage" />
+      </div>
     </>
   );
 }
 
-function CategoryTabs({
-  categories,
+function SegmentTabs({
   active,
   setActive,
 }: {
-  categories: string[];
-  active: string;
-  setActive: (c: string) => void;
+  active: Segment;
+  setActive: (segment: Segment) => void;
 }) {
   return (
     <div
@@ -143,13 +127,12 @@ function CategoryTabs({
         flexWrap: "wrap",
       }}
     >
-      <Chip label="All" active={active === "all"} onClick={() => setActive("all")} />
-      {categories.map((c) => (
+      {SEGMENTS.map((segment) => (
         <Chip
-          key={c}
-          label={c}
-          active={active === c}
-          onClick={() => setActive(c)}
+          key={segment}
+          label={segment}
+          active={active === segment}
+          onClick={() => setActive(segment)}
         />
       ))}
     </div>
@@ -189,7 +172,7 @@ function Chip({
         if (!active) e.currentTarget.style.background = "var(--bg-surface-1)";
       }}
     >
-      {label}
+      {label.charAt(0).toUpperCase() + label.slice(1)}
     </button>
   );
 }

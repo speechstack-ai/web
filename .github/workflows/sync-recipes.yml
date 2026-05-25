@@ -19,6 +19,11 @@ on:
         description: "Recipes repo ref (branch, tag, or SHA)"
         required: false
         default: "main"
+      ping_all:
+        description: "Submit every current URL to IndexNow (use for backfills)"
+        required: false
+        type: boolean
+        default: false
   schedule:
     # 06:17 UTC daily; offset minute to avoid the top-of-hour cron herd.
     - cron: "17 6 * * *"
@@ -50,6 +55,7 @@ jobs:
         run: node scripts/sync-recipes.mjs
 
       - name: Commit & push if changed
+        id: commit
         env:
           SYNCED_SHA: ${{ steps.sync.outputs.sha }}
           SYNCED_COUNT: ${{ steps.sync.outputs.count }}
@@ -60,7 +66,23 @@ jobs:
             git add public/data/recipes.json
             git commit -m "chore: sync ${SYNCED_COUNT} recipes from speechstack-ai/recipes@${SYNCED_SHA}"
             git push
+            echo "committed=true" >> "$GITHUB_OUTPUT"
             echo "::notice::Pushed sync commit (${SYNCED_COUNT} recipes @ ${SYNCED_SHA})."
           else
+            echo "committed=false" >> "$GITHUB_OUTPUT"
             echo "::notice::No recipe changes — nothing to commit."
           fi
+
+      # Notify IndexNow (Bing, Yandex, et al.) about new/updated recipe pages.
+      # Google ignores IndexNow — it relies on the sitemap + Search Console.
+      - name: Ping IndexNow (changed URLs)
+        if: steps.commit.outputs.committed == 'true' && steps.sync.outputs.changed_count != '0'
+        continue-on-error: true
+        env:
+          URLS: ${{ steps.sync.outputs.changed_urls }}
+        run: node scripts/ping-indexnow.mjs
+
+      - name: Ping IndexNow (backfill all URLs)
+        if: github.event.inputs.ping_all == 'true'
+        continue-on-error: true
+        run: node scripts/ping-indexnow.mjs --all

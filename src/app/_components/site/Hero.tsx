@@ -1,10 +1,7 @@
-import { EmailCaptureForm } from "./EmailCaptureForm";
-
 export function Hero() {
   return (
     <section
       style={{
-        borderBottom: "1px solid var(--border-default)",
         background: "var(--bg-canvas)",
       }}
     >
@@ -51,7 +48,6 @@ export function Hero() {
         >
           Pick a stack, copy the prompts and configs, ship the agent this week.
         </p>
-        <EmailCaptureForm location="homepage" />
       </div>
     </section>
   );

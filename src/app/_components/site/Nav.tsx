@@ -55,6 +55,7 @@ export function Nav({ theme, onTheme }: NavProps) {
         >
           <NavLink href="/templates">Templates</NavLink>
           <NavLink href="/tools">Tools</NavLink>
+          <NavLink href="/#email-capture-homepage">Newsletter</NavLink>
         </nav>
 
         <div style={{ flex: 1 }} />
