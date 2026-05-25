@@ -1,9 +1,5 @@
 import "server-only";
 
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +11,7 @@ import {
   getVendorBySlug,
   type Vendor,
 } from "~/lib/vendors";
+import { getRecipesForVendor } from "~/utils/vendorRecipes";
 import { SITE_NAME, SITE_URL } from "~/utils/site";
 
 export const dynamic = "force-static";
@@ -25,70 +22,6 @@ const HOSTING_LABEL: Record<Vendor["hosting"], string> = {
   "self-host": "Self-hosted",
   hybrid: "Cloud or self-hosted",
 };
-
-const RECIPE_EXTS = new Set([".md", ".mdx", ".yml", ".yaml", ".json"]);
-
-function findRecipeTemplatesDir(): string | null {
-  const home = os.homedir();
-  const candidate = path.join(home, "code", "speechstack", "recipes", "templates");
-  try {
-    const stat = fs.statSync(candidate);
-    if (stat.isDirectory()) return candidate;
-  } catch {
-    // not present
-  }
-  return null;
-}
-
-function walkRecipeFiles(dir: string): string[] {
-  const out: string[] = [];
-  let entries: fs.Dirent[] = [];
-  try {
-    entries = fs.readdirSync(dir, { withFileTypes: true });
-  } catch {
-    return out;
-  }
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      out.push(...walkRecipeFiles(full));
-    } else if (entry.isFile()) {
-      const ext = path.extname(entry.name).toLowerCase();
-      if (RECIPE_EXTS.has(ext)) {
-        out.push(full);
-      }
-    }
-  }
-  return out;
-}
-
-type TemplateMatch = {
-  id: string;
-  relativePath: string;
-};
-
-function findTemplatesForVendor(vendorName: string): TemplateMatch[] {
-  const dir = findRecipeTemplatesDir();
-  if (!dir) return [];
-  const needle = vendorName.toLowerCase();
-  const files = walkRecipeFiles(dir);
-  const matches: TemplateMatch[] = [];
-  for (const file of files) {
-    let content = "";
-    try {
-      content = fs.readFileSync(file, "utf8");
-    } catch {
-      continue;
-    }
-    if (content.toLowerCase().includes(needle)) {
-      const rel = path.relative(dir, file);
-      const id = rel.replace(/\.(md|mdx|yml|yaml|json)$/i, "");
-      matches.push({ id, relativePath: rel });
-    }
-  }
-  matches.sort((a, b) => a.id.localeCompare(b.id));
-  return matches;
-}
 
 export function generateStaticParams() {
   return VENDORS.map((v) => ({ slug: v.slug }));
@@ -162,7 +95,7 @@ export default async function VendorDetailPage({
     notFound();
   }
 
-  const templates = findTemplatesForVendor(vendor.name);
+  const templates = getRecipesForVendor(vendor);
 
   return (
     <main
@@ -351,10 +284,10 @@ export default async function VendorDetailPage({
               gap: 8,
             }}
           >
-            {templates.map((t) => (
-              <li key={t.relativePath}>
+            {templates.map((template) => (
+              <li key={template.id}>
                 <Link
-                  href={`/templates/${encodeURIComponent(t.id)}`}
+                  href={`/templates/${encodeURIComponent(template.id)}`}
                   style={{
                     fontSize: 14,
                     color: "var(--accent-fg)",
@@ -362,7 +295,7 @@ export default async function VendorDetailPage({
                     fontFamily: "var(--font-mono)",
                   }}
                 >
-                  {t.id}
+                  {template.title}
                 </Link>
               </li>
             ))}
