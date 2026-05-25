@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import { CopyBlock } from "./CopyBlock";
+import { EmailCaptureForm } from "./EmailCaptureForm";
 import { Icon } from "./Icon";
 import { Tooltip } from "./Tooltip";
 import { VendorLogo, pickLogo, vendorLabel } from "./VendorLogo";
@@ -13,7 +14,10 @@ import {
   type Recipe,
 } from "~/types/recipe";
 
-const BADGE_STYLES: Record<DisplayBadge, { bg: string; border: string; color: string }> = {
+const BADGE_STYLES: Record<
+  DisplayBadge,
+  { bg: string; border: string; color: string }
+> = {
   verified: {
     bg: "rgba(63,185,80,0.12)",
     border: "rgba(63,185,80,0.3)",
@@ -29,7 +33,11 @@ const BADGE_STYLES: Record<DisplayBadge, { bg: string; border: string; color: st
 function formatUpdatedAt(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
@@ -37,7 +45,8 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
   const badge = badgeKind ? BADGE_STYLES[badgeKind] : null;
 
   const steps: { label: string; value: string }[] = [];
-  if (recipe.pipeline.telephony) steps.push({ label: "telephony", value: recipe.pipeline.telephony });
+  if (recipe.pipeline.telephony)
+    steps.push({ label: "telephony", value: recipe.pipeline.telephony });
   steps.push({ label: "speech-to-text", value: recipe.pipeline.stt });
   steps.push({ label: "llm", value: recipe.pipeline.llm });
   steps.push({ label: "text-to-speech", value: recipe.pipeline.tts });
@@ -91,7 +100,14 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
       </div>
 
       <header style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            flexWrap: "wrap",
+          }}
+        >
           <span
             style={{
               fontFamily: "var(--font-mono)",
@@ -178,7 +194,9 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
         >
           {recipe.description}
         </p>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 4 }}>
+        <div
+          style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 4 }}
+        >
           {recipe.demo_url ? (
             <a
               href={recipe.demo_url}
@@ -283,50 +301,50 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
             background: "var(--bg-surface-1)",
           }}
         >
-        <DetailMetric label="latency" value={formatLatency(recipe)} />
-        <DetailMetric label="cost / min" value={formatCost(recipe)} border />
-        <div
-          style={{
-            padding: 14,
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-            borderLeft: "1px solid var(--border-default)",
-            background: "var(--bg-surface-1)",
-          }}
-        >
-          <span
+          <DetailMetric label="latency" value={formatLatency(recipe)} />
+          <DetailMetric label="cost / min" value={formatCost(recipe)} border />
+          <div
             style={{
-              fontSize: 10,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--fg-3)",
-              fontWeight: 600,
+              padding: 14,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              borderLeft: "1px solid var(--border-default)",
+              background: "var(--bg-surface-1)",
             }}
           >
-            framework
-          </span>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              color: "var(--fg-1)",
-            }}
-          >
-            <VendorLogo name={recipe.framework} height={20} />
             <span
               style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 18,
-                fontWeight: 500,
-                letterSpacing: "-0.01em",
+                fontSize: 10,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "var(--fg-3)",
+                fontWeight: 600,
               }}
             >
-              {recipe.framework}
+              framework
             </span>
-          </span>
-        </div>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                color: "var(--fg-1)",
+              }}
+            >
+              <VendorLogo name={recipe.framework} height={20} />
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 18,
+                  fontWeight: 500,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {recipe.framework}
+              </span>
+            </span>
+          </div>
         </div>
       </Section>
 
@@ -536,6 +554,8 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
         </Section>
       )}
 
+      <EmailCaptureForm location="recipe-detail" />
+
       <footer
         style={{
           fontFamily: "var(--font-mono)",
@@ -567,7 +587,13 @@ export function RecipeDetailPage({ recipe }: { recipe: Recipe }) {
   );
 }
 
-function Section({ label, children }: { label: string; children: React.ReactNode }) {
+function Section({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <section style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       <span

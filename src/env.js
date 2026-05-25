@@ -8,6 +8,8 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    BEEHIIV_PUBLICATION_ID: z.string().optional(),
+    BEEHIIV_API_KEY: z.string().optional(),
   },
 
   /**
@@ -28,6 +30,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    BEEHIIV_PUBLICATION_ID: process.env.BEEHIIV_PUBLICATION_ID,
+    BEEHIIV_API_KEY: process.env.BEEHIIV_API_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
     NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
