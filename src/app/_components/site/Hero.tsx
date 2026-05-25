@@ -1,3 +1,5 @@
+import { EmailCaptureForm } from "./EmailCaptureForm";
+
 export function Hero() {
   return (
     <section
@@ -49,6 +51,7 @@ export function Hero() {
         >
           Pick a stack, copy the prompts and configs, ship the agent this week.
         </p>
+        <EmailCaptureForm location="homepage" />
       </div>
     </section>
   );

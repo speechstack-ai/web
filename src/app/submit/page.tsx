@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { EmailCaptureForm } from "~/app/_components/site/EmailCaptureForm";
 import { SITE_NAME, SITE_URL } from "~/utils/site";
 
 export const dynamic = "force-static";
@@ -130,12 +131,13 @@ export default function SubmitPage() {
       <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         <h2 style={sectionHeadingStyle}>Path 2 · Form</h2>
         <p style={bodyParagraphStyle}>
-          Not in the mood for a PR? Paste the stack, prompt, config, source
-          URL, and a sentence about the outcome. We&apos;ll do the schema
-          conversion. Expect a review within a week. Approved submissions ship
-          as <code style={inlineCodeStyle}>verified: false</code> until we
-          test-run them.
+          Not in the mood for a PR? Paste the stack, prompt, config, source URL,
+          and a sentence about the outcome. We&apos;ll do the schema conversion.
+          Expect a review within a week. Approved submissions ship as{" "}
+          <code style={inlineCodeStyle}>verified: false</code> until we test-run
+          them.
         </p>
+        <EmailCaptureForm location="submit" />
         {/* Tally embed pending — form ID to be added by Zach */}
         <div
           id="tally-form-placeholder"
@@ -202,9 +204,10 @@ export default function SubmitPage() {
           </li>
         </ol>
         <p style={bodyParagraphStyle}>
-          Templates ship with <code style={inlineCodeStyle}>verified: false</code>{" "}
-          until Zach has placed a test call or run the workflow personally. The
-          verified flag flips only after that.
+          Templates ship with{" "}
+          <code style={inlineCodeStyle}>verified: false</code> until Zach has
+          placed a test call or run the workflow personally. The verified flag
+          flips only after that.
         </p>
       </section>
     </main>
