@@ -837,77 +837,6 @@
     "license": "MIT"
   },
   {
-    "id": "weather-information-assistant-with-function-calling",
-    "slug": "weather-information-assistant-with-function-calling",
-    "title": "Weather Information Assistant with Function Calling",
-    "description": "A conversational agent that fetches current weather information for any location using function calling capabilities. The agent infers temperature units (Celsius or Fahrenheit) based on the user's location and provides real-time weather data through API integration.",
-    "framework": "Hume EVI",
-    "use_case": "support",
-    "industry": "other",
-    "languages": [
-      "en-US"
-    ],
-    "pipeline": {
-      "stt": "Deepgram Nova-3",
-      "llm": "Claude Sonnet 4.5",
-      "tts": "ElevenLabs Turbo v2.5",
-      "telephony": "Web Only"
-    },
-    "raw_prompt": null,
-    "prompt_file": null,
-    "config": {
-      "temperature": 1,
-      "tools": [
-        {
-          "name": "get_current_weather",
-          "description": "This tool is for getting the current weather.",
-          "parameters": {
-            "type": "object",
-            "required": [
-              "location",
-              "format"
-            ],
-            "properties": {
-              "format": {
-                "enum": [
-                  "celsius",
-                  "fahrenheit"
-                ],
-                "type": "string",
-                "description": "The temperature unit to use. Infer this from the users location."
-              },
-              "location": {
-                "type": "string",
-                "description": "The city and state, e.g. San Francisco, CA"
-              }
-            }
-          },
-          "fallback_content": "Unable to fetch current weather."
-        }
-      ],
-      "voice_name": "ITO",
-      "evi_version": "2",
-      "model_provider": "ANTHROPIC",
-      "model_resource": "claude-3-5-sonnet-20240620",
-      "voice_provider": "HUME_AI"
-    },
-    "github_source_url": "https://github.com/HumeAI/hume-api-examples/tree/main/evi/evi-typescript-function-calling",
-    "demo_url": null,
-    "tags": [
-      "function-calling",
-      "weather",
-      "typescript",
-      "real-time"
-    ],
-    "contributor": {
-      "github": "HumeAI"
-    },
-    "source": "github_discovery",
-    "created_at": "2025-05-25T10:30:00Z",
-    "updated_at": "2025-05-25T10:30:00Z",
-    "license": "MIT"
-  },
-  {
     "id": "langchain-agent-voice-demo-with-vocode-core",
     "slug": "langchain-agent-voice-demo-with-vocode-core",
     "title": "LangChain Agent Voice Demo with Vocode Core",
@@ -1177,6 +1106,64 @@
     "created_at": "2025-01-20T12:00:00Z",
     "updated_at": "2025-01-20T12:00:00Z",
     "license": "Proprietary"
+  },
+  {
+    "id": "weather-information-assistant-with-function-calling",
+    "slug": "weather-information-assistant-with-function-calling",
+    "title": "Weather Information Assistant with Function Calling",
+    "description": "A conversational voice agent built with Pipecat that provides weather information through function calling. The agent demonstrates multilingual capabilities with support for English and Arabic, and can be deployed to web or phone via Twilio integration.",
+    "framework": "Pipecat",
+    "use_case": "support",
+    "industry": "other",
+    "languages": [
+      "en-US",
+      "ar"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "Groq Llama 3.3 70B",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Twilio Voice"
+    },
+    "raw_prompt": "You are a helpful and friendly AI...",
+    "prompt_file": null,
+    "config": {
+      "transport": [
+        "Daily WebRTC",
+        "Serverless WebRTC"
+      ],
+      "multilingual": true,
+      "function_calls": [
+        "get_current_weather"
+      ],
+      "local_dev_port": 7860,
+      "deployment_options": [
+        "web",
+        "phone"
+      ],
+      "languages_supported": [
+        "English",
+        "Arabic"
+      ]
+    },
+    "github_source_url": "https://github.com/daily-co/pcc-groq-llama",
+    "demo_url": null,
+    "tags": [
+      "weather",
+      "function-calling",
+      "multilingual",
+      "twilio",
+      "groq",
+      "llama",
+      "pipecat-cloud"
+    ],
+    "contributor": {
+      "github": "kwindla"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-01-17T10:30:00-08:00",
+    "updated_at": "2025-01-17T10:30:00-08:00",
+    "license": "MIT"
   },
   {
     "id": "general-purpose-conversational-voice-agent-with-nvidia-nim",
