@@ -9,6 +9,7 @@ import {
   type Vendor,
   type VendorLayer,
 } from "~/lib/vendors";
+import { getTemplateCountForVendor } from "~/utils/vendorRecipes";
 import { SITE_NAME, SITE_URL } from "~/utils/site";
 
 export const dynamic = "force-static";
@@ -99,6 +100,8 @@ function StackHero() {
 }
 
 function VendorTile({ vendor }: { vendor: Vendor }) {
+  const templateCount = getTemplateCountForVendor(vendor);
+
   return (
     <Link
       href={`/tools/${vendor.slug}`}
@@ -207,7 +210,7 @@ function VendorTile({ vendor }: { vendor: Vendor }) {
               whiteSpace: "nowrap",
             }}
           >
-            {templateLabel(vendor.templateCount)}
+            {templateLabel(templateCount)}
           </span>
         </div>
       </div>
