@@ -1634,6 +1634,76 @@
     "license": "BSD-2-Clause"
   },
   {
+    "id": "autonomous-incident-manager-for-site-reliability-engineering",
+    "slug": "autonomous-incident-manager-for-site-reliability-engineering",
+    "title": "Autonomous Incident Manager for Site Reliability Engineering",
+    "description": "An autonomous agent that detects production errors in real time, investigates root causes using AI, generates code patches, and calls on-call engineers via voice to request approval for deployment. Compresses traditional incident response from hours to under 30 seconds.",
+    "framework": "Custom",
+    "use_case": "technical-support",
+    "industry": "saas",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "Gemini 2.5 Flash",
+      "tts": "ElevenLabs Flash v2.5",
+      "telephony": "Twilio Voice"
+    },
+    "metrics": {
+      "latency_p50_ms": 3000,
+      "latency_p95_ms": 15000,
+      "latency_display": "3s detection, 15s analysis",
+      "cost_per_minute_usd_min": null,
+      "cost_per_minute_usd_max": null,
+      "cost_display": null
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "analyze_error",
+          "description": "Accepts error payload and begins async AI analysis with Gemini"
+        },
+        {
+          "name": "generate_patch",
+          "description": "Generates git-style code patch based on root cause analysis"
+        },
+        {
+          "name": "voice_notification",
+          "description": "Initiates voice call to on-call engineer via Bland AI with incident summary"
+        },
+        {
+          "name": "deploy_approval",
+          "description": "Tracks engineer approval state for automated deployment"
+        }
+      ],
+      "auth": "Auth0",
+      "observability": "Overmind tracer",
+      "incident_store": "Aerospike",
+      "llm_temperature": null,
+      "polling_interval_ms": 3000
+    },
+    "github_source_url": "https://github.com/Badri-Narayanan/Autonomous-SRE",
+    "demo_url": null,
+    "tags": [
+      "incident-management",
+      "self-healing",
+      "devops",
+      "autonomous-agent",
+      "code-generation",
+      "real-time-monitoring"
+    ],
+    "contributor": {
+      "github": "Badri-Narayanan"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-06-08T19:30:00Z",
+    "updated_at": "2025-06-08T19:30:00Z",
+    "license": "Proprietary"
+  },
+  {
     "id": "insurance-lead-follow-up-agent",
     "slug": "insurance-lead-follow-up-agent",
     "title": "Insurance Lead Follow-Up Agent",
@@ -2235,6 +2305,58 @@
     "created_at": "2025-05-31T10:30:00-07:00",
     "updated_at": "2025-05-31T10:30:00-07:00",
     "license": "Proprietary"
+  },
+  {
+    "id": "voice-agent-with-visual-data-verification-for-lead-capture",
+    "slug": "voice-agent-with-visual-data-verification-for-lead-capture",
+    "title": "Voice Agent with Visual Data Verification for Lead Capture",
+    "description": "A voice-first AI receptionist that captures user information through natural conversation and ensures 100% data accuracy through a unique human-in-the-loop verification workflow. Users visually confirm all captured information in a form before submission, eliminating transcription errors and ensuring structured data reliability for CRM integration, appointment booking, and lead qualification.",
+    "framework": "LiveKit Agents",
+    "use_case": "lead-qualification",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-2",
+      "llm": "Groq Llama 3.3 70B",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "data_capture",
+          "description": "Captures structured user information during conversation for visual verification"
+        },
+        {
+          "name": "form_verification",
+          "description": "Presents captured data to user in a form for visual confirmation before submission"
+        }
+      ],
+      "personality": "configurable",
+      "knowledge_base": "configurable",
+      "verification_workflow": "RPC-driven visual form verification"
+    },
+    "github_source_url": "https://github.com/jeffo777/input-right",
+    "demo_url": "https://www.youtube.com/watch?v=unc9YS0cvdg",
+    "tags": [
+      "data-verification",
+      "lead-capture",
+      "human-in-the-loop",
+      "form-filling",
+      "receptionist",
+      "open-source"
+    ],
+    "contributor": {
+      "github": "jeffo777"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-30T18:45:00Z",
+    "updated_at": "2025-05-30T18:45:00Z",
+    "license": "Apache-2.0"
   },
   {
     "id": "five-minute-inbound-lead-qualification-and-transfer",
@@ -2958,6 +3080,64 @@
     "created_at": "2025-05-27T10:30:00+00:00",
     "updated_at": "2025-05-27T10:30:00+00:00",
     "license": "Proprietary"
+  },
+  {
+    "id": "multi-agent-voice-pipeline-with-transcription-and-synthesis",
+    "slug": "multi-agent-voice-pipeline-with-transcription-and-synthesis",
+    "title": "Multi-Agent Voice Pipeline with Transcription and Synthesis",
+    "description": "A three-agent crew that processes spoken audio end-to-end: one agent transcribes speech, a research analyst extracts key insights, and a speaker agent delivers the analysis as spoken audio. Demonstrates sequential multi-agent coordination with voice input and output.",
+    "framework": "Custom",
+    "use_case": "transcription-and-summary",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4o-mini",
+      "tts": "Deepgram Aura-2",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "agents": [
+        {
+          "goal": "Transcribe audio using Deepgram STT",
+          "role": "Voice Listener",
+          "tool": "transcribe_audio"
+        },
+        {
+          "goal": "Extract key insights from transcript",
+          "role": "Research Analyst",
+          "backend": "GPT-4.1-mini"
+        },
+        {
+          "goal": "Synthesize summary into spoken audio",
+          "role": "Voice Speaker",
+          "tool": "speak_text"
+        }
+      ],
+      "process": "sequential",
+      "stt_model": "nova-3",
+      "tts_model": "aura-2-asteria-en",
+      "smart_format": true
+    },
+    "github_source_url": "https://github.com/deepgram/examples/tree/main/examples/310-crewai-voice-agents-python",
+    "demo_url": null,
+    "tags": [
+      "crewai",
+      "multi-agent",
+      "sequential-processing",
+      "voice-to-voice"
+    ],
+    "contributor": {
+      "github": "lukeocodes"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-27T10:30:00+00:00",
+    "updated_at": "2025-05-27T10:30:00+00:00",
+    "license": "MIT"
   },
   {
     "id": "multi-agent-voice-framework-for-customer-service-and-chat-supervision",
@@ -3752,6 +3932,58 @@
     "source": "github_discovery",
     "created_at": "2025-05-22T19:30:00+00:00",
     "updated_at": "2025-05-22T19:30:00+00:00",
+    "license": "MIT"
+  },
+  {
+    "id": "web-research-assistant-with-real-time-search",
+    "slug": "web-research-assistant-with-real-time-search",
+    "title": "Web Research Assistant with Real-Time Search",
+    "description": "A voice agent that performs web searches using Exa API and synthesizes search results into natural conversational responses. The agent can answer questions by searching the web in real-time and providing comprehensive summaries of the findings.",
+    "framework": "Cartesia",
+    "use_case": "research-interview",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "GPT-4o",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "temperature": 0.7,
+      "tools": [
+        {
+          "name": "web_search",
+          "description": "Searches the web using Exa API with 10 results, fast search type, no livecrawl, and max 1000 characters per result. Returns formatted search results to the LLM for synthesis."
+        }
+      ],
+      "max_tokens": 300,
+      "exa_search_params": {
+        "type": "fast",
+        "livecrawl": "never",
+        "num_results": 10,
+        "text_max_characters": 1000
+      }
+    },
+    "github_source_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/exa",
+    "demo_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/exa",
+    "tags": [
+      "web-search",
+      "research",
+      "exa-integration",
+      "async-tools",
+      "loopback-tool"
+    ],
+    "contributor": {
+      "github": "cartesia-ai"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-22T10:30:00-07:00",
+    "updated_at": "2025-05-22T10:30:00-07:00",
     "license": "MIT"
   },
   {
