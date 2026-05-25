@@ -977,6 +977,52 @@
     "raw_prompt": "# Instawork Candidate Screener (System Prompt)\n\n## Role\nYou are an impartial screening interviewer for hourly roles at **Instawork**'s labor marketplace. You are neutral, encouraging, and clinical — every candidate gets the same fair experience whether they're called at 9 a.m. or 11 p.m.\n\n## Opening\n*\"Hi {{candidate_name}}, this is the Instawork screening line. I'm going to ask a few short questions about your experience for the {{position_title}} role — it'll take about 5 minutes. Ready?\"*\n\n## Core Behaviors\n- Call `lookup_position` first to pull the role-specific question set.\n- Ask one structured question at a time, in the order returned.\n- Accept short answers — never push for more than two follow-up clarifications per question.\n- Never lead the candidate or hint at the \"right\" answer.\n- Never disclose the scoring rubric.\n- After each answer, call `record_answer` with the score.\n- At the end of the question set, call `approve_for_position` with the full structured rubric.\n\n## Hard Rules\n- **No protected-class questions** (age, family, religion, disability beyond bona-fide job requirements, citizenship beyond work-eligibility yes/no, marital status).\n- If the candidate becomes distressed, offer to pause: *\"We can take a quick break — let me know when you're ready.\"*\n- **Never promise a hire.** The final decision is made downstream.\n- If the candidate goes wildly off-topic or asks for accommodations you can't grant, call `transfer_to_recruiter`.\n\n## Out of Scope\n- Pay rates beyond a published range\n- Specific shift availability — captured downstream\n- Reference checks\n\n## Closing\n*\"That's all my questions. We'll review and follow up by app notification within 24 hours. Thanks for your time.\"*"
   },
   {
+    "id": "real-time-conversational-voice-bot-with-turn-detection",
+    "slug": "real-time-conversational-voice-bot-with-turn-detection",
+    "title": "Real-Time Conversational Voice Bot with Turn Detection",
+    "description": "A real-time conversational voice bot that listens through your microphone, transcribes speech, generates intelligent responses, and speaks back with natural turn-taking. Supports both local console mode and browser-based WebRTC sessions. Uses voice activity detection for natural interruption handling.",
+    "framework": "Pipecat",
+    "use_case": "other",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4.1",
+      "tts": "Deepgram Aura-2",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "vad": "Silero VAD",
+      "audio_flow": "microphone → VAD → STT → Context → LLM → TTS → speaker",
+      "transport_modes": [
+        "local_console",
+        "daily_webrtc"
+      ],
+      "allow_interruptions": true
+    },
+    "github_source_url": "https://github.com/deepgram/examples/tree/main/examples/080-pipecat-voice-pipeline-python",
+    "demo_url": null,
+    "tags": [
+      "real-time",
+      "turn-detection",
+      "interruption-handling",
+      "webrtc",
+      "vad",
+      "streaming"
+    ],
+    "contributor": {
+      "github": "lukeocodes"
+    },
+    "source": "github_discovery",
+    "created_at": "2026-05-15T10:30:00-07:00",
+    "updated_at": "2026-05-15T10:30:00-07:00",
+    "license": "Proprietary"
+  },
+  {
     "id": "travel-companion-with-location-based-recommendations",
     "slug": "travel-companion-with-location-based-recommendations",
     "title": "Travel Companion with Location-Based Recommendations",
@@ -1080,6 +1126,117 @@
     "created_at": "2026-04-09T12:00:00Z",
     "updated_at": "2026-04-09T12:00:00Z",
     "license": "MIT"
+  },
+  {
+    "id": "conversational-voice-agent-with-tool-calling",
+    "slug": "conversational-voice-agent-with-tool-calling",
+    "title": "Conversational Voice Agent with Tool Calling",
+    "description": "A conversational voice agent that listens to speech, transcribes it in real-time, processes it through an OpenAI agent with tool-calling support, and speaks the response back. Supports both single-turn demo mode and interactive streaming for continuous conversation.",
+    "framework": "Custom",
+    "use_case": "support",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4.1",
+      "tts": "Deepgram Aura-2",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "llm_model": "gpt-4.1-mini",
+      "stt_model": "nova-3",
+      "tts_model": "aura-2-asteria-en",
+      "smart_format": true,
+      "interim_results": true,
+      "streaming_supported": true,
+      "tool_calling_supported": true
+    },
+    "github_source_url": "https://github.com/deepgram/examples/tree/main/examples/210-openai-agents-voice-python",
+    "demo_url": null,
+    "tags": [
+      "openai-agents-sdk",
+      "streaming",
+      "tool-calling",
+      "voice-pipeline",
+      "python"
+    ],
+    "contributor": {
+      "github": "lukeocodes"
+    },
+    "source": "github_discovery",
+    "created_at": "2026-01-20T12:00:00Z",
+    "updated_at": "2026-01-20T12:00:00Z",
+    "license": "Proprietary"
+  },
+  {
+    "id": "elder-care-advisor-for-adult-children",
+    "slug": "elder-care-advisor-for-adult-children",
+    "title": "Elder Care Advisor for Adult Children",
+    "description": "An empathy-tuned voice agent that helps adult children explore elder care options for their parents. The agent conducts a conversational assessment covering mobility, health conditions, and care urgency, then provides personalized recommendations and schedules follow-up callbacks. Features a talking-head avatar with real-time lip-sync and structured care summaries.",
+    "framework": "Pipecat",
+    "use_case": "lead-qualification",
+    "industry": "healthcare",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "Claude Sonnet 4.5",
+      "tts": "Cartesia Sonic-2",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "voice_id": "Joseph",
+      "tools": [
+        {
+          "name": "assess_risk",
+          "description": "Records urgency level and risk factors based on the conversation"
+        },
+        {
+          "name": "create_care_plan",
+          "description": "Generates personalized care recommendations"
+        },
+        {
+          "name": "schedule_callback",
+          "description": "Books a follow-up call with the caller"
+        },
+        {
+          "name": "end_call_gracefully",
+          "description": "Allows the agent to end the call after meaningful work is completed"
+        }
+      ],
+      "avatar": "Tavus Phoenix-4",
+      "features": [
+        "voice_cloning",
+        "real_time_transcript",
+        "conversation_persistence",
+        "tool_call_audit_trail"
+      ],
+      "transport": "Daily WebRTC"
+    },
+    "github_source_url": "https://github.com/flaminshinjan/emoha-poc",
+    "demo_url": "https://github.com/flaminshinjan/emoha-poc",
+    "tags": [
+      "elder-care",
+      "healthcare-navigation",
+      "empathy-driven",
+      "avatar",
+      "voice-cloning",
+      "care-assessment"
+    ],
+    "contributor": {
+      "github": "flaminshinjan"
+    },
+    "source": "github_discovery",
+    "created_at": "2026-01-20T00:00:00Z",
+    "updated_at": "2026-01-20T00:00:00Z",
+    "license": "Proprietary"
   },
   {
     "id": "general-purpose-voice-agent-with-low-latency-streaming",
@@ -1711,6 +1868,44 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T00:00:00Z",
     "updated_at": "2025-06-08T00:00:00Z",
+    "license": "MIT"
+  },
+  {
+    "id": "autonomous-sales-outbound-calling-agent",
+    "slug": "autonomous-sales-outbound-calling-agent",
+    "title": "Autonomous Sales Outbound Calling Agent",
+    "description": "An AI-powered sales agent that manages outbound calling campaigns, performs sentiment analysis on conversations, and schedules intelligent follow-ups based on real-time call analysis. The system automates cold calling workflows with conversation enrichment and adaptive scheduling.",
+    "framework": "Bland",
+    "use_case": "sales",
+    "industry": "saas",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-2",
+      "llm": "Gemini 2.5 Flash",
+      "tts": "PlayHT 2.0",
+      "telephony": "Twilio Voice"
+    },
+    "config": {
+      "sentiment_analysis": true,
+      "follow_up_scheduling": true,
+      "conversation_enrichment": true
+    },
+    "github_source_url": "https://github.com/yashh2417/cold_campaign_agent",
+    "demo_url": "https://github.com/yashh2417/cold_campaign_agent",
+    "tags": [
+      "sentiment-analysis",
+      "autonomous-agent",
+      "campaign-management",
+      "follow-up-automation"
+    ],
+    "contributor": {
+      "github": "yashh2417"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-06-07T10:30:00-05:00",
+    "updated_at": "2025-06-07T10:30:00-05:00",
     "license": "MIT"
   },
   {
@@ -2372,6 +2567,58 @@
     "license": "MIT"
   },
   {
+    "id": "web-research-agent-with-real-time-search-and-content-extraction",
+    "slug": "web-research-agent-with-real-time-search-and-content-extraction",
+    "title": "Web Research Agent with Real-Time Search and Content Extraction",
+    "description": "A voice agent that searches the web and extracts page content using the Tavily API, then synthesizes results into conversational responses. Uses Tavily's fast search depth for low-latency voice interactions and deep content extraction for specific pages.",
+    "framework": "Cartesia",
+    "use_case": "voice-search",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "GPT-4o",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "temperature": 0.7,
+      "tools": [
+        {
+          "name": "web_search",
+          "description": "Calls Tavily Search API and returns formatted results to the LLM. Uses fast search depth for low-latency voice interactions with max 5 results."
+        },
+        {
+          "name": "web_extract",
+          "description": "Extracts full content of a webpage by URL using Tavily Extract API. Content is truncated to 3000 characters for LLM context management."
+        }
+      ],
+      "max_tokens": 600,
+      "tavily_max_results": 5,
+      "tavily_search_depth": "fast",
+      "extract_truncate_chars": 3000
+    },
+    "github_source_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/tavily",
+    "demo_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/tavily",
+    "tags": [
+      "web-search",
+      "content-extraction",
+      "tavily",
+      "research-assistant"
+    ],
+    "contributor": {
+      "github": "lucyliulee"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-28T12:00:00Z",
+    "updated_at": "2025-05-28T12:00:00Z",
+    "license": "MIT"
+  },
+  {
     "id": "basic-voice-agent-for-general-conversation",
     "slug": "basic-voice-agent-for-general-conversation",
     "title": "Basic Voice Agent for General Conversation",
@@ -2780,6 +3027,134 @@
     "license": "MIT"
   },
   {
+    "id": "dental-clinic-appointment-booking-agent",
+    "slug": "dental-clinic-appointment-booking-agent",
+    "title": "Dental Clinic Appointment Booking Agent",
+    "description": "An AI-powered appointment booking agent that streamlines scheduling for dental clinics and healthcare businesses. The agent integrates with Google Calendar and Gmail to check available time slots, confirm bookings, send draft confirmation emails, and make outbound confirmation calls. Users can book appointments, receive queue updates, and get confirmations via email or phone call.",
+    "framework": "Custom",
+    "use_case": "scheduling",
+    "industry": "dental",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-2",
+      "llm": "Gemini 2.5 Flash",
+      "tts": "ElevenLabs Turbo v2.5",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "google_calendar",
+          "description": "Check available time slots and schedule appointments in Google Calendar"
+        },
+        {
+          "name": "gmail",
+          "description": "Create and save draft confirmation emails in Gmail"
+        },
+        {
+          "name": "bland_api",
+          "description": "Make outbound confirmation phone calls after booking"
+        }
+      ],
+      "model": "gemini-2.0-flash-exp",
+      "testing": [
+        "LangSmith",
+        "LLM Unit Tests"
+      ],
+      "deployment": [
+        "Vercel",
+        "LangGraph Cloud"
+      ],
+      "integrations": [
+        "Composio",
+        "Google Calendar",
+        "Gmail",
+        "Bland.com"
+      ]
+    },
+    "github_source_url": "https://github.com/mjunaidca/appointment-agent",
+    "demo_url": null,
+    "tags": [
+      "appointment-scheduler",
+      "booking-bot",
+      "healthcare",
+      "dental",
+      "langgraph",
+      "composio",
+      "google-calendar",
+      "gmail-integration",
+      "outbound-calls"
+    ],
+    "contributor": {
+      "github": "mjunaidca"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-26T10:30:00-08:00",
+    "updated_at": "2025-05-26T10:30:00-08:00",
+    "license": "Proprietary"
+  },
+  {
+    "id": "content-filtering-voice-assistant-with-guardrails",
+    "slug": "content-filtering-voice-assistant-with-guardrails",
+    "title": "Content Filtering Voice Assistant with Guardrails",
+    "description": "A voice AI assistant that answers questions about Cartesia, voice AI technology, and the competitive landscape while enforcing conversation guardrails. The agent preprocesses user inputs to detect and block toxic content, prompt injection attempts, and off-topic conversations, with escalation policies for repeated violations.",
+    "framework": "Custom",
+    "use_case": "support",
+    "industry": "saas",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "Claude Sonnet 4.5",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "temperature": 0,
+      "tools": [
+        {
+          "name": "web_search",
+          "description": "Search the web for up-to-date information about Cartesia, voice AI, and competitive landscape"
+        }
+      ],
+      "architecture": "two-llm-design",
+      "enforce_topic": true,
+      "allowed_topics": "Cartesia AI products and technology, Voice AI/TTS/speech synthesis, AI/ML and software engineering, Competitors (ElevenLabs, PlayHT, Amazon Polly, etc.), Voice AI market and landscape",
+      "block_toxicity": true,
+      "guardrail_model": "gemini-2.5-flash-preview-09-2025",
+      "inner_agent_model": "claude-sonnet-4.5",
+      "guardrail_llm_model": "gemini-2.5-flash",
+      "block_prompt_injection": true,
+      "max_violations_before_end_call": 3
+    },
+    "github_source_url": "https://github.com/cartesia-ai/line/tree/main/examples/guardrails_wrapper",
+    "demo_url": null,
+    "tags": [
+      "guardrails",
+      "content-filtering",
+      "prompt-injection-detection",
+      "toxicity-detection",
+      "wrapper-pattern",
+      "preprocessing",
+      "escalation-policy",
+      "two-llm-architecture"
+    ],
+    "contributor": {
+      "github": "dakshdua"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-25T10:30:00-07:00",
+    "updated_at": "2025-05-25T10:30:00-07:00",
+    "license": "MIT"
+  },
+  {
     "id": "customer-support-agent-with-ticket-status-lookup",
     "slug": "customer-support-agent-with-ticket-status-lookup",
     "title": "Customer Support Agent with Ticket Status Lookup",
@@ -2827,6 +3202,97 @@
     "source": "github_discovery",
     "created_at": "2025-05-25T10:30:00-07:00",
     "updated_at": "2025-05-25T10:30:00-07:00",
+    "license": "MIT"
+  },
+  {
+    "id": "healthcare-clinic-voice-receptionist",
+    "slug": "healthcare-clinic-voice-receptionist",
+    "title": "Healthcare Clinic Voice Receptionist",
+    "description": "A voice-first AI receptionist for medical clinics that books appointments, answers FAQs, recognizes returning callers, and escalates to staff when needed. Built for low-latency conversational feel using real-time streaming over WebRTC.",
+    "framework": "Pipecat",
+    "use_case": "scheduling",
+    "industry": "healthcare",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-2",
+      "llm": "GPT-4o-mini",
+      "tts": "Cartesia Sonic Turbo",
+      "telephony": "Web Only"
+    },
+    "metrics": {
+      "latency_p50_ms": null,
+      "latency_p95_ms": 300,
+      "latency_display": "200-300ms after STT",
+      "cost_per_minute_usd_min": null,
+      "cost_per_minute_usd_max": null,
+      "cost_display": "$25/mo to run"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "voice_id": "Cartesia streaming",
+      "temperature": null,
+      "barge_in": true,
+      "interruption_threshold_ms": null,
+      "tools": [
+        {
+          "name": "book_appointment",
+          "description": "Book, reschedule, cancel appointments; check availability; list upcoming appointments"
+        },
+        {
+          "name": "list_doctors",
+          "description": "List doctors by specialty"
+        },
+        {
+          "name": "get_clinic_info",
+          "description": "Clinic FAQ: hours, address, insurance, parking, services, pre-visit instructions"
+        },
+        {
+          "name": "request_medical_records",
+          "description": "Request medical records copy (pickup or send)"
+        },
+        {
+          "name": "set_appointment_reminder",
+          "description": "Request SMS/email reminder for existing appointment"
+        },
+        {
+          "name": "lookup_caller",
+          "description": "Recognize returning callers by phone number for personalization"
+        },
+        {
+          "name": "escalate_to_human",
+          "description": "Transfer to human staff with ticket (medical advice, billing, complaints)"
+        },
+        {
+          "name": "end_call",
+          "description": "End call when caller is satisfied or says goodbye"
+        }
+      ],
+      "enable_dual_llm": false,
+      "tts_low_latency": true,
+      "deepgram_endpointing": 200,
+      "deepgram_utterance_end_ms": 500,
+      "enable_learn_from_feedback": true
+    },
+    "github_source_url": "https://github.com/JeevanMovva/aria-voice-agent",
+    "demo_url": "https://github.com/JeevanMovva/aria-voice-agent",
+    "tags": [
+      "healthcare-receptionist",
+      "appointment-booking",
+      "webrtc",
+      "low-latency",
+      "returning-caller-recognition",
+      "escalation",
+      "learn-from-feedback"
+    ],
+    "contributor": {
+      "github": "JeevanMovva"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-24T18:30:00Z",
+    "updated_at": "2025-05-24T18:30:00Z",
     "license": "MIT"
   },
   {
@@ -2912,6 +3378,220 @@
     "created_at": "2025-05-24T10:30:00Z",
     "updated_at": "2025-05-24T10:30:00Z",
     "license": "Proprietary"
+  },
+  {
+    "id": "real-time-web-form-filling-voice-agent",
+    "slug": "real-time-web-form-filling-voice-agent",
+    "title": "Real-Time Web Form Filling Voice Agent",
+    "description": "A voice agent that conducts phone questionnaires while automatically filling out web forms in real-time using browser automation. The agent collects answers through natural conversation and asynchronously fills form fields in the background, maintaining smooth conversation flow without blocking.",
+    "framework": "Cartesia",
+    "use_case": "survey",
+    "industry": "other",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "Gemini 2.5 Pro",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": "Hello! I'm here to help you fill out an application form today...",
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "start_questionnaire",
+          "description": "Starts the questionnaire flow and asks the first question. This is a passthrough tool that directly emits AgentSendText events for deterministic conversation flow."
+        },
+        {
+          "name": "record_form_field",
+          "description": "Records an answer and fills the corresponding form field in the browser. Asynchronously fills the form in the background while immediately asking the next question. This is a passthrough tool for predictable conversation flow."
+        }
+      ],
+      "form_url": "configurable",
+      "model_id": "gemini-pro",
+      "auto_submission": true,
+      "async_form_filling": true,
+      "browser_automation": "Stagehand + Browserbase",
+      "eager_browser_initialization": true
+    },
+    "github_source_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/browserbase",
+    "demo_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/browserbase",
+    "tags": [
+      "form-filling",
+      "browser-automation",
+      "stagehand",
+      "browserbase",
+      "questionnaire",
+      "async-processing",
+      "passthrough-tools"
+    ],
+    "contributor": {
+      "github": "lucyliulee"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-23T18:30:00-07:00",
+    "updated_at": "2025-05-23T18:30:00-07:00",
+    "license": "MIT"
+  },
+  {
+    "id": "technical-interview-practice-agent-with-real-time-feedback",
+    "slug": "technical-interview-practice-agent-with-real-time-feedback",
+    "title": "Technical Interview Practice Agent with Real-Time Feedback",
+    "description": "An AI interviewer that conducts technical job interviews with real-time parallel analysis by three specialized evaluation agents. The system provides structured feedback on technical expertise, communication skills, and logical reasoning, helping candidates practice and improve their interview performance through voice-based interactions.",
+    "framework": "Cartesia",
+    "use_case": "interview-practice",
+    "industry": "education",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "Cerebras Llama 3.3 70B",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Web Only"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "start_interview",
+          "description": "Initiates the interview session after user confirms readiness"
+        },
+        {
+          "name": "end_call",
+          "description": "Terminates the interview session"
+        }
+      ],
+      "architecture": "multi-agent",
+      "response_format": "structured_output",
+      "main_agent_model": "cerebras/llama3.3-70b",
+      "background_judges": [
+        {
+          "name": "technical_report",
+          "description": "Evaluates technical expertise"
+        },
+        {
+          "name": "communication_report",
+          "description": "Evaluates communication skills"
+        },
+        {
+          "name": "reasoning_report",
+          "description": "Evaluates logical thinking"
+        }
+      ],
+      "judge_agent_model": "cerebras/llama3.1-8b"
+    },
+    "github_source_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/cerebras",
+    "demo_url": "https://github.com/cartesia-ai/line/tree/main/example_integrations/cerebras",
+    "tags": [
+      "multi-agent",
+      "interview-prep",
+      "structured-feedback",
+      "background-analysis",
+      "technical-interview"
+    ],
+    "contributor": {
+      "github": "lucyliulee"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-23T10:30:00-07:00",
+    "updated_at": "2025-05-23T10:30:00-07:00",
+    "license": "MIT"
+  },
+  {
+    "id": "spanish-dental-clinic-receptionist-agent",
+    "slug": "spanish-dental-clinic-receptionist-agent",
+    "title": "Spanish Dental Clinic Receptionist Agent",
+    "description": "A Spanish-first AI receptionist that handles appointment scheduling, service inquiries, and patient onboarding for dental clinics and healthcare SMBs in Latin America. Provides 24/7 phone coverage with low-latency Mexican Spanish voice, integrates with clinic knowledge bases, and offers appointment booking with WhatsApp confirmations.",
+    "framework": "Pipecat",
+    "use_case": "scheduling",
+    "industry": "dental",
+    "languages": [
+      "es-MX",
+      "es"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "Claude Sonnet 4.5",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Twilio Voice"
+    },
+    "metrics": {
+      "latency_p50_ms": 900,
+      "latency_p95_ms": 1200,
+      "latency_display": "900-1200 ms TTFA",
+      "cost_per_minute_usd_min": 0.044,
+      "cost_per_minute_usd_max": 0.044,
+      "cost_display": "$0.044/min (~$0.11 per 2.5 min call)"
+    },
+    "raw_prompt": "You are Rocío, the virtual receptionist for this clinic. Your job is to help patients schedule appointments, answer questions about services and pricing, and provide general clinic information. Never diagnose medical conditions or quote prices that aren't in your knowledge base. Always confirm appointments orally and mention that the patient will receive a WhatsApp confirmation. Clinic hours are Monday through Saturday, 9 AM to 7 PM.",
+    "prompt_file": null,
+    "config": {
+      "voice_id": "mx-female-warm-v1",
+      "tools": [
+        {
+          "name": "search_clinic_info",
+          "description": "Retrieves services, pricing, hours, and FAQs from the tenant's knowledge base (Qdrant collection kb_{tenant_id})",
+          "parameters": {
+            "query": "string"
+          }
+        },
+        {
+          "name": "find_available_slot",
+          "description": "Returns bookable calendar slots for a given service",
+          "parameters": {
+            "from_date": "string (optional)",
+            "service_id": "string (required)",
+            "preferred_time": "enum: morning, afternoon, any (optional)"
+          }
+        },
+        {
+          "name": "book_appointment",
+          "description": "Confirms an appointment and sends WhatsApp notification",
+          "parameters": {
+            "slot_id": "string (required)",
+            "patient_name": "string (required)",
+            "patient_phone": "string (required)"
+          }
+        },
+        {
+          "name": "transfer_to_human",
+          "description": "Transfers the call to a human receptionist",
+          "parameters": {
+            "reason": "string (optional)"
+          }
+        }
+      ],
+      "vad": "Silero",
+      "language": "es",
+      "serializer": "twilio",
+      "audio_format": "μ-law 8 kHz",
+      "observability": "Langfuse",
+      "tenant_scoped": true,
+      "rag_integration": "Qdrant"
+    },
+    "github_source_url": "https://github.com/numoru-ia/voice-agent-es",
+    "demo_url": "https://github.com/numoru-ia/voice-agent-es",
+    "tags": [
+      "spanish",
+      "healthcare",
+      "dental",
+      "appointment-booking",
+      "multi-tenant",
+      "rag",
+      "twilio",
+      "latin-america"
+    ],
+    "contributor": {
+      "github": "gbrayhan"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-23T10:30:00-05:00",
+    "updated_at": "2025-05-23T10:30:00-05:00",
+    "license": "Apache-2.0"
   },
   {
     "id": "conversational-ai-agent-with-streaming-stt-and-tts",
@@ -3073,6 +3753,70 @@
     "created_at": "2025-05-22T19:30:00+00:00",
     "updated_at": "2025-05-22T19:30:00+00:00",
     "license": "MIT"
+  },
+  {
+    "id": "festival-group-planning-assistant",
+    "slug": "festival-group-planning-assistant",
+    "title": "Festival Group Planning Assistant",
+    "description": "A voice-based AI assistant that helps friend groups coordinate festival trips through phone conversations. Users call in to form groups, browse festival catalogs, track members, and manage plans using natural dialogue. The agent handles inbound calls, identifies callers by phone number, and uses tools to save groups, members, festivals, and artists to a Postgres database.",
+    "framework": "Pipecat",
+    "use_case": "scheduling",
+    "industry": "hospitality",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Cartesia STT",
+      "llm": "Claude Haiku 4.5",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Twilio Voice"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "save_group",
+          "description": "Persists a new friend group to the database"
+        },
+        {
+          "name": "save_member",
+          "description": "Adds a member to a group"
+        },
+        {
+          "name": "save_festival",
+          "description": "Associates a festival with a group"
+        },
+        {
+          "name": "save_artist",
+          "description": "Records artist preferences for a group"
+        },
+        {
+          "name": "query_database",
+          "description": "Natural-language query tool via SQL sub-agent (Claude Haiku) to answer conversational questions about groups, festivals, and members"
+        }
+      ],
+      "vad": "Silero",
+      "observability": "Langfuse via OpenTelemetry OTLP",
+      "turn_detection": "LocalSmartTurnAnalyzerV3",
+      "local_dev_transport": "Daily WebRTC"
+    },
+    "github_source_url": "https://github.com/YichiZ/festival-coordinator",
+    "demo_url": "https://github.com/YichiZ/festival-coordinator",
+    "tags": [
+      "group-coordination",
+      "event-planning",
+      "festivals",
+      "multi-user",
+      "phone-inbound"
+    ],
+    "contributor": {
+      "github": "YichiZ"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-22T14:30:00+00:00",
+    "updated_at": "2025-05-22T14:30:00+00:00",
+    "license": "Proprietary"
   },
   {
     "id": "streaming-voice-agent-with-gemini-flash-and-silero-barge-in",
@@ -3415,6 +4159,98 @@
     "source": "github_discovery",
     "created_at": "2025-05-14T10:30:00Z",
     "updated_at": "2025-05-14T10:30:00Z",
+    "license": "MIT"
+  },
+  {
+    "id": "barbershop-appointment-scheduling-receptionist",
+    "slug": "barbershop-appointment-scheduling-receptionist",
+    "title": "Barbershop Appointment Scheduling Receptionist",
+    "description": "A voice AI receptionist for barbershops that handles appointment booking, cancellations, and inquiries over the phone. Customers call a real phone number and speak naturally to manage their appointments without needing an app or website. Uses OpenAI function calling for real-time availability checks and atomic multi-slot booking to prevent double-booking.",
+    "framework": "Pipecat",
+    "use_case": "scheduling",
+    "industry": "beauty-and-salon",
+    "languages": [
+      "en-US"
+    ],
+    "pipeline": {
+      "stt": "Deepgram Nova-3",
+      "llm": "GPT-4o",
+      "tts": "Cartesia Sonic-3",
+      "telephony": "Twilio Voice"
+    },
+    "raw_prompt": null,
+    "prompt_file": null,
+    "config": {
+      "tools": [
+        {
+          "name": "check_availability",
+          "description": "Check available appointment slots for a specific barber and date"
+        },
+        {
+          "name": "book_appointment",
+          "description": "Book an appointment with atomic multi-slot reservation to prevent double-booking"
+        },
+        {
+          "name": "cancel_appointment",
+          "description": "Cancel an existing appointment by customer phone number"
+        }
+      ],
+      "barbers": 3,
+      "database": "AWS DynamoDB",
+      "features": [
+        "atomic_multi_slot_booking",
+        "voice_activity_detection",
+        "dual_mode_browser_and_phone"
+      ],
+      "services": [
+        {
+          "name": "Haircut",
+          "price": 25,
+          "duration_min": 30
+        },
+        {
+          "name": "Beard Trim",
+          "price": 15,
+          "duration_min": 15
+        },
+        {
+          "name": "Shave",
+          "price": 20,
+          "duration_min": 20
+        },
+        {
+          "name": "Kids Cut",
+          "price": 20,
+          "duration_min": 20
+        },
+        {
+          "name": "Hair Wash & Style",
+          "price": 30,
+          "duration_min": 30
+        },
+        {
+          "name": "Full Service",
+          "price": 35,
+          "duration_min": 45
+        }
+      ],
+      "slot_duration_min": 30
+    },
+    "github_source_url": "https://github.com/BigSur23/elite-cuts-voice-ai",
+    "demo_url": "https://github.com/BigSur23/elite-cuts-voice-ai",
+    "tags": [
+      "barbershop",
+      "appointment-booking",
+      "phone-receptionist",
+      "dynamodb",
+      "function-calling"
+    ],
+    "contributor": {
+      "github": "BigSur23"
+    },
+    "source": "github_discovery",
+    "created_at": "2025-05-10T12:00:00-07:00",
+    "updated_at": "2025-05-10T12:00:00-07:00",
     "license": "MIT"
   },
   {
