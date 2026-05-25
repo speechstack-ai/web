@@ -78,7 +78,7 @@
       "forks": 2,
       "repoPushedAt": "2026-03-23T17:24:21Z",
       "repo": "deepgram-devs/deepgram-voice-agent-inbound-telephony",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -173,7 +173,7 @@
       "forks": 3168,
       "repoPushedAt": "2026-05-25T19:32:11Z",
       "repo": "livekit/agents",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -268,7 +268,7 @@
       "forks": 2,
       "repoPushedAt": "2026-01-23T05:11:14Z",
       "repo": "VapiAI/examples",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -323,7 +323,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-27T10:30:00-07:00",
     "updated_at": "2026-05-27T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "doctor-appointment-scheduler-with-intake-form",
@@ -386,7 +394,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-26T10:30:00-08:00",
     "updated_at": "2026-05-26T10:30:00-08:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "outbound-sales-assistant-for-airpods",
@@ -447,7 +463,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-25T19:44:54-07:00",
     "updated_at": "2026-05-25T19:44:54-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 487,
+      "watchers": 15,
+      "forks": 218,
+      "repoPushedAt": "2024-12-13T19:25:32Z",
+      "repo": "twilio-labs/call-gpt",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "customer-service-agent-with-function-calling",
@@ -500,7 +524,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-25T20:14:29Z",
     "updated_at": "2026-05-25T20:14:29Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 3,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2025-04-24T18:43:40Z",
+      "repo": "deepgram/the-bobs",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "customer-service-agent-with-function-calling-and-order-management",
@@ -561,7 +593,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-25T19:20:07Z",
     "updated_at": "2026-05-25T19:20:07Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 22,
+      "watchers": 2,
+      "forks": 23,
+      "repoPushedAt": "2026-03-02T21:54:54Z",
+      "repo": "deepgram-devs/flask-agent-function-calling-demo",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "space-trading-game-with-autonomous-ship-ai",
@@ -610,7 +650,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-24T14:30:00-07:00",
     "updated_at": "2026-05-24T14:30:00-07:00",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "pipecat-ai/gradient-bang"
+    }
   },
   {
     "id": "telephony-voice-agent-with-inbound-and-outbound-call-handling",
@@ -660,7 +708,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-19T18:30:00Z",
     "updated_at": "2026-05-19T18:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "AssemblyAI/voice-agent-api-twilio-example"
+    }
   },
   {
     "id": "elevenlabs-twilio-sales-agent",
@@ -730,7 +786,7 @@
       "forks": 282,
       "repoPushedAt": "2026-05-22T01:53:48Z",
       "repo": "elevenlabs/elevenlabs-examples",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -812,7 +868,7 @@
       "forks": 3168,
       "repoPushedAt": "2026-05-25T19:32:11Z",
       "repo": "livekit/agents",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -877,7 +933,7 @@
       "forks": 5,
       "repoPushedAt": "2025-10-22T01:42:44Z",
       "repo": "pipecat-ai/pipecat-quickstart-phone-bot",
-      "fetchedAt": "2026-05-25T21:13:12.076Z"
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
     }
   },
   {
@@ -1068,7 +1124,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-15T10:30:00-07:00",
     "updated_at": "2026-05-15T10:30:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-25T01:27:00Z",
+      "repo": "deepgram/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "travel-companion-with-location-based-recommendations",
@@ -1132,7 +1196,15 @@
     "source": "github_discovery",
     "created_at": "2026-05-15T10:30:00-07:00",
     "updated_at": "2026-05-15T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 289,
+      "watchers": 4,
+      "forks": 109,
+      "repoPushedAt": "2026-05-22T17:15:40Z",
+      "repo": "pipecat-ai/pipecat-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "real-time-voice-assistant-with-room-based-conversations",
@@ -1173,7 +1245,15 @@
     "source": "github_discovery",
     "created_at": "2026-04-09T12:00:00Z",
     "updated_at": "2026-04-09T12:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-25T01:27:00Z",
+      "repo": "deepgram/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "conversational-voice-agent-with-tool-calling",
@@ -1218,7 +1298,15 @@
     "source": "github_discovery",
     "created_at": "2026-01-20T12:00:00Z",
     "updated_at": "2026-01-20T12:00:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-25T01:27:00Z",
+      "repo": "deepgram/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "elder-care-advisor-for-adult-children",
@@ -1284,7 +1372,15 @@
     "source": "github_discovery",
     "created_at": "2026-01-20T00:00:00Z",
     "updated_at": "2026-01-20T00:00:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-23T18:20:57Z",
+      "repo": "flaminshinjan/emoha-poc",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "general-purpose-voice-agent-with-low-latency-streaming",
@@ -1325,7 +1421,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-16T19:30:00Z",
     "updated_at": "2025-06-16T19:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 2,
+      "watchers": 0,
+      "forks": 1,
+      "repoPushedAt": "2025-07-31T20:36:21Z",
+      "repo": "gsharp-aai/voice-agent-aai-elevenlabs-openai",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "conversational-article-discussion-assistant",
@@ -1368,7 +1472,15 @@
     "source": "vendor_showcase",
     "created_at": "2025-06-15T12:00:00-08:00",
     "updated_at": "2025-06-15T12:00:00-08:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 20,
+      "watchers": 5,
+      "forks": 3,
+      "repoPushedAt": "2024-08-28T22:43:09Z",
+      "repo": "cartesia-ai/dev-showcase",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "ivr-phone-tree-with-llm-function-calling",
@@ -1413,7 +1525,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-14T08:30:00-07:00",
     "updated_at": "2025-06-14T08:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 7,
+      "forks": 1,
+      "repoPushedAt": "2025-09-10T13:35:47Z",
+      "repo": "daily-demos/daily-bots-phone-tree",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "hotel-front-desk-agent-with-smart-backchannel-filtering",
@@ -1475,7 +1595,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-13T19:30:00-08:00",
     "updated_at": "2025-06-13T19:30:00-08:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-04-29T20:24:40Z",
+      "repo": "AssemblyAI-Solutions/livekit-interruption-filters",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "real-time-voice-agent-with-openai-and-twilio",
@@ -1530,7 +1658,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-13T10:30:00-07:00",
     "updated_at": "2025-06-13T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "rehan-dev/ai-call-agent"
+    }
   },
   {
     "id": "multi-user-browser-voice-agent-with-webrtc-transport",
@@ -1585,7 +1721,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-10T12:00:00-08:00",
     "updated_at": "2025-06-10T12:00:00-08:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-04-30T18:16:20Z",
+      "repo": "kelsey-aai/voice-agent-livekit",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "pstn-voice-assistant-with-real-time-transcription-and-barge-in",
@@ -1635,7 +1779,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-10T12:00:00-05:00",
     "updated_at": "2025-06-10T12:00:00-05:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 2,
+      "forks": 1,
+      "repoPushedAt": "2025-10-16T21:14:38Z",
+      "repo": "tchancse/vonage-deepgram-voice-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "telephony-bridge-for-real-time-voice-agents",
@@ -1679,7 +1831,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T12:00:00-08:00",
     "updated_at": "2025-06-08T12:00:00-08:00",
-    "license": "BSD-2-Clause"
+    "license": "BSD-2-Clause",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "steinathan/telephony-server"
+    }
   },
   {
     "id": "autonomous-incident-manager-for-site-reliability-engineering",
@@ -1749,7 +1909,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T19:30:00Z",
     "updated_at": "2025-06-08T19:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-03-27T23:42:00Z",
+      "repo": "Badri-Narayanan/Autonomous-SRE",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "insurance-lead-follow-up-agent",
@@ -1812,7 +1980,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T10:30:00-07:00",
     "updated_at": "2025-06-08T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 3,
+      "watchers": 0,
+      "forks": 3,
+      "repoPushedAt": "2026-03-23T17:21:49Z",
+      "repo": "deepgram-devs/deepgram-voice-agent-outbound-telephony",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-provider-llm-proxy-for-voice-agents",
@@ -1856,7 +2032,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T10:30:00-07:00",
     "updated_at": "2025-06-08T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 3,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2025-11-27T03:03:19Z",
+      "repo": "deepgram-devs/deepgram-voice-agent-client-llm-proxy",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "ecommerce-refund-processing-assistant",
@@ -1925,7 +2109,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T00:00:00Z",
     "updated_at": "2025-06-08T00:00:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 18,
+      "watchers": 4,
+      "forks": 19,
+      "repoPushedAt": "2025-07-08T14:58:46Z",
+      "repo": "pBread/twilio-agentic-voice-assistant",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "flowise-ai-voice-agent-with-twilio-conversationrelay",
@@ -1986,7 +2178,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-08T00:00:00Z",
     "updated_at": "2025-06-08T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-04-10T13:47:07Z",
+      "repo": "twilio-samples/cr-flowiseai",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "autonomous-sales-outbound-calling-agent",
@@ -2024,7 +2224,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-07T10:30:00-05:00",
     "updated_at": "2025-06-07T10:30:00-05:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2025-08-23T03:54:54Z",
+      "repo": "yashh2417/cold_campaign_agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "two-way-conversational-speech-assistant",
@@ -2070,7 +2278,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-07T12:00:00Z",
     "updated_at": "2025-06-07T12:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "twilio-samples/speech-assistant-openai-realtime-api-python"
+    }
   },
   {
     "id": "two-truths-and-a-lie-interactive-game-bot",
@@ -2112,7 +2328,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-02T00:00:00+00:00",
     "updated_at": "2025-06-02T00:00:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "daily-co/pcc-gemini-twilio"
+    }
   },
   {
     "id": "general-purpose-voice-agent-with-open-source-nvidia-models",
@@ -2182,7 +2406,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-01T12:00:00-07:00",
     "updated_at": "2025-06-01T12:00:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 557,
+      "watchers": 5,
+      "forks": 96,
+      "repoPushedAt": "2026-05-25T02:40:30Z",
+      "repo": "pipecat-ai/nemotron-january-2026",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "real-time-voice-agent-with-neural-turn-detection",
@@ -2244,7 +2476,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-01T12:00:00-07:00",
     "updated_at": "2025-06-01T12:00:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "kelsey-aai/voice-agent-livekit-universal-3-pro"
+    }
   },
   {
     "id": "real-time-multilingual-translation-between-customer-and-contact-center-agent",
@@ -2302,7 +2542,15 @@
     "source": "github_discovery",
     "created_at": "2025-06-01T00:00:00Z",
     "updated_at": "2025-06-01T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "twilio-samples/live-translation-openai-realtime-api"
+    }
   },
   {
     "id": "inbound-and-outbound-phone-bot-with-daily-and-plivo",
@@ -2352,7 +2600,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-31T10:30:00-07:00",
     "updated_at": "2025-05-31T10:30:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-04-16T22:18:30Z",
+      "repo": "plivo/python-agents-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "voice-agent-with-visual-data-verification-for-lead-capture",
@@ -2404,7 +2660,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-30T18:45:00Z",
     "updated_at": "2025-05-30T18:45:00Z",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "jeffo777/input-right"
+    }
   },
   {
     "id": "five-minute-inbound-lead-qualification-and-transfer",
@@ -2447,7 +2711,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-29T19:30:00+00:00",
     "updated_at": "2025-05-29T19:30:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 83,
+      "watchers": 2,
+      "forks": 30,
+      "repoPushedAt": "2023-12-19T02:57:58Z",
+      "repo": "Bland-AI/Bland-AI-Cookbooks",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "saas-customer-support-agent-with-assemblyai",
@@ -2508,7 +2780,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-29T10:30:00-07:00",
     "updated_at": "2025-05-29T10:30:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "sampleapp-ai/assemblyai-voice-agent-pipecat"
+    }
   },
   {
     "id": "voicemail-detection-assistant-for-outbound-calls",
@@ -2556,7 +2836,15 @@
     "source": "vendor_showcase",
     "created_at": "2025-05-29T08:15:00-07:00",
     "updated_at": "2025-05-29T08:15:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 7,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-01-23T05:11:14Z",
+      "repo": "VapiAI/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "whatsapp-voice-conversational-agent",
@@ -2597,7 +2885,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T19:30:00+00:00",
     "updated_at": "2025-05-28T19:30:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "daily-co/pcc-gemini-whatsapp"
+    }
   },
   {
     "id": "customer-support-and-appointment-booking-assistant",
@@ -2644,7 +2940,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T10:30:00-07:00",
     "updated_at": "2025-05-28T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-07T20:02:32Z",
+      "repo": "twilio-samples/conversationrelay-ai-demo",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "interactive-voice-game-for-discovering-secret-crushes",
@@ -2686,7 +2990,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T10:30:00-07:00",
     "updated_at": "2025-05-28T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 3,
+      "watchers": 1,
+      "forks": 1,
+      "repoPushedAt": "2026-02-23T20:07:23Z",
+      "repo": "daily-co/pipecat-crush-quest",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "outbound-call-agent-with-voicemail-detection-and-transfer",
@@ -2734,7 +3046,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T10:00:00-07:00",
     "updated_at": "2025-05-28T10:00:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 94,
+      "watchers": 1,
+      "forks": 38,
+      "repoPushedAt": "2026-04-10T18:03:45Z",
+      "repo": "livekit-examples/outbound-caller-python",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "web-research-agent-with-real-time-search-and-content-extraction",
@@ -2786,7 +3106,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T12:00:00Z",
     "updated_at": "2025-05-28T12:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "basic-voice-agent-for-general-conversation",
@@ -2825,7 +3153,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T00:00:00Z",
     "updated_at": "2025-05-28T00:00:00Z",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 21,
+      "watchers": 4,
+      "forks": 3,
+      "repoPushedAt": "2025-10-28T16:28:37Z",
+      "repo": "cartesia-ai/cartesia-livekit-voice-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "kubernetes-sre-voice-agent-with-mcp-tools",
@@ -2869,7 +3205,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-28T00:00:00Z",
     "updated_at": "2025-05-28T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 68,
+      "watchers": 8,
+      "forks": 17,
+      "repoPushedAt": "2025-10-15T00:04:49Z",
+      "repo": "den-vasyliev/voice-mcp-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "dental-office-appointment-scheduling-agent",
@@ -2934,7 +3278,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-27T10:30:00-07:00",
     "updated_at": "2025-05-27T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-03-23T17:24:21Z",
+      "repo": "deepgram-devs/deepgram-voice-agent-inbound-telephony",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "inbound-phone-order-status-agent",
@@ -2996,7 +3348,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-27T10:30:00-07:00",
     "updated_at": "2025-05-27T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-19T15:50:37Z",
+      "repo": "kelsey-aai/twilio-voice-agent-assemblyai",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-agent-in-app-voice-assistant-with-web-search-knowledge-base-and-account-ac",
@@ -3064,7 +3424,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-27T12:00:00Z",
     "updated_at": "2025-05-27T12:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 73777,
+      "watchers": 995,
+      "forks": 12479,
+      "repoPushedAt": "2026-05-22T21:42:38Z",
+      "repo": "openai/openai-cookbook",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "conversational-phone-agent-with-natural-interruptions",
@@ -3127,7 +3495,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-27T10:30:00+00:00",
     "updated_at": "2025-05-27T10:30:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-04-16T22:18:30Z",
+      "repo": "plivo/python-agents-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-agent-voice-pipeline-with-transcription-and-synthesis",
@@ -3185,7 +3561,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-27T10:30:00+00:00",
     "updated_at": "2025-05-27T10:30:00+00:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-25T01:27:00Z",
+      "repo": "deepgram/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-agent-voice-framework-for-customer-service-and-chat-supervision",
@@ -3252,7 +3636,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-26T12:00:00-07:00",
     "updated_at": "2025-05-26T12:00:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 6877,
+      "watchers": 132,
+      "forks": 1092,
+      "repoPushedAt": "2026-01-07T18:38:52Z",
+      "repo": "openai/openai-realtime-agents",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "dental-clinic-appointment-booking-agent",
@@ -3323,7 +3715,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-26T10:30:00-08:00",
     "updated_at": "2025-05-26T10:30:00-08:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 41,
+      "watchers": 2,
+      "forks": 15,
+      "repoPushedAt": "2025-01-30T18:52:47Z",
+      "repo": "mjunaidca/appointment-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "content-filtering-voice-assistant-with-guardrails",
@@ -3380,7 +3780,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-25T10:30:00-07:00",
     "updated_at": "2025-05-25T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "customer-support-agent-with-ticket-status-lookup",
@@ -3430,7 +3838,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-25T10:30:00-07:00",
     "updated_at": "2025-05-25T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 248,
+      "watchers": 12,
+      "forks": 119,
+      "repoPushedAt": "2026-05-25T15:47:51Z",
+      "repo": "HumeAI/hume-api-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "healthcare-clinic-voice-receptionist",
@@ -3521,7 +3937,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-24T18:30:00Z",
     "updated_at": "2025-05-24T18:30:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 2,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-04-24T06:33:17Z",
+      "repo": "JeevanMovva/aria-voice-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "langchain-agent-voice-demo-with-vocode-core",
@@ -3561,7 +3985,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-24T12:00:00+00:00",
     "updated_at": "2025-05-24T12:00:00+00:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 3749,
+      "watchers": 49,
+      "forks": 656,
+      "repoPushedAt": "2024-11-15T22:16:58Z",
+      "repo": "vocodedev/vocode-core",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "ai-sales-agent-for-b2b-product-outreach",
@@ -3600,7 +4032,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-24T10:30:00Z",
     "updated_at": "2025-05-24T10:30:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 2,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2025-08-06T19:04:37Z",
+      "repo": "zatiyab/AI-Call-Salesman",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "general-assistant-voice-chatbot-with-audio-streaming",
@@ -3644,7 +4084,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-24T10:30:00Z",
     "updated_at": "2025-05-24T10:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 5,
+      "watchers": 4,
+      "forks": 0,
+      "repoPushedAt": "2025-04-14T05:26:16Z",
+      "repo": "plivo/plivo-audiostream-integration-guides",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "real-time-web-form-filling-voice-agent",
@@ -3700,7 +4148,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-23T18:30:00-07:00",
     "updated_at": "2025-05-23T18:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "technical-interview-practice-agent-with-real-time-feedback",
@@ -3766,7 +4222,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-23T10:30:00-07:00",
     "updated_at": "2025-05-23T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "spanish-dental-clinic-receptionist-agent",
@@ -3858,7 +4322,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-23T10:30:00-05:00",
     "updated_at": "2025-05-23T10:30:00-05:00",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "numoru-ia/voice-agent-es"
+    }
   },
   {
     "id": "conversational-ai-agent-with-streaming-stt-and-tts",
@@ -3903,7 +4375,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-23T00:00:00Z",
     "updated_at": "2025-05-23T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 408,
+      "watchers": 4,
+      "forks": 118,
+      "repoPushedAt": "2026-01-07T16:33:08Z",
+      "repo": "deepgram-devs/deepgram-ai-agent-demo",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-purpose-voice-agent-showcase",
@@ -3964,7 +4444,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-22T14:30:00-07:00",
     "updated_at": "2025-05-22T14:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-08T17:53:07Z",
+      "repo": "AssemblyAI-Solutions/voice-agent-api-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "phone-based-voice-agent-with-web-search",
@@ -4019,7 +4507,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-22T19:30:00+00:00",
     "updated_at": "2025-05-22T19:30:00+00:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-05-08T18:12:57Z",
+      "repo": "AssemblyAI-Solutions/voice-agent-api-twilio-example",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "web-research-assistant-with-real-time-search",
@@ -4071,7 +4567,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-22T10:30:00-07:00",
     "updated_at": "2025-05-22T10:30:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 99,
+      "watchers": 5,
+      "forks": 41,
+      "repoPushedAt": "2026-05-19T19:18:32Z",
+      "repo": "cartesia-ai/line",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "festival-group-planning-assistant",
@@ -4135,7 +4639,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-22T14:30:00+00:00",
     "updated_at": "2025-05-22T14:30:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-03-13T02:45:32Z",
+      "repo": "YichiZ/festival-coordinator",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "streaming-voice-agent-with-gemini-flash-and-silero-barge-in",
@@ -4184,7 +4696,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-17T12:00:00+00:00",
     "updated_at": "2025-05-17T12:00:00+00:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-04-16T22:18:30Z",
+      "repo": "plivo/python-agents-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "hotel-front-desk-receptionist",
@@ -4243,7 +4763,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-15T10:30:00-07:00",
     "updated_at": "2025-05-15T10:30:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-04-22T14:26:20Z",
+      "repo": "dlange-aai/hotel-booking-agent",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "sms-one-time-password-verification-for-identity-confirmation",
@@ -4317,7 +4845,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-15T08:30:00-07:00",
     "updated_at": "2025-05-15T08:30:00-07:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 7,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-01-23T05:11:14Z",
+      "repo": "VapiAI/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multimodal-voice-and-vision-assistant-for-ios",
@@ -4364,7 +4900,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-14T10:30:00-07:00",
     "updated_at": "2025-05-14T10:30:00-07:00",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 85,
+      "watchers": 11,
+      "forks": 21,
+      "repoPushedAt": "2026-03-10T23:39:39Z",
+      "repo": "livekit-examples/vision-demo",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "medical-office-receptionist-for-appointment-booking-and-triage",
@@ -4435,7 +4979,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-14T12:00:00Z",
     "updated_at": "2025-05-14T12:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 2,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-03-13T19:54:58Z",
+      "repo": "RaheesAhmed/MediVoice-AI",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "interactive-choose-your-own-adventure-storytelling",
@@ -4478,7 +5030,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-14T10:30:00Z",
     "updated_at": "2025-05-14T10:30:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 289,
+      "watchers": 4,
+      "forks": 109,
+      "repoPushedAt": "2026-05-22T17:15:40Z",
+      "repo": "pipecat-ai/pipecat-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "barbershop-appointment-scheduling-receptionist",
@@ -4570,7 +5130,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-10T12:00:00-07:00",
     "updated_at": "2025-05-10T12:00:00-07:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": "2026-02-08T23:16:03Z",
+      "repo": "BigSur23/elite-cuts-voice-ai",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "openclaw-phone-assistant-with-semantic-turn-detection",
@@ -4630,7 +5198,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-10T00:00:00Z",
     "updated_at": "2025-05-10T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 77,
+      "watchers": 1,
+      "forks": 11,
+      "repoPushedAt": "2026-02-09T04:54:36Z",
+      "repo": "deepgram/deepclaw",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "phone-call-handling-voice-agent",
@@ -4672,7 +5248,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-10T00:00:00Z",
     "updated_at": "2025-05-10T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-04-16T22:18:30Z",
+      "repo": "plivo/python-agents-examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-intent-call-router-with-rag-instructions",
@@ -4730,7 +5314,15 @@
     "source": "github_discovery",
     "created_at": "2025-05-09T18:30:00+00:00",
     "updated_at": "2025-05-09T18:30:00+00:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 7,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-01-23T05:11:14Z",
+      "repo": "VapiAI/examples",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "vonage-voice-api-websocket-connector-for-multiple-ai-engines",
@@ -4783,7 +5375,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-28T10:00:00-08:00",
     "updated_at": "2025-01-28T10:00:00-08:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "nexmo-se/voice-to-ai-engines"
+    }
   },
   {
     "id": "desktop-robot-assistant-with-voice-controlled-manipulation",
@@ -4837,7 +5437,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-20T12:00:00Z",
     "updated_at": "2025-01-20T12:00:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 5,
+      "watchers": 0,
+      "forks": 2,
+      "repoPushedAt": "2026-05-17T22:59:48Z",
+      "repo": "livekit-examples/embodied-ai-hackathon",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "smart-city-voice-ai-demo-for-harbour-city-operations",
@@ -4893,7 +5501,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-20T12:00:00Z",
     "updated_at": "2025-01-20T12:00:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "deepgram-devs/smart-city"
+    }
   },
   {
     "id": "weather-information-assistant-with-function-calling",
@@ -4951,7 +5567,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-17T10:30:00-08:00",
     "updated_at": "2025-01-17T10:30:00-08:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "daily-co/pcc-groq-llama"
+    }
   },
   {
     "id": "general-purpose-conversational-voice-agent-with-nvidia-nim",
@@ -4996,7 +5620,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-15T10:30:00-08:00",
     "updated_at": "2025-01-15T10:30:00-08:00",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 86,
+      "watchers": 7,
+      "forks": 22,
+      "repoPushedAt": "2025-05-05T18:44:42Z",
+      "repo": "daily-co/nimble-pipecat",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "multi-agent-voice-ai-workflow-with-python",
@@ -5031,7 +5663,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-15T00:00:00Z",
     "updated_at": "2025-01-15T00:00:00Z",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 16,
+      "watchers": 1,
+      "forks": 6,
+      "repoPushedAt": "2026-05-25T08:40:12Z",
+      "repo": "livekit-examples/multi-agent-python",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "real-time-speech-transcription-frontend",
@@ -5079,7 +5719,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-15T00:00:00Z",
     "updated_at": "2025-01-15T00:00:00Z",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "livekit-examples/transcription-frontend-groq"
+    }
   },
   {
     "id": "telephony-integration-connector-for-conversational-ai",
@@ -5137,7 +5785,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-10T12:00:00-08:00",
     "updated_at": "2025-01-10T12:00:00-08:00",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 0,
+      "repoPushedAt": null,
+      "fetchedAt": "2026-05-25T21:34:24.831Z",
+      "repo": "nexmo-se/elevenlabs-agent-ws-connector"
+    }
   },
   {
     "id": "healthcare-prescription-savings-outreach-agent",
@@ -5190,7 +5846,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-10T19:30:00Z",
     "updated_at": "2025-01-10T19:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 1,
+      "watchers": 0,
+      "forks": 1,
+      "repoPushedAt": "2026-04-10T16:01:53Z",
+      "repo": "deepgram/deepgram-patient-connect",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "pizza-ordering-voice-agent",
@@ -5251,7 +5915,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-10T19:30:00Z",
     "updated_at": "2025-01-10T19:30:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 0,
+      "watchers": 0,
+      "forks": 1,
+      "repoPushedAt": "2026-05-23T13:12:00Z",
+      "repo": "deepgram-devs/pizza-voice-agent-workshop",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "clinical-trial-recruitment-voice-agent",
@@ -5285,7 +5957,15 @@
     "source": "github_discovery",
     "created_at": "2025-01-10T18:30:00Z",
     "updated_at": "2025-01-10T18:30:00Z",
-    "license": "Proprietary"
+    "license": "Proprietary",
+    "github_metrics": {
+      "stars": 2,
+      "watchers": 0,
+      "forks": 1,
+      "repoPushedAt": "2026-04-10T20:06:54Z",
+      "repo": "deepgram/deepgram-amazon-connect-sample-apps",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   },
   {
     "id": "medical-assistant-for-clinical-note-taking",
@@ -5321,6 +6001,14 @@
     "source": "github_discovery",
     "created_at": "2025-01-10T00:00:00Z",
     "updated_at": "2025-01-10T00:00:00Z",
-    "license": "MIT"
+    "license": "MIT",
+    "github_metrics": {
+      "stars": 15,
+      "watchers": 2,
+      "forks": 14,
+      "repoPushedAt": "2025-07-09T14:12:42Z",
+      "repo": "deepgram-devs/voice-agent-medical-assistant-demo",
+      "fetchedAt": "2026-05-25T21:34:24.831Z"
+    }
   }
 ]
